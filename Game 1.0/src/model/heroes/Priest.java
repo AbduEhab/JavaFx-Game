@@ -7,4 +7,4 @@ public class Priest extends Hero{
 		// TODO Auto-generated constructor stub
 	}
 
-}
+}//c
