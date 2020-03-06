@@ -9,5 +9,5 @@ abstract public class Card {
 		this.name = name;
 		this.manaCost = manaCost;
 		this.rarity = rarity;
-	}
+	}//a7a
 }
