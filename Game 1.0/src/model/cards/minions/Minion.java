@@ -90,4 +90,5 @@ public class Minion extends Card {
 		this.attacked = attacked;
 	}
 	// instanceof, printStackTrace
+	//test
 }
