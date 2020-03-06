@@ -1,4 +1,4 @@
-package game;
+package model.heroes;
 
 public class Mage extends Hero{
 

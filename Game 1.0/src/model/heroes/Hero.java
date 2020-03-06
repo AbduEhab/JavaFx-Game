@@ -1,4 +1,4 @@
-package game;
+package model.heroes;
 
 abstract public class Hero {
 private String name;
