@@ -7,5 +7,5 @@ public class TwistingNether extends Spell implements AOESpell{
 	public TwistingNether() {
 		super("TwistingNether", 8, Rarity.EPIC);
 	}
-
+//s
 }
