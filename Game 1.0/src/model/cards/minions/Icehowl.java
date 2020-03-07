@@ -1,6 +1,4 @@
-package model.cards;
-
-import model.cards.minions.Minion;
+package model.cards.minions;
 
 public class Icehowl extends Minion {
 	public Icehowl(boolean taunt, boolean devine) {
