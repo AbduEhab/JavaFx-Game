@@ -5,7 +5,7 @@ import model.cards.Rarity;
 public class SealOfChampions extends Spell implements MinionTargetSpell {
 
 	public SealOfChampions() {
-		super("SealOfChampions", 3, Rarity.COMMON);
+		super("Seal Of Champions", 3, Rarity.COMMON);
 	}
 
 }

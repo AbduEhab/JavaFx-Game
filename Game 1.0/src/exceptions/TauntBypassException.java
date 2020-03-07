@@ -1,6 +1,6 @@
 package exceptions;
 
-public class TauntBypassException extends Exception {
+public class TauntBypassException extends HearthstoneException {
 
 	public TauntBypassException() {
 	}

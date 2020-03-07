@@ -5,7 +5,7 @@ import model.cards.Rarity;
 public class TwistingNether extends Spell implements AOESpell{
 
 	public TwistingNether() {
-		super("TwistingNether", 8, Rarity.EPIC);
+		super("Twisting Nether", 8, Rarity.EPIC);
 	}
 
 }
