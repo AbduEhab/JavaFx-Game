@@ -2,8 +2,8 @@ package model.heroes;
 
 public class Mage extends Hero{
 
-	public Mage(String n) {
-		super(n);
+	public Mage() {
+		super("Jaina Proudmoore");
 		// TODO Auto-generated constructor stub
 	}
 
