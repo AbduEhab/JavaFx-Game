@@ -13,7 +13,7 @@ abstract public class Hero {
 	private int currentManaCrystal; // getter and setter
 	private ArrayList<Card> deck;// read
 	private ArrayList<Minion> field;// read
-	private Card[] hand;// read
+	private ArrayList<Card> hand;// read
 	private int fatigueDamage;// neither
 //end of all 8 instance
 // TODO Auto-generated constructor stub
@@ -87,7 +87,7 @@ abstract public class Hero {
 		return field;
 	}
 
-	public Card[] getHand() {
+	public ArrayList<Card> getHand() {
 		return hand;
 	}
 }
