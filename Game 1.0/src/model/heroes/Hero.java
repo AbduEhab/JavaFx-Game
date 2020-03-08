@@ -24,7 +24,7 @@ abstract public class Hero {
 		{
 			this.name = n;
 		}
-		deck = new Card[20];
+		deck = new ArrayList<Card>();
 	}
 
 	public void setName(String name) {
@@ -79,11 +79,11 @@ abstract public class Hero {
 		return currentManaCrystal;
 	}
 
-	public Card[] getDeck() {
+	public ArrayList<Card> getDeck() {
 		return deck;
 	}
 
-	public Minion[] getField() {
+	public ArrayList<Minion> getField() {
 		return field;
 	}
 
