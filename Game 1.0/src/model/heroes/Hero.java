@@ -55,7 +55,7 @@ abstract public class Hero {
 		this.field = field;
 	}
 
-	public void setHand(Card[] hand) {
+	public void setHand(ArrayList<Card> hand) {
 		this.hand = hand;
 	}
 
