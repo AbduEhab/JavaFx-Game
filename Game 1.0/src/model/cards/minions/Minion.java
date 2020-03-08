@@ -8,9 +8,12 @@ public class Minion extends Card {
 	private int maxHP;
 	private int currentHP;
 	private boolean taunt;
-	private boolean devine;
+	private boolean divine;
 	private boolean sleeping;
 	private boolean attacked;
+
+	public Minion() {
+	}
 
 	public Minion(boolean taunt, boolean devine) {
 		super("Icehowl", 9, Rarity.LEGENDARY);
@@ -18,7 +21,7 @@ public class Minion extends Card {
 		this.currentHP = 10;
 		this.maxHP = 10;
 		this.taunt = taunt;
-		this.devine = devine;
+		this.divine = devine;
 		sleeping = false;
 
 	}
@@ -30,7 +33,7 @@ public class Minion extends Card {
 		this.currentHP = maxHP;
 		this.maxHP = maxHP;
 		this.taunt = taunt;
-		this.devine = devine;
+		this.divine = devine;
 		sleeping = !charge;
 	}
 
@@ -66,15 +69,15 @@ public class Minion extends Card {
 		this.taunt = taunt;
 	}
 
-	public boolean getDevine() {
-		return this.devine;
+	public boolean isDivine() {
+		return this.divine;
 	}
 
-	public void setDevine(boolean devine) {
-		this.devine = devine;
+	public void setDivine(boolean devine) {
+		this.divine = devine;
 	}
 
-	public boolean getSleeping() {
+	public boolean isSleeping() {
 		return this.sleeping;
 	}
 

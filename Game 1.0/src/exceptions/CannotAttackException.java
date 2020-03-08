@@ -1,6 +1,6 @@
 package exceptions;
 
-public class CannotAttackException extends Exception {
+public class CannotAttackException extends HearthstoneException {
 
 	public CannotAttackException() {
 	}

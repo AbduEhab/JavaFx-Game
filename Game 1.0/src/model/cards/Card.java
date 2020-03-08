@@ -5,8 +5,17 @@ abstract public class Card {
 	private int manaCost;
 	private Rarity rarity;
 
+	public Card() {
+	}
+
 	public Card(String name, int manaCost, Rarity rarity) {
 		this.name = name;
+		while(manaCost<=0 || manaCost>10) {
+			if(manaCost<0)
+				manaCost+=10;
+			else
+				manaCost-=10;
+		}
 		this.manaCost = manaCost;
 		this.rarity = rarity;
 	}

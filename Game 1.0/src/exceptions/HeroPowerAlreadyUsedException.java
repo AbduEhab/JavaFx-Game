@@ -1,6 +1,6 @@
 package exceptions;
 
-public class HeroPowerAlreadyUsedException extends Exception {
+public class HeroPowerAlreadyUsedException extends HearthstoneException {
 
 	public HeroPowerAlreadyUsedException() {
 	}
