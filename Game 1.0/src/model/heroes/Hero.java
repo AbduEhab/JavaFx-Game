@@ -1,5 +1,7 @@
 package model.heroes;
 
+import java.util.ArrayList;
+
 import model.cards.Card;
 import model.cards.minions.Minion;
 
@@ -9,8 +11,8 @@ abstract public class Hero {
 	private boolean heroPowerUsed;// getter and setter
 	private int totalManaCrystal;// getter and setter
 	private int currentManaCrystal; // getter and setter
-	private Card[] deck;// read
-	private Minion[] field;// read
+	private ArrayList<Card> deck;// read
+	private ArrayList<Minion> field;// read
 	private Card[] hand;// read
 	private int fatigueDamage;// neither
 //end of all 8 instance
@@ -45,11 +47,11 @@ abstract public class Hero {
 		this.currentManaCrystal = currentManaCrystal;
 	}
 
-	public void setDeck(Card[] deck) {
+	public void setDeck(ArrayList<Card> deck) {
 		this.deck = deck;
 	}
 
-	public void setField(Minion[] field) {
+	public void setField(ArrayList<Minion> field) {
 		this.field = field;
 	}
 
