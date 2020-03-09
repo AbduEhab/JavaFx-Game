@@ -10,11 +10,11 @@ abstract public class Card {
 
 	public Card(String name, int manaCost, Rarity rarity) {
 		this.name = name;
-		while(manaCost<=0 || manaCost>10) {
-			if(manaCost<0)
-				manaCost+=10;
+		while (manaCost <= 0 || manaCost > 10) {
+			if (manaCost < 0)
+				manaCost += 1;
 			else
-				manaCost-=10;
+				manaCost -= 1;
 		}
 		this.manaCost = manaCost;
 		this.rarity = rarity;
@@ -33,7 +33,12 @@ abstract public class Card {
 	}
 
 	public void setManaCost(int manaCost) {
-		this.manaCost = manaCost;
+		while (manaCost <= 0 || manaCost > 10) {
+			if (manaCost < 0)
+				manaCost += 1;
+			else
+				manaCost -= 1;
+		}
 	}
 
 	public Rarity getRarity() {
