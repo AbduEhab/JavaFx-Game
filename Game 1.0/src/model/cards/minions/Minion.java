@@ -29,10 +29,12 @@ public class Minion extends Card {
 	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean devine,
 			boolean charge) {
 		super(name, manaCost, rarity);
-		if (attack > 0)
-			this.attack = attack;
-		else
+		if (attack < 0)
 			this.attack = 0;
+		else if (attack > 10)
+			this.attack = 10;
+		else
+			this.attack = attack;
 		this.currentHP = maxHP;
 		this.maxHP = maxHP;
 		this.taunt = taunt;
@@ -45,7 +47,12 @@ public class Minion extends Card {
 	}
 
 	public void setAttack(int attack) {
-		this.attack = attack;
+		if (attack < 0)
+			this.attack = 0;
+		else if (attack > 10)
+			this.attack = 10;
+		else
+			this.attack = attack;
 	}
 
 	public int getMaxHP() {

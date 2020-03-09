@@ -20,22 +20,6 @@ public class Game {
 		}
 	}
 
-	public Hero getFirstHero() {
-		return firstHero;
-	}
-
-	public void setFirstHero(Hero firstHero) {
-		this.firstHero = firstHero;
-	}
-
-	public Hero getSecondHero() {
-		return secondHero;
-	}
-
-	public void setSecondHero(Hero secondHero) {
-		this.secondHero = secondHero;
-	}
-
 	public Hero getCurrentHero() {
 		return currentHero;
 	}
