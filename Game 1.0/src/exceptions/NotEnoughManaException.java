@@ -3,7 +3,7 @@ package exceptions;
 public class NotEnoughManaException extends HearthstoneException {
 
 	public NotEnoughManaException() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public NotEnoughManaException(String s) {

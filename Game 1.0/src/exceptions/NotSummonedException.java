@@ -3,12 +3,11 @@ package exceptions;
 public class NotSummonedException extends HearthstoneException {
 
 	public NotSummonedException() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public NotSummonedException(String s) {
 		super(s);
-		// TODO Auto-generated constructor stub
 	}
 
 }
