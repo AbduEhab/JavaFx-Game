@@ -14,7 +14,7 @@ abstract public class Hero {
 	private int currentHP;// getter and setter
 	private boolean heroPowerUsed;// getter and setter
 	private int totalManaCrystal;// getter and setter
-	private int currentManaCrystal; // getter and setter
+	private int currentManaCrystals; // getter and setter
 	private ArrayList<Card> deck;// read
 	private ArrayList<Minion> field;// read
 	private ArrayList<Card> hand;// read
@@ -47,7 +47,7 @@ abstract public class Hero {
 	}
 
 	public void setCurrentManaCrystal(int currentManaCrystal) {
-		this.currentManaCrystal = currentManaCrystal;
+		this.currentManaCrystals = currentManaCrystal;
 	}
 
 	public void setDeck(ArrayList<Card> deck) {
@@ -78,8 +78,8 @@ abstract public class Hero {
 		return totalManaCrystal;
 	}
 
-	public int getCurrentManaCrystal() {
-		return currentManaCrystal;
+	public int getCurrentManaCrystals() {
+		return currentManaCrystals;
 	}
 
 	public ArrayList<Card> getDeck() {
