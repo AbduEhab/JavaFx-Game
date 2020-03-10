@@ -12,24 +12,26 @@ import model.cards.spells.MultiShot;
 
 public class Hunter extends Hero {
 
-	public Hunter() {
+	public Hunter() throws IOException {
 		super("Rexxar");
 		// TODO Auto-generated constructor stub
-		}
+		buildDeck();}
 
 	@Override
 	public void buildDeck() throws IOException {
 		// TODO Auto-generated method stubmul
-		Minion d =new Minion("King Krush",9,Rarity.LEGENDARY,8,8);
+		Minion d =new Minion("King Krush",9,Rarity.LEGENDARY,8,8,false,false,true);
 		MultiShot e=new MultiShot();
 		KillCommand t=new KillCommand();
 		ArrayList<Card>c=new ArrayList<Card>();
 		ArrayList<Minion> r=getNeutralMinions(getAllNeutralMinions("edfghjklhgfdsfgh"),15);
 		c.addAll(r);
+		
 		c.add(t);
 		c.add(t);
 		c.add(e);
 		c.add(e);
-		c.add(d);}
+		c.add(d);
+		setDeck(c);}
 
 }
