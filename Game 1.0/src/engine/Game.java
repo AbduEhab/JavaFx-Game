@@ -13,11 +13,16 @@ public class Game {
 		int x = (int) Math.random() * 100 + 1;
 		if (x / 2 == 0) {
 			firstHero = p1;
-			currentHero = p1;
-		} else {
 			secondHero = p2;
 			opponent = p2;
+			currentHero = p1;
+		} else {
+			firstHero = p2;
+			secondHero = p1;
+			opponent = p1;
+			currentHero = p2;
 		}
+
 	}
 
 	public Hero getCurrentHero() {
