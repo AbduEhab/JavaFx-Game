@@ -15,23 +15,7 @@ public class Priest extends Hero {
 
 	public Priest() throws IOException {
 		super("Anduin Wryun");
-		buildDeck();
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void buildDeck() throws IOException {
-		// TODO Auto-generated method stu
-		ArrayList<Card> c = new ArrayList<Card>();
-		ArrayList<Minion> r = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
-		c.addAll(r);
-		c.add(new DivineSpirit());
-		c.add(new DivineSpirit());
-		c.add(new HolyNova());
-		c.add(new ShadowWordDeath());
-		c.add(new HolyNova());
-		c.add(new ShadowWordDeath());
-		c.add(new Minion("Prophet Velen", 7, Rarity.LEGENDARY, 7, 7, false, false, false));
 	}
 
 }
