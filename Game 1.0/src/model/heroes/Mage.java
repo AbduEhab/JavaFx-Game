@@ -10,7 +10,7 @@ import model.cards.spells.Flamestrike;
 import model.cards.spells.Polymorph;
 import model.cards.spells.Pyroblast;
 
-public class Mage extends Hero{
+public class Mage extends Hero {
 
 	public Mage() {
 		super("Jaina Proudmoore");
@@ -19,10 +19,10 @@ public class Mage extends Hero{
 
 	@Override
 	public void buildDeck() throws IOException {
-		Minion u=new Minion("Kalyegos",10 ,Rarity.LEGENDARY,4,12,false,false,false);
+		Minion u = new Minion("Kalyegos", 10, Rarity.LEGENDARY, 4, 12, false, false, false);
 		// TODO Auto-generated method stub
-		ArrayList<Card>c=new ArrayList<Card>();
-		ArrayList<Minion> r=getNeutralMinions(getAllNeutralMinions("edfghjklhgfdsfgh"),13);
+		ArrayList<Card> c = new ArrayList<Card>();
+		ArrayList<Minion> r = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
 		c.addAll(r);
 		c.add(new Polymorph());
 		c.add(new Polymorph());
@@ -30,6 +30,7 @@ public class Mage extends Hero{
 		c.add(new Flamestrike());
 		c.add(new Pyroblast());
 		c.add(new Pyroblast());
-		setDeck(c);}
+		setDeck(c);
+	}
 
 }

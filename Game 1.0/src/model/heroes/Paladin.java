@@ -1,5 +1,4 @@
 package model.heroes;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ public class Paladin extends Hero {
 	public void buildDeck() throws IOException {
 		// TODO Auto-generated method stub
 		ArrayList<Card> c = new ArrayList<Card>();
-		ArrayList<Minion> r = getNeutralMinions(getAllNeutralMinions("edfghjklhgfdsfgh"), 15);
+		ArrayList<Minion> r = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 15);
 		c.addAll(r);
 		c.add(new SealOfChampions());
 		c.add(new SealOfChampions());

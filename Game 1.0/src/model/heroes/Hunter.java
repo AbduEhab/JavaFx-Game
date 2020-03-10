@@ -24,7 +24,7 @@ public class Hunter extends Hero {
 		MultiShot e=new MultiShot();
 		KillCommand t=new KillCommand();
 		ArrayList<Card>c=new ArrayList<Card>();
-		ArrayList<Minion> r=getNeutralMinions(getAllNeutralMinions("edfghjklhgfdsfgh"),15);
+		ArrayList<Minion> r=getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"),15);
 		c.addAll(r);
 		
 		c.add(t);
