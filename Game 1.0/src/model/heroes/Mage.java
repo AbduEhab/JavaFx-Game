@@ -12,25 +12,10 @@ import model.cards.spells.Pyroblast;
 
 public class Mage extends Hero {
 
-	public Mage() {
+	public Mage() throws IOException {
 		super("Jaina Proudmoore");
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void buildDeck() throws IOException {
-		Minion u = new Minion("Kalyegos", 10, Rarity.LEGENDARY, 4, 12, false, false, false);
-		// TODO Auto-generated method stub
-		ArrayList<Card> c = new ArrayList<Card>();
-		ArrayList<Minion> r = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
-		c.addAll(r);
-		c.add(new Polymorph());
-		c.add(new Polymorph());
-		c.add(new Flamestrike());
-		c.add(new Flamestrike());
-		c.add(new Pyroblast());
-		c.add(new Pyroblast());
-		setDeck(c);
-	}
 
 }
