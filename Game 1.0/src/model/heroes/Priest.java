@@ -14,7 +14,7 @@ import model.cards.spells.ShadowWordDeath;
 public class Priest extends Hero {
 
 	public Priest() throws IOException {
-		super("Anduin Wryun");
+		super("Anduin Wrynn");
 		// TODO Auto-generated constructor stub
 	}
 

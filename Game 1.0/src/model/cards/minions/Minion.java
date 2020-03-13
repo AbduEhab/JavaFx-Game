@@ -15,17 +15,6 @@ public class Minion extends Card {
 	public Minion() {
 	}
 
-	public Minion(boolean taunt, boolean devine) {
-		super("Icehowl", 9, Rarity.LEGENDARY);
-		this.attack = 10;
-		this.currentHP = 10;
-		this.maxHP = 10;
-		this.taunt = taunt;
-		this.divine = devine;
-		sleeping = false;
-
-	}
-
 	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean devine,
 			boolean charge) {
 		super(name, manaCost, rarity);
@@ -101,5 +90,4 @@ public class Minion extends Card {
 	public void setAttacked(boolean attacked) {
 		this.attacked = attacked;
 	}
-	// instanceof, printStackTrace
 }

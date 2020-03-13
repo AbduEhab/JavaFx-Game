@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//import com.sun.beans.introspect.PropertyInfo.Name;
+
 import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Icehowl;
@@ -41,10 +43,14 @@ abstract public class Hero {
 		// TODO Auto-generated constructor stub
 		this.name = n;
 		buildDeck(n);
+		currentHP = 30;
 	}
 
 	public void setCurrentHP(int currentHP) {
-		this.currentHP = currentHP;
+		if (currentHP > 30)
+			this.currentHP = 30;
+		else
+			this.currentHP = currentHP;
 	}
 
 	public void setHeroPowerUsed(boolean heroPowerUsed) {
@@ -52,17 +58,19 @@ abstract public class Hero {
 	}
 
 	public void setTotalManaCrystals(int totalManaCrystal) {
-		this.totalManaCrystals = totalManaCrystal;
+		this.totalManaCrystals = 10;
 	}
 
 	public void setCurrentManaCrystals(int currentManaCrystal) {
-		this.currentManaCrystals = currentManaCrystal;
+		if (currentManaCrystal > 10)
+			this.currentManaCrystals = 10;
+		else
+			this.currentManaCrystals = currentManaCrystal;
 	}
 
 	public void setField(ArrayList<Minion> field) {
 		this.field = field;
 	}
-
 
 	public String getName() {
 		return name;
@@ -134,41 +142,6 @@ abstract public class Hero {
 		return m;
 	}
 
-	final public static ArrayList<Minion> getNeutralMinions(ArrayList<Minion> minions, int count) {
-		Boolean k = false;
-		Minion c;
-		int x;
-		ArrayList<Minion> m = new ArrayList<Minion>();
-		while (count >= 1) {
-			x = (int) (Math.random() * (minions.size() - 1));
-			count--;
-			c = minions.get(x);
-			if ((c.getRarity() == Rarity.LEGENDARY) && (k)) {
-				count++;
-				continue;
-			} else {
-				if ((c.getRarity() == Rarity.LEGENDARY)) {
-					k = true;
-				}
-				if (!m.isEmpty()) {
-					if (m.contains(c)) {
-						m.remove(c);
-						if (!m.isEmpty()) {
-							if (m.contains(c)) {
-								count++;
-								m.remove(c);
-							}
-
-							m.add(c);
-						}
-					}
-				}
-				m.add(c);
-			}
-		}
-		return m;
-	}
-
 	public void buildDeck(String l) throws IOException {
 		switch (l) {
 		case "Rexxar":
@@ -187,7 +160,7 @@ abstract public class Hero {
 			;
 			break;
 		case "Jaina Proudmoore":
-			Minion u = new Minion("Kalyegos", 10, Rarity.LEGENDARY, 4, 12, false, false, false);
+			Minion u = new Minion("Kalycgos", 10, Rarity.LEGENDARY, 4, 12, false, false, false);
 			// TODO Auto-generated method stub
 			ArrayList<Card> i = new ArrayList<Card>();
 			ArrayList<Minion> p = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
@@ -201,7 +174,7 @@ abstract public class Hero {
 			i.add(u);
 			this.deck = i;
 			break;
-		case"Anduin Wryun":
+		case "Anduin Wrynn":
 			ArrayList<Card> j = new ArrayList<Card>();
 			ArrayList<Minion> q = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
 			j.addAll(q);
@@ -212,27 +185,68 @@ abstract public class Hero {
 			j.add(new HolyNova());
 			j.add(new ShadowWordDeath());
 			j.add(new Minion("Prophet Velen", 7, Rarity.LEGENDARY, 7, 7, false, false, false));
-			this.deck=j;break;
-		case"Gul'dan":ArrayList<Card> b = new ArrayList<Card>();
-		ArrayList<Minion> h = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
-		b.addAll(h);
-		b.add(new CurseOfWeakness());
-		b.add(new SiphonSoul());
-		b.add(new TwistingNether());
-		b.add(new CurseOfWeakness());
-		b.add(new SiphonSoul());
-		b.add(new TwistingNether());
-		b.add(new Minion("wilfred", 6, Rarity.LEGENDARY, 4, 4, false, false, false));
-		this.deck=b;
+			this.deck = j;
+			break;
+		case "Gul'dan":
+			ArrayList<Card> b = new ArrayList<Card>();
+			ArrayList<Minion> h = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 13);
+			b.addAll(h);
+			b.add(new CurseOfWeakness());
+			b.add(new SiphonSoul());
+			b.add(new TwistingNether());
+			b.add(new CurseOfWeakness());
+			b.add(new SiphonSoul());
+			b.add(new TwistingNether());
+			b.add(new Minion("Wilfred Fizzlebang", 6, Rarity.LEGENDARY, 4, 4, false, false, false));
+			this.deck = b;break;
+
+		case "Uther Lightbringer":
+			ArrayList<Card> z = new ArrayList<Card>();
+			ArrayList<Minion> v = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 15);
+			z.addAll(v);
+			z.add(new SealOfChampions());
+			z.add(new SealOfChampions());
+			z.add(new LevelUp());
+			z.add(new LevelUp());
+			z.add(new Minion("Tirion Fordring", 4, Rarity.LEGENDARY, 6, 6, true, true, false));
+			this.deck = z;
+			break;
+		}
 		
-		case"Uther Lightbringer":ArrayList<Card> z = new ArrayList<Card>();
-		ArrayList<Minion> v = getNeutralMinions(getAllNeutralMinions("neutral_minion.csv"), 15);
-		z.addAll(v);
-		z.add(new SealOfChampions());
-		z.add(new SealOfChampions());
-		z.add(new LevelUp());
-		z.add(new Minion("Tirion Fording", 4, Rarity.LEGENDARY, 6, 6, true, true, false));
-		this.deck=z;
-}
+		deckShuffle();
 	}
+
+	public void deckShuffle() {
+
+		System.out.println();
+		Card l;
+		int x;
+		int y = 100;
+		while (y > 0) {
+			y--;
+			x = (int) (Math.random() * deck.size());
+			l = deck.remove(x);
+			deck.add(l);
+		}
+	}
+
+	final public static ArrayList<Minion> getNeutralMinions(ArrayList<Minion> mi, int count) {
+		boolean k=true;
+		ArrayList<Minion> m = new ArrayList<Minion>();
+		Minion r;
+		int x;
+		while (count > 0) {
+			count--;
+			x = (int) (Math.random() * mi.size());
+		r = mi.get(x);
+			if ((r.getName().equals("Icehowl"))) {r = new Icehowl();}else {r=mi.get(x);}
+			if(r.getRarity()==Rarity.LEGENDARY) {if(k) {m.add(r);}else{count++;}k=false;}
+			else {
+				if(!m.isEmpty()) {if(m.contains(r)) {m.remove(r);if (!m.isEmpty()) {if(m.contains(r)) {count++;}else{m.add(r);}
+				}else{m.add(r);}
+				}}
+				m.add(r);
+			}
+}
+		return m;}
 }
