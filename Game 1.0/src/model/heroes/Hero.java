@@ -49,7 +49,10 @@ abstract public class Hero {
 	public void setCurrentHP(int currentHP) {
 		if (currentHP > 30)
 			this.currentHP = 30;
-		else
+
+		else if (currentHP <= 0) {
+			this.currentHP = 0;
+		} else
 			this.currentHP = currentHP;
 	}
 
@@ -58,13 +61,20 @@ abstract public class Hero {
 	}
 
 	public void setTotalManaCrystals(int totalManaCrystal) {
-		this.totalManaCrystals = 10;
+		if (totalManaCrystal > 10) {
+			this.totalManaCrystals = 10;
+		} else if (totalManaCrystal <= 0) {
+			this.totalManaCrystals = 0;
+		} else
+			this.totalManaCrystals = totalManaCrystal;
 	}
 
 	public void setCurrentManaCrystals(int currentManaCrystal) {
 		if (currentManaCrystal > 10)
 			this.currentManaCrystals = 10;
-		else
+		else if (currentManaCrystal <= 0) {
+			this.currentManaCrystals = 0;
+		} else
 			this.currentManaCrystals = currentManaCrystal;
 	}
 
@@ -114,7 +124,7 @@ abstract public class Hero {
 		while ((currentLine = br.readLine()) != null) {
 			s = currentLine.split(",");
 			if (s[0].equals("Icehowl")) {
-				Minion n = new Icehowl(Boolean.parseBoolean(s[5]), Boolean.parseBoolean(s[6]));
+				Minion n = new Icehowl();
 				m.add(n);
 			} else {
 				Rarity r = Rarity.BASIC;
@@ -198,7 +208,8 @@ abstract public class Hero {
 			b.add(new SiphonSoul());
 			b.add(new TwistingNether());
 			b.add(new Minion("Wilfred Fizzlebang", 6, Rarity.LEGENDARY, 4, 4, false, false, false));
-			this.deck = b;break;
+			this.deck = b;
+			break;
 
 		case "Uther Lightbringer":
 			ArrayList<Card> z = new ArrayList<Card>();
@@ -212,7 +223,7 @@ abstract public class Hero {
 			this.deck = z;
 			break;
 		}
-		
+
 		deckShuffle();
 	}
 
@@ -231,22 +242,39 @@ abstract public class Hero {
 	}
 
 	final public static ArrayList<Minion> getNeutralMinions(ArrayList<Minion> mi, int count) {
-		boolean k=true;
+		boolean k = true;
 		ArrayList<Minion> m = new ArrayList<Minion>();
 		Minion r;
 		int x;
 		while (count > 0) {
 			count--;
 			x = (int) (Math.random() * mi.size());
-		r = mi.get(x);
-			if ((r.getName().equals("Icehowl"))) {r = new Icehowl();}else {r=mi.get(x);}
-			if(r.getRarity()==Rarity.LEGENDARY) {if(k) {m.add(r);}else{count++;}k=false;}
-			else {
-				if(!m.isEmpty()) {if(m.contains(r)) {m.remove(r);if (!m.isEmpty()) {if(m.contains(r)) {count++;}else{m.add(r);}
-				}else{m.add(r);}
-				}}
+			r = mi.get(x);
+			if (r.getRarity() == Rarity.LEGENDARY) {
+				if (k) {
+					m.add(r);
+				} else {
+					count++;
+				}
+				k = false;
+			} else {
+				if (!m.isEmpty()) {
+					if (m.contains(r)) {
+						m.remove(r);
+						if (!m.isEmpty()) {
+							if (m.contains(r)) {
+								count++;
+							} else {
+								m.add(r);
+							}
+						} else {
+							m.add(r);
+						}
+					}
+				}
 				m.add(r);
 			}
-}
-		return m;}
+		}
+		return m;
+	}
 }
