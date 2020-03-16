@@ -16,6 +16,6 @@ public class ReadingCSVFile {
 	}
 
 	public static void main(String[] args) throws IOException {
-		readFile("Database-Spells.csv");
+		readFile("neutral_minion.csv");
 	}
 }

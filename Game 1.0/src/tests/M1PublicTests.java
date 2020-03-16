@@ -2527,6 +2527,7 @@ public class M1PublicTests {
 		correctMinions.add(wolfrider);
 		correctMinions.add(chilwind);
 		correctMinions.add(boulderfist);
+		
 		correctMinions.add(core);
 		correctMinions.add(argent);
 		correctMinions.add(sunwalker);
@@ -2551,6 +2552,7 @@ public class M1PublicTests {
 		int copiesSunwalker = 0;
 
 		for (Object o : deck) {
+			System.out.println(o.getClass());
 			switch ((String) (o.getClass().getSuperclass().getDeclaredMethod("getName").invoke(o))) {
 			case "Goldshire Footman":
 				copiesGoldshire++;
