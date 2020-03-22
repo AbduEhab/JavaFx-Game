@@ -1,5 +1,6 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class HeroPowerAlreadyUsedException extends HearthstoneException {
 
 	public HeroPowerAlreadyUsedException() {
@@ -8,6 +9,7 @@ public class HeroPowerAlreadyUsedException extends HearthstoneException {
 
 	public HeroPowerAlreadyUsedException(String message) {
 		super(message);
+		
 	}
 
 }

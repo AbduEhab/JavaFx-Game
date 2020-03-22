@@ -3,7 +3,7 @@ package model.cards.minions;
 import model.cards.Card;
 import model.cards.Rarity;
 
-public class Minion extends Card {
+public class Minion extends Card implements Cloneable {
 	private int attack;
 	private int maxHP;
 	private int currentHP;
@@ -12,82 +12,80 @@ public class Minion extends Card {
 	private boolean sleeping;
 	private boolean attacked;
 
-	public Minion() {
-	}
-
-	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean devine,
+	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean divine,
 			boolean charge) {
 		super(name, manaCost, rarity);
-		if (attack < 0)
-			this.attack = 0;
-		else
-			this.attack = attack;
-		this.currentHP = maxHP;
+		setAttack(attack);
 		this.maxHP = maxHP;
+		this.currentHP = maxHP;
 		this.taunt = taunt;
-		this.divine = devine;
-		sleeping = !charge;
+		this.divine = divine;
+		if (!charge)
+			this.sleeping = true;
 	}
 
-	public int getAttack() {
-		return this.attack;
-	}
-
-	public void setAttack(int attack) {
-		if (attack < 0)
-			this.attack = 0;
-		else
-			this.attack = attack;
+	public boolean isTaunt() {
+		return taunt;
 	}
 
 	public int getMaxHP() {
 		return maxHP;
 	}
 
-	public void setMaxHP(int maxHP) {
-		this.maxHP = maxHP;
+	public void setMaxHP(int maxHp) {
+		this.maxHP = maxHp;
 	}
 
 	public int getCurrentHP() {
-		return this.currentHP;
+		return currentHP;
 	}
 
 	public void setCurrentHP(int currentHP) {
-		if (currentHP <= maxHP)
-			this.currentHP = currentHP;
-		else
+		this.currentHP = currentHP;
+		if (this.currentHP > maxHP)
 			this.currentHP = maxHP;
+		else if (this.currentHP <= 0) {
+			this.currentHP = 0;
+
+		}
 	}
 
-	public boolean getTaunt() {
-		return this.taunt;
+	public int getAttack() {
+		return attack;
 	}
 
-	public void setTaunt(boolean taunt) {
-		this.taunt = taunt;
+	public void setAttack(int attack) {
+		this.attack = attack;
+		if (this.attack <= 0)
+			this.attack = 0;
 	}
 
-	public boolean isDivine() {
-		return this.divine;
+	public void setTaunt(boolean isTaunt) {
+		this.taunt = isTaunt;
 	}
 
-	public void setDivine(boolean devine) {
-		this.divine = devine;
+	public void setDivine(boolean divine) {
+		this.divine = divine;
+	}
+
+	public boolean isAttacked() {
+		return attacked;
+	}
+
+	public void setAttacked(boolean attacked) {
+		this.attacked = attacked;
 	}
 
 	public boolean isSleeping() {
-		return this.sleeping;
+		return sleeping;
 	}
 
 	public void setSleeping(boolean sleeping) {
 		this.sleeping = sleeping;
 	}
 
-	public boolean getAttacked() {
-		return this.attacked;
+	public boolean isDivine() {
+		return divine;
 	}
 
-	public void setAttacked(boolean attacked) {
-		this.attacked = attacked;
-	}
 }
