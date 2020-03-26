@@ -2,6 +2,7 @@ package engine;
 
 import exceptions.CannotAttackException;
 import exceptions.FullFieldException;
+import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
 import exceptions.InvalidTargetException;
 import exceptions.NotEnoughManaException;
@@ -11,8 +12,9 @@ import exceptions.TauntBypassException;
 import model.cards.Card;
 import model.cards.minions.Minion;
 import model.heroes.Hero;
+import model.heroes.HeroListener;
 
-public class Game implements GameListener, ActionValidator {
+public class Game implements ActionValidator, HeroListener {
 	private Hero firstHero;
 	private Hero secondHero;
 	private Hero currentHero;
@@ -36,10 +38,6 @@ public class Game implements GameListener, ActionValidator {
 
 	public Hero getOpponent() {
 		return opponent;
-	}
-
-	public void onGameOver() {
-
 	}
 
 	@Override
@@ -73,24 +71,51 @@ public class Game implements GameListener, ActionValidator {
 	@Override
 	public void validateAttack(Minion attacker, Hero target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		// TODO Auto-generated method stub
+		if (attacker.getAttack() == 0)
+			throw new CannotAttackException("this minion has zero attack points");
+		else if (target.getField().contains(attacker))
+			throw new InvalidTargetException();
+		else if (hasTaunt(opponent))
+			throw new TauntBypassException();
 
 	}
 
 	@Override
 	public void validateManaCost(Card card) throws NotEnoughManaException {
-		// TODO Auto-generated method stub
-
+		if (!(currentHero.getCurrentManaCrystals() <= card.getManaCost()))
+			throw new NotEnoughManaException();
 	}
 
 	@Override
 	public void validatePlayingMinion(Minion minion) throws FullFieldException {
-		// TODO Auto-generated method stub
+		if (currentHero.getField().size() == 7)
+			throw new FullFieldException();
 
 	}
 
 	@Override
 	public void validateUsingHeroPower(Hero hero) throws NotEnoughManaException, HeroPowerAlreadyUsedException {
+		if (currentHero.isHeroPowerUsed())
+			throw new HeroPowerAlreadyUsedException();
+		if (!(currentHero.getCurrentManaCrystals() >= 2))
+			throw new NotEnoughManaException();
+
+	}
+
+	@Override
+	public void onHeroDeath() {
+		// onGameOver();
+
+	}
+
+	@Override
+	public void damageOpponent(int amount) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void endTurn() throws FullHandException, CloneNotSupportedException {
 		// TODO Auto-generated method stub
 
 	}
