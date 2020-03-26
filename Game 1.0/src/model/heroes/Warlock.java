@@ -18,19 +18,17 @@ public class Warlock extends Hero {
 
 	@Override
 	public void buildDeck() throws IOException {
-		ArrayList<Minion> neutrals= getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"),13);
+		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 13);
 		getDeck().addAll(neutrals);
-		for(int i = 0 ; i < 2; i++)
-		{
+		for (int i = 0; i < 2; i++) {
 			getDeck().add(new CurseOfWeakness());
 			getDeck().add(new SiphonSoul());
 			getDeck().add(new TwistingNether());
 		}
-		Minion wilfred=new Minion("Wilfred Fizzlebang",6,Rarity.LEGENDARY,4,4,false,false,false);
+		Minion wilfred = new Minion("Wilfred Fizzlebang", 6, Rarity.LEGENDARY, 4, 4, false, false, false);
 		getDeck().add(wilfred);
 		Collections.shuffle(getDeck());
 
 	}
-	
 
 }

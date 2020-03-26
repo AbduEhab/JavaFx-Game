@@ -29,5 +29,6 @@ public class Paladin extends Hero {
 		getDeck().add(tirion);
 		Collections.shuffle(getDeck());
 	}
-	
+
+
 }

@@ -9,8 +9,9 @@ import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
+import model.cards.minions.MinionListener;
 
-public abstract class Hero {
+public abstract class Hero implements MinionListener {
 	private String name;
 	private int currentHP;
 	private boolean heroPowerUsed;
@@ -43,9 +44,7 @@ public abstract class Hero {
 			String n = line[0];
 			int m = Integer.parseInt(line[1]);
 			Rarity r = null;
-			switch (
-				(line[2])
-			) {
+			switch ((line[2])) {
 			case "b":
 				r = Rarity.BASIC;
 				break;
@@ -82,7 +81,7 @@ public abstract class Hero {
 		ArrayList<Minion> res = new ArrayList<Minion>();
 		int i = 0;
 		while (i < count) {
-			
+
 			int index = (int) (Math.random() * minions.size());
 			Minion minion = minions.get(index);
 			int occ = 0;
@@ -90,18 +89,19 @@ public abstract class Hero {
 				if (res.get(j).getName().equals(minion.getName()))
 					occ++;
 			}
-			if (occ == 0)
-			{
+			if (occ == 0) {
 				res.add(minion);
 				i++;
-			}
-			else if(occ==1 && minion.getRarity()!=Rarity.LEGENDARY)
-			{
+			} else if (occ == 1 && minion.getRarity() != Rarity.LEGENDARY) {
 				res.add(minion);
 				i++;
 			}
 		}
 		return res;
+	}
+
+	public void onMinionDeath(Minion m) {
+		field.remove(m);
 	}
 
 	public int getCurrentHP() {
@@ -114,7 +114,7 @@ public abstract class Hero {
 			this.currentHP = 30;
 		else if (this.currentHP <= 0) {
 			this.currentHP = 0;
-			
+
 		}
 	}
 
@@ -141,8 +141,6 @@ public abstract class Hero {
 	public ArrayList<Minion> getField() {
 		return field;
 	}
-
-	
 
 	public ArrayList<Card> getHand() {
 		return hand;

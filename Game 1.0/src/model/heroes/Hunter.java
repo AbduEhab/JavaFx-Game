@@ -17,19 +17,17 @@ public class Hunter extends Hero {
 
 	@Override
 	public void buildDeck() throws IOException {
-		ArrayList<Minion> neutrals= getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"),15);
+		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 15);
 		getDeck().addAll(neutrals);
-		for(int i = 0 ; i < 2; i++)
-		{
+		for (int i = 0; i < 2; i++) {
 			getDeck().add(new KillCommand());
 			getDeck().add(new MultiShot());
-			
+
 		}
-		Minion krush=(new Minion("King Krush", 9, Rarity.LEGENDARY, 8, 8, false, false, true));
-		
+		Minion krush = (new Minion("King Krush", 9, Rarity.LEGENDARY, 8, 8, false, false, true));
+
 		getDeck().add(krush);
 		Collections.shuffle(getDeck());
 	}
-	
-	
+
 }

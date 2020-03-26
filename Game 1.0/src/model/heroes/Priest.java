@@ -32,6 +32,8 @@ public class Priest extends Hero {
 		Collections.shuffle(getDeck());
 
 	}
+
+	
 	
 
 }
