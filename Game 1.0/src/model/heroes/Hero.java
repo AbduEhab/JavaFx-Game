@@ -5,6 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import engine.ActionValidator;
+import exceptions.FullFieldException;
+import exceptions.FullHandException;
+import exceptions.HeroPowerAlreadyUsedException;
+import exceptions.NotEnoughManaException;
+import exceptions.NotYourTurnException;
 import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Icehowl;
@@ -12,6 +18,8 @@ import model.cards.minions.Minion;
 import model.cards.minions.MinionListener;
 
 public abstract class Hero implements MinionListener {
+	private HeroListener listener;
+	private ActionValidator validator;
 	private String name;
 	private int currentHP;
 	private boolean heroPowerUsed;
@@ -104,6 +112,23 @@ public abstract class Hero implements MinionListener {
 		field.remove(m);
 	}
 
+	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.toString());
+			return;
+		}
+		try{
+			validator.validateUsingHeroPower(this);
+		}catch(HeroPowerAlreadyUsedException e) {
+			System.out.println(e.toString());
+			return;
+		}
+
+	}
+
 	public int getCurrentHP() {
 		return currentHP;
 	}
@@ -160,5 +185,17 @@ public abstract class Hero implements MinionListener {
 
 	public String getName() {
 		return name;
+	}
+
+	public HeroListener getListener() {
+		return listener;
+	}
+
+	public void setListener(HeroListener listener) {
+		this.listener = listener;
+	}
+
+	public void setValidator(ActionValidator validator) {
+		this.validator = validator;
 	}
 }

@@ -43,20 +43,20 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateTurn(Hero user) throws NotYourTurnException {
 		if (currentHero != user)
-			throw new NotYourTurnException();
+			throw new NotYourTurnException("Not your turn");
 	}
 
 	@Override
 	public void validateAttack(Minion attacker, Minion target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.getAttack() == 0)
+		if (attacker.isAttacked())
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
-			throw new InvalidTargetException();
+			throw new InvalidTargetException("invalid target");
 		else if (!opponent.getDeck().contains(target))
-			throw new NotSummonedException();
+			throw new NotSummonedException("not summoned");
 		else if (hasTaunt(opponent))
-			throw new TauntBypassException();
+			throw new TauntBypassException("he has Taunt");
 	}
 
 	public boolean hasTaunt(Hero h) {
@@ -71,12 +71,12 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Hero target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.getAttack() == 0)
+		if (attacker.isAttacked())
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (target.getField().contains(attacker))
-			throw new InvalidTargetException();
+			throw new InvalidTargetException("invalid target");
 		else if (hasTaunt(opponent))
-			throw new TauntBypassException();
+			throw new TauntBypassException("he has Taunt");
 
 	}
 
@@ -110,14 +110,29 @@ public class Game implements ActionValidator, HeroListener {
 
 	@Override
 	public void damageOpponent(int amount) {
-		// TODO Auto-generated method stub
+		opponent.setCurrentHP(opponent.getCurrentHP() - amount);
 
 	}
 
 	@Override
 	public void endTurn() throws FullHandException, CloneNotSupportedException {
-		// TODO Auto-generated method stub
-
+		Hero temp = currentHero;
+		currentHero = opponent;
+		opponent = temp;
+		currentHero.setTotalManaCrystals(currentHero.getTotalManaCrystals() + 1);
+		currentHero.setCurrentManaCrystals(currentHero.getTotalManaCrystals());
+		currentHero.setHeroPowerUsed(true);
+		wakeUpMinions(currentHero);
+		resetMinionAttack(currentHero);
 	}
 
+	public void resetMinionAttack(Hero h) {
+		for (Minion m : h.getField())
+			m.setAttacked(false);
+	}
+
+	public void wakeUpMinions(Hero h) {
+		for (Minion m : h.getField())
+			m.setSleeping(false);
+	}
 }
