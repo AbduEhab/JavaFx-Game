@@ -46,7 +46,6 @@ public class Minion extends Card implements Cloneable {
 			this.currentHP = maxHP;
 		else if (this.currentHP <= 0) {
 			this.currentHP = 0;
-
 		}
 	}
 
