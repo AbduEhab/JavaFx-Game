@@ -1,5 +1,6 @@
 package model.cards.spells;
 
+import model.heroes.*;
 import java.util.ArrayList;
 
 import model.cards.Rarity;
@@ -14,8 +15,8 @@ public class CurseOfWeakness extends Spell implements AOESpell {
 
 	@Override
 	public void performAction(ArrayList<Minion> oppField, ArrayList<Minion> curField) {
-		// TODO Auto-generated method stub
-
+		for (Minion m : oppField)
+			m.setAttack(m.getAttack() - 2);
 	}
 
 }

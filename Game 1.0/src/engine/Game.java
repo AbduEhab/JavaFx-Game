@@ -23,7 +23,7 @@ public class Game implements ActionValidator, HeroListener {
 	public Game(Hero p1, Hero p2) {
 		firstHero = p1;
 		secondHero = p2;
-
+		
 		int coin = (int) (Math.random() * 2);
 		currentHero = coin == 0 ? firstHero : secondHero;
 		opponent = currentHero == firstHero ? secondHero : firstHero;
@@ -135,4 +135,6 @@ public class Game implements ActionValidator, HeroListener {
 		for (Minion m : h.getField())
 			m.setSleeping(false);
 	}
+
+
 }

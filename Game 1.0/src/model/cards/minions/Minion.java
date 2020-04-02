@@ -3,7 +3,7 @@ package model.cards.minions;
 import model.cards.Card;
 import model.cards.Rarity;
 
-public class Minion extends Card implements Cloneable {
+public class Minion extends Card {
 	private int attack;
 	private int maxHP;
 	private int currentHP;

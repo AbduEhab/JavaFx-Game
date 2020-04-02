@@ -9,18 +9,21 @@ public class KillCommand extends Spell implements MinionTargetSpell, HeroTargetS
 
 	public KillCommand() {
 		super("Kill Command", 3, Rarity.COMMON);
-		
+
 	}
 
 	@Override
 	public void performAction(Hero h) {
-		// TODO Auto-generated method stub
-		
+		if (!(h.getCurrentHP() - 3 < 0))
+			h.setCurrentHP(h.getCurrentHP() - 3);
 	}
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		// TODO Auto-generated method stub
-		
+		if (!(m.getCurrentHP() - 5 <= 0))
+			m.setCurrentHP(m.getCurrentHP() - 5); // Definite problem
+		else {
+			m.setCurrentHP(0);
+		}
 	}
 }

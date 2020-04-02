@@ -8,15 +8,13 @@ public class DivineSpirit extends Spell implements MinionTargetSpell {
 
 	public DivineSpirit() {
 		super("Divine Spirit", 3, Rarity.BASIC);
-		
+
 	}
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		// TODO Auto-generated method stub
-		
+		m.setMaxHP(m.getMaxHP() * 2);
+		m.setCurrentHP(m.getCurrentHP() * 2);
 	}
-
-	
 
 }
