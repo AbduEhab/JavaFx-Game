@@ -8,12 +8,14 @@ public class ShadowWordDeath extends Spell implements MinionTargetSpell {
 
 	public ShadowWordDeath() {
 		super("Shadow Word: Death", 3, Rarity.BASIC);
-		
+
 	}
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		// TODO Auto-generated method stub
-		
+		if (m.getAttack() <= 5) {
+			m.setCurrentHP(0);
+		} else
+			throw new InvalidTargetException();
 	}
 }
