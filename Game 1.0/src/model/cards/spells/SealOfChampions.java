@@ -8,14 +8,13 @@ public class SealOfChampions extends Spell implements MinionTargetSpell {
 
 	public SealOfChampions() {
 		super("Seal of Champions", 3, Rarity.COMMON);
-		
+
 	}
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		// TODO Auto-generated method stub
-		
+		m.setAttack(m.getAttack() + 3);
+		m.setDivine(true);
 	}
 
-	
 }

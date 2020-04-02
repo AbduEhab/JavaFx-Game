@@ -9,13 +9,18 @@ public class LevelUp extends Spell implements FieldSpell {
 
 	public LevelUp() {
 		super("Level Up!", 6, Rarity.EPIC);
-		
+
 	}
 
 	@Override
 	public void performAction(ArrayList<Minion> field) {
-		// TODO Auto-generated method stub
-		
+		for (Minion m : field) {
+			if (m.getName().equalsIgnoreCase("silver hand recruit")) { // potential problem
+				m.setAttack(m.getAttack() + 1);
+				m.setCurrentHP(m.getCurrentHP() + 1);
+				m.setMaxHP(m.getMaxHP() + 1);
+			}
+		}
 	}
 
 }

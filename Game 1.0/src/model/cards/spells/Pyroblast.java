@@ -6,21 +6,19 @@ import model.cards.minions.Minion;
 import model.heroes.Hero;
 
 public class Pyroblast extends Spell implements HeroTargetSpell, MinionTargetSpell {
-	public Pyroblast()
-	{
+	public Pyroblast() {
 		super("Pyroblast", 10, Rarity.EPIC);
 	}
 
 	@Override
 	public void performAction(Hero h) {
-		// TODO Auto-generated method stub
-		
+		h.setCurrentHP(h.getCurrentHP() - 10);
 	}
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		// TODO Auto-generated method stub
-		
+		m.setCurrentHP(m.getCurrentHP() - 10);
+
 	}
-	
+
 }
