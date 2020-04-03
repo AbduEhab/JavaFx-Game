@@ -54,7 +54,7 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Minion target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.isAttacked())
+		if (attacker.getAttack() == 0)
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");

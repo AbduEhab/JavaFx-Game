@@ -12,7 +12,10 @@ public class Pyroblast extends Spell implements HeroTargetSpell, MinionTargetSpe
 
 	@Override
 	public void performAction(Hero h) {
-		h.setCurrentHP(h.getCurrentHP() - 10);
+		if (h.getCurrentHP() - 10 <= 0)
+			h.setCurrentHP(h.getCurrentHP() - 10);
+		else
+			h.setCurrentHP(0);
 	}
 
 	@Override

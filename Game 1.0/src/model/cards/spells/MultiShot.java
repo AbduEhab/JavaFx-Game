@@ -15,24 +15,35 @@ public class MultiShot extends Spell implements AOESpell {
 	@Override
 	public void performAction(ArrayList<Minion> oppField, ArrayList<Minion> curField) {
 		if (oppField.size() >= 3) {
-			int x = (int) (Math.random() * (oppField.size() - 1)), y = (int) (Math.random() * (oppField.size() - 1));
-			for (int i = 0; i < oppField.size(); i++) {
 
-				if (i == x || i == y)
-					if (!(oppField.get(i).getCurrentHP() - 4 < 0))
-						oppField.get(i).setCurrentHP(oppField.get(i).getCurrentHP() - 2);
-					else {
-						oppField.remove(i);
-					}
+			int x = (int) (Math.random() * (oppField.size() - 1));
+			ArrayList<Minion> p = new ArrayList<Minion>();
+			for (Minion m : oppField) {
+				if (oppField.indexOf(m) == x)
+					p.add(m);
 			}
+			while (!p.isEmpty())
+				p.remove(0);
+
+			int y = (int) (Math.random() * (oppField.size() - 1));
+			for (Minion m : oppField) {
+				if (oppField.indexOf(m) == y)
+					p.add(m);
+			}
+			while (!p.isEmpty())
+				p.remove(0);
+
 		} else if (oppField.size() == 2) {
+			ArrayList<Minion> p = new ArrayList<Minion>();
 			for (Minion m : oppField) {
 				if (!(m.getCurrentHP() - 4 < 0))
 					m.setCurrentHP(m.getCurrentHP() - 2);
 				else {
-					oppField.remove(m);
+					p.add(m);
 				}
 			}
+			while (!p.isEmpty())
+				p.remove(0);
 		} else if (oppField.size() == 1) {
 			for (Minion m : oppField) {
 
