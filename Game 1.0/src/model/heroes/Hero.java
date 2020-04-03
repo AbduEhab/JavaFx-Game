@@ -6,16 +6,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import engine.ActionValidator;
+import engine.GameListener;
+import exceptions.CannotAttackException;
 import exceptions.FullFieldException;
 import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
+import exceptions.InvalidTargetException;
 import exceptions.NotEnoughManaException;
+import exceptions.NotSummonedException;
 import exceptions.NotYourTurnException;
+import exceptions.TauntBypassException;
 import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
 import model.cards.minions.MinionListener;
+import model.cards.spells.*;
 
 public abstract class Hero implements MinionListener {
 	private HeroListener listener;
@@ -108,24 +114,193 @@ public abstract class Hero implements MinionListener {
 		return res;
 	}
 
-	public void onMinionDeath(Minion m) {
-		field.remove(m);
+//	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+//			FullHandException, FullFieldException, CloneNotSupportedException { // COMPLETE THIS
+//		try {
+//			validator.validateTurn(this);
+//		} catch (NotYourTurnException e) {
+//			System.out.println(e.toString());
+//			return;
+//		}
+//		try {
+//			validator.validateUsingHeroPower(this);
+//		} catch (HeroPowerAlreadyUsedException e) {
+//			System.out.println(e.toString());
+//			return;
+//		}
+//	}
+
+	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+	}
+
+	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		this.inflictDamage(l, 2);
+		hand.add(deck.remove(0));
 	}
 
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
-			FullHandException, FullFieldException, CloneNotSupportedException { // COMPLETE THIS
+			FullHandException, FullFieldException, CloneNotSupportedException {
+	}
+
+	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
+			TauntBypassException, InvalidTargetException, NotSummonedException {
+		attacker.attack(target);
+	}
+
+	public void playMinion(Minion m) throws NotYourTurnException, NotEnoughManaException, FullFieldException {
+		field.add(m);
+		hand.remove(m);
+	}
+
+	public void attackWithMinion(Minion attacker, Hero target) throws CannotAttackException, NotYourTurnException,
+			TauntBypassException, NotSummonedException, InvalidTargetException {
+		attacker.attack(target);
+	}
+
+	public void castSpell(FieldSpell s) throws NotYourTurnException, NotEnoughManaException {
 		try {
 			validator.validateTurn(this);
 		} catch (NotYourTurnException e) {
-			System.out.println(e.toString());
+			System.out.println(e.getMessage());
 			return;
 		}
 		try {
-			validator.validateUsingHeroPower(this);
-		} catch (HeroPowerAlreadyUsedException e) {
-			System.out.println(e.toString());
+			validator.validateManaCost((Card) s);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
 			return;
 		}
+		s.performAction(this.getField());
+		this.hand.remove(s);
+	}
+
+	public void castSpell(AOESpell s, ArrayList<Minion> oppField) throws NotYourTurnException, NotEnoughManaException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateManaCost((Card) s);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		s.performAction(oppField, this.field);
+		this.hand.remove(s);
+	}
+
+	public void castSpell(MinionTargetSpell s, Minion m)
+			throws NotYourTurnException, NotEnoughManaException, InvalidTargetException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateManaCost((Card) s);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		try {
+			if (!(this.field.contains(m)))
+				throw new InvalidTargetException();
+		} catch (InvalidTargetException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		s.performAction(m);
+		this.hand.remove(s);
+
+	}
+
+	public void castSpell(HeroTargetSpell s, Hero h) throws NotYourTurnException, NotEnoughManaException {
+
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateManaCost((Card) s);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		s.performAction(h);
+		this.hand.remove(s);
+	}
+
+	public void castSpell(LeechingSpell s, Minion m) throws NotYourTurnException, NotEnoughManaException {
+
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateManaCost((Card) s);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		s.performAction(m);
+		this.hand.remove(s);
+		for (Minion i : this.field) {
+			if (m.getCurrentHP() == 0)
+				onMinionDeath(m);
+		}
+	}
+
+	public void endTurn() throws FullHandException, CloneNotSupportedException {
+		listener.endTurn();
+	}
+
+	public Card drawCard() throws FullHandException, CloneNotSupportedException {
+		Card n;
+		if (this.deck.size() == 0) {
+
+			if ((this.getCurrentHP() - fatigueDamage) == 0) {
+				listener.onHeroDeath();
+				return null;
+			} else {
+				this.setCurrentHP(currentHP - fatigueDamage);
+				fatigueDamage++;
+				return null;
+			}
+
+		} else {
+			n = this.deck.remove(0).clone();
+		}
+
+		return n;
+	}
+
+	public void onMinionDeath(Minion m) {
+		this.field.remove(m);
+	}
+
+	public void inflictDamage(Hero o, int value) {
+		o.setCurrentHP(o.getCurrentHP() - value);
+	}
+
+	public void inflictDamage(Minion o, int value) {
+		o.setCurrentHP(o.getCurrentHP() - value);
+	}
+
+	public void restoreHP(Hero o, int value) {
+		o.setCurrentHP(o.getCurrentHP() + value);
+	}
+
+	public void restoreHP(Minion o, int value) {
+		o.setCurrentHP(o.getCurrentHP() + value);
 	}
 
 	public int getCurrentHP() {

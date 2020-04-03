@@ -1,7 +1,9 @@
 package model.cards.minions;
 
+import exceptions.InvalidTargetException;
 import model.cards.Card;
 import model.cards.Rarity;
+import model.heroes.Hero;
 
 public class Minion extends Card {
 	private int attack;
@@ -11,6 +13,31 @@ public class Minion extends Card {
 	private boolean divine;
 	private boolean sleeping;
 	private boolean attacked;
+
+	public void attack(Minion target) {
+		if (!this.divine) {
+			this.setCurrentHP(this.currentHP - target.getAttack());
+		} else {
+			this.setDivine(false);
+		}
+		if (!target.divine) {
+			target.setCurrentHP(target.currentHP - this.attack);
+		} else {
+			target.setDivine(false);
+		}
+	}
+
+	public void attack(Hero target) throws InvalidTargetException {
+		if (!this.getName().equals("Icehowl")) {
+			target.setCurrentHP(target.getCurrentHP() - this.attack);
+		}
+	}
+
+	@Override
+	public Minion clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return (Minion) super.clone();
+	}
 
 	public Minion(String name, int manaCost, Rarity rarity, int attack, int maxHP, boolean taunt, boolean divine,
 			boolean charge) {

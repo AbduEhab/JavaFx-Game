@@ -8,7 +8,7 @@ import model.heroes.Hero;
 public interface ActionValidator {
 	public void validateTurn(Hero user) throws NotYourTurnException;
 
-	public void validateAttack(Minion attacker, Minion target)
+	public void validateAttack(Minion attacket, Minion target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException;
 
 	public void validateAttack(Minion attacker, Hero target)

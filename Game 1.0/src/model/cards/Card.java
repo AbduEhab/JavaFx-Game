@@ -11,6 +11,10 @@ public abstract class Card implements Cloneable {
 		this.rarity = rarity;
 	}
 
+	public @Override Card clone() throws CloneNotSupportedException {
+		return (Card) super.clone();
+	}
+
 	public int getManaCost() {
 		return manaCost;
 	}

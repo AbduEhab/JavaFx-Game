@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import exceptions.FullFieldException;
+import exceptions.FullHandException;
+import exceptions.HeroPowerAlreadyUsedException;
+import exceptions.NotEnoughManaException;
+import exceptions.NotYourTurnException;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 import model.cards.spells.KillCommand;
@@ -30,4 +35,8 @@ public class Hunter extends Hero {
 		Collections.shuffle(getDeck());
 	}
 
+	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		this.inflictDamage(l, 2);
+	}
 }

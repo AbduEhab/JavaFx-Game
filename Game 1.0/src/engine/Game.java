@@ -15,7 +15,11 @@ import model.heroes.Hero;
 import model.heroes.HeroListener;
 
 public class Game implements ActionValidator, HeroListener {
+	private GameListener listener;
+//habd
 	private Hero firstHero;
+	// a7a btl 3olo2ya ya fady
+
 	private Hero secondHero;
 	private Hero currentHero;
 	private Hero opponent;
@@ -23,7 +27,7 @@ public class Game implements ActionValidator, HeroListener {
 	public Game(Hero p1, Hero p2) {
 		firstHero = p1;
 		secondHero = p2;
-		
+
 		int coin = (int) (Math.random() * 2);
 		currentHero = coin == 0 ? firstHero : secondHero;
 		opponent = currentHero == firstHero ? secondHero : firstHero;
@@ -121,9 +125,10 @@ public class Game implements ActionValidator, HeroListener {
 		opponent = temp;
 		currentHero.setTotalManaCrystals(currentHero.getTotalManaCrystals() + 1);
 		currentHero.setCurrentManaCrystals(currentHero.getTotalManaCrystals());
-		currentHero.setHeroPowerUsed(true);
+		currentHero.setHeroPowerUsed(false);
 		wakeUpMinions(currentHero);
 		resetMinionAttack(currentHero);
+		currentHero.getHand().add(currentHero.drawCard());
 	}
 
 	public void resetMinionAttack(Hero h) {
@@ -136,5 +141,8 @@ public class Game implements ActionValidator, HeroListener {
 			m.setSleeping(false);
 	}
 
+	public void setListener(GameListener listener) {
+		this.listener = listener;
+	}
 
 }

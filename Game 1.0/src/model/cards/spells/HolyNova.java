@@ -23,8 +23,7 @@ public class HolyNova extends Spell implements AOESpell {
 				}
 			}
 			for (Minion m : curField) {
-				m.setCurrentHP(m.getCurrentHP() + 2 > m.getMaxHP() ? m.getMaxHP() : m.getCurrentHP() + 2); // potential
-																											// mistake
+				m.setCurrentHP(m.getCurrentHP() + 2 > m.getMaxHP() ? m.getMaxHP() : m.getCurrentHP() + 2);
 			}
 		}
 	}

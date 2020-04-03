@@ -15,7 +15,7 @@ public class LevelUp extends Spell implements FieldSpell {
 	@Override
 	public void performAction(ArrayList<Minion> field) {
 		for (Minion m : field) {
-			if (m.getName().equalsIgnoreCase("silver hand recruit")) { // potential problem
+			if (m.getName().equalsIgnoreCase("silver hand recruit")) { 
 				m.setAttack(m.getAttack() + 1);
 				m.setCurrentHP(m.getCurrentHP() + 1);
 				m.setMaxHP(m.getMaxHP() + 1);
