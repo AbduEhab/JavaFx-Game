@@ -5,7 +5,7 @@ import model.cards.Card;
 import model.cards.Rarity;
 import model.heroes.Hero;
 
-public class Minion extends Card {
+public class Minion extends Card implements Cloneable {
 	private MinionListener listener;
 
 	public void setListener(MinionListener listener) {
