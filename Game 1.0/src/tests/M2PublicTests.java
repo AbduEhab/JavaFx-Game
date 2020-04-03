@@ -542,7 +542,8 @@ public class M2PublicTests {
 			minionListener.getField().add(minionToDie);
 			minionToDie.setListener(minionListener);
 		}
-
+		
+System.out.println();
 		flamestrike.performAction(minionListener.getField(), currentField);
 		if (minionListener.getField().size() != 0)
 			fail("As all the minions on the opponent field are at HP 4, the damage caused by Flamestrike should Kill them all.");

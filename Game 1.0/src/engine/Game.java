@@ -58,7 +58,7 @@ public class Game implements ActionValidator, HeroListener {
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");
-		else if (!opponent.getDeck().contains(target))
+		else if (!(opponent.getField().contains(target)))
 			throw new NotSummonedException("not summoned");
 		else if (hasTaunt(opponent))
 			throw new TauntBypassException("he has Taunt");
@@ -66,7 +66,7 @@ public class Game implements ActionValidator, HeroListener {
 
 	public boolean hasTaunt(Hero h) {
 		for (Minion m : h.getField()) {
-			if (!m.isTaunt())
+			if (m.isTaunt())
 				return true;
 		}
 		return false;
