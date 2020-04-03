@@ -15,15 +15,19 @@ public class TwistingNether extends Spell implements AOESpell {
 	@Override
 	public void performAction(ArrayList<Minion> oppField, ArrayList<Minion> curField) {
 		{
+			ArrayList<Minion> p = new ArrayList<Minion>();
 			for (Minion m : curField) {
-				//m.setCurrentHP(o);
-				oppField.remove(m);
+				p.add(m);
 			}
+			while (!p.isEmpty())
+				p.remove(0);
 		}
+		ArrayList<Minion> p = new ArrayList<Minion>();
 		for (Minion m : oppField) {
-			//m.setCurrentHP(0);
-			oppField.remove(m);
+			p.add(m);
 		}
+		while (!p.isEmpty())
+			p.remove(0);
 	}
 
 }

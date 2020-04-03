@@ -7,6 +7,7 @@ import model.heroes.Hero;
 
 public class Minion extends Card {
 	private MinionListener listener;
+
 	public void setListener(MinionListener listener) {
 		this.listener = listener;
 	}
