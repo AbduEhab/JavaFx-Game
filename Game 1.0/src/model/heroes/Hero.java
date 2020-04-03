@@ -37,7 +37,7 @@ public abstract class Hero implements MinionListener {
 	@SuppressWarnings("unused")
 	private int fatigueDamage;
 
-	public Hero(String name) throws IOException {
+	public Hero(String name) throws IOException, CloneNotSupportedException {
 		this.name = name;
 		currentHP = 30;
 		deck = new ArrayList<Card>();
@@ -46,7 +46,7 @@ public abstract class Hero implements MinionListener {
 		buildDeck();
 	}
 
-	public abstract void buildDeck() throws IOException;
+	public abstract void buildDeck() throws IOException, CloneNotSupportedException;
 
 	public static final ArrayList<Minion> getAllNeutralMinions(String filePath) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -160,6 +160,7 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public void castSpell(FieldSpell s) throws NotYourTurnException, NotEnoughManaException {
+
 		try {
 			validator.validateTurn(this);
 		} catch (NotYourTurnException e) {
@@ -279,7 +280,15 @@ public abstract class Hero implements MinionListener {
 		} else {
 			n = this.deck.remove(0).clone();
 		}
-
+		for (Minion o : this.field) {
+			if (o.getName().equalsIgnoreCase("Chromaggus")) {
+				this.hand.add(n.clone());
+			}
+			if (this instanceof Warlock) {
+				if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
+					n.setManaCost(0);
+			}
+		}
 		return n;
 	}
 

@@ -13,6 +13,7 @@ import model.cards.Card;
 import model.cards.minions.Minion;
 import model.heroes.Hero;
 import model.heroes.HeroListener;
+import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
 	private GameListener listener;
@@ -86,6 +87,18 @@ public class Game implements ActionValidator, HeroListener {
 
 	@Override
 	public void validateManaCost(Card card) throws NotEnoughManaException {
+		boolean flag = false;
+		if (currentHero instanceof Mage) {
+			for (Minion q : currentHero.getField()) {
+				if (q.getName().equalsIgnoreCase("Kalycgos"))
+					flag = true;
+			}
+			if (flag) {
+				if (!(currentHero.getCurrentManaCrystals() <= card.getManaCost() - 4))
+					throw new NotEnoughManaException();
+				return;
+			}
+		}
 		if (!(currentHero.getCurrentManaCrystals() <= card.getManaCost()))
 			throw new NotEnoughManaException();
 	}

@@ -17,12 +17,12 @@ import model.cards.spells.ShadowWordDeath;
 
 public class Priest extends Hero {
 
-	public Priest() throws IOException {
+	public Priest() throws IOException, CloneNotSupportedException {
 		super("Anduin Wrynn");
 	}
 
 	@Override
-	public void buildDeck() throws IOException {
+	public void buildDeck() throws IOException, CloneNotSupportedException {
 		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 13);
 		getDeck().addAll(neutrals);
 		for (int i = 0; i < 2; i++) {
@@ -39,11 +39,20 @@ public class Priest extends Hero {
 
 	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		int amount = 2;
 		String o = l.getClass() + "";
+		boolean c = false;
+		for (Minion b : this.getField()) {
+			if (b.getName().equalsIgnoreCase("Prophet Velen"))
+				c = true;
+		}
+		if (c) {
+			amount = 8;
+		}
 		if (o.equals("Hero")) {
-			this.restoreHP((Hero) l, 2);
+			this.restoreHP((Hero) l, amount);
 		} else {
-			this.restoreHP((Minion) l, 2);
+			this.restoreHP((Minion) l, amount);
 		}
 	}
 

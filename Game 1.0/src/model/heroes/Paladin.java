@@ -10,7 +10,7 @@ import model.cards.spells.LevelUp;
 import model.cards.spells.SealOfChampions;
 
 public class Paladin extends Hero {
-	public Paladin() throws IOException
+	public Paladin() throws IOException,CloneNotSupportedException
 	{
 		super("Uther Lightbringer");
 	}

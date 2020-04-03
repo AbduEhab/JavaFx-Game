@@ -17,7 +17,7 @@ import model.cards.spells.Pyroblast;
 
 public class Mage extends Hero {
 
-	public Mage() throws IOException {
+	public Mage() throws IOException,CloneNotSupportedException {
 		super("Jaina Proudmoore");
 	}
 
