@@ -16,7 +16,8 @@ import model.heroes.HeroListener;
 import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
-	private GameListener listener;
+	GameListener listener;
+	HeroListener Hlistener;
 //habd
 	private Hero firstHero;
 	// a7a btl 3olo2ya ya fady
@@ -34,6 +35,8 @@ public class Game implements ActionValidator, HeroListener {
 		opponent = currentHero == firstHero ? secondHero : firstHero;
 		currentHero.setCurrentManaCrystals(1);
 		currentHero.setTotalManaCrystals(1);
+		currentHero.setListener(Hlistener);
+		opponent.setListener(Hlistener);
 
 	}
 
@@ -58,10 +61,13 @@ public class Game implements ActionValidator, HeroListener {
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");
-		else if (!(opponent.getField().contains(target)))
-			throw new NotSummonedException("not summoned");
 		else if (hasTaunt(opponent))
 			throw new TauntBypassException("he has Taunt");
+		else if (!(opponent.getField().contains(target)))
+			throw new NotSummonedException("not summoned");
+		else if (!(currentHero.getField().contains(attacker)))
+			throw new NotSummonedException("not summoned");
+
 	}
 
 	public boolean hasTaunt(Hero h) {
@@ -94,12 +100,12 @@ public class Game implements ActionValidator, HeroListener {
 					flag = true;
 			}
 			if (flag) {
-				if (!(currentHero.getCurrentManaCrystals() <= card.getManaCost() - 4))
+				if (!(currentHero.getCurrentManaCrystals() < card.getManaCost() - 4))
 					throw new NotEnoughManaException();
 				return;
 			}
 		}
-		if (!(currentHero.getCurrentManaCrystals() <= card.getManaCost()))
+		if (!(currentHero.getCurrentManaCrystals() < card.getManaCost()))
 			throw new NotEnoughManaException();
 	}
 

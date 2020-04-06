@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import model.cards.Rarity;
 import model.cards.minions.Minion;
-import model.cards.minions.MinionListener;
 
 public class HolyNova extends Spell implements AOESpell {
 
@@ -14,21 +13,21 @@ public class HolyNova extends Spell implements AOESpell {
 	}
 
 	public void performAction(ArrayList<Minion> oppField, ArrayList<Minion> curField) {
-		{
-			ArrayList<Minion> p= new ArrayList<Minion>();
-			for (Minion m : oppField) {
-				if (!(m.getCurrentHP() - 4 < 0))
-					m.setCurrentHP(m.getCurrentHP() - 2);
-				else {
-					p.add(m);
-					
-				}
-			}
-			while(!p.isEmpty())
-				p.remove(0);
+
+		ArrayList<Minion> p = new ArrayList<Minion>();
+		for (int i = 0; i < oppField.size(); i++) {
+			if (oppField.get(i).getCurrentHP() - 2 == 0) {
+				oppField.get(i).setCurrentHP(oppField.get(i).getCurrentHP() - 2);
+				i--;
+			} else
+				oppField.get(i).setCurrentHP(oppField.get(i).getCurrentHP() - 2);
 		}
 		for (Minion m : curField) {
 			m.setCurrentHP(m.getCurrentHP() + 2 > m.getMaxHP() ? m.getMaxHP() : m.getCurrentHP() + 2);
 		}
 	}
 }
+/*
+ * if (n.getCurrentHP() - 2 == 0) p.add(n); else n.setCurrentHP(n.getCurrentHP()
+ * - 2); } while (!p.isEmpty()) p.get(0).setCurrentHP(0);
+ */
