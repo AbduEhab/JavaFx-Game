@@ -10,6 +10,7 @@ import exceptions.NotSummonedException;
 import exceptions.NotYourTurnException;
 import exceptions.TauntBypassException;
 import model.cards.Card;
+import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
 import model.heroes.Hero;
 import model.heroes.HeroListener;
@@ -57,7 +58,7 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Minion target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.getAttack() == 0)
+		if (attacker.isAttacked())
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");
@@ -83,7 +84,9 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Hero target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.isAttacked())
+		if (attacker instanceof Icehowl) {
+			throw new CannotAttackException();
+		} else if (attacker.isAttacked())
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (target.getField().contains(attacker))
 			throw new InvalidTargetException("invalid target");
@@ -127,7 +130,7 @@ public class Game implements ActionValidator, HeroListener {
 
 	@Override
 	public void onHeroDeath() {
-		// onGameOver();
+		listener.onGameOver();
 
 	}
 

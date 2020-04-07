@@ -175,6 +175,13 @@ public abstract class Hero implements MinionListener {
 		}
 		s.performAction(this.getField());
 		this.hand.remove(s);
+		for (Minion n : this.field) {
+			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
+				break;
+			}
+		}
+		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void castSpell(AOESpell s, ArrayList<Minion> oppField) throws NotYourTurnException, NotEnoughManaException {
@@ -195,7 +202,7 @@ public abstract class Hero implements MinionListener {
 		for (Minion n : this.field) {
 			if (n.getName().equalsIgnoreCase("Kalycgos")) {
 				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				return;
+				break;
 			}
 		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
@@ -227,7 +234,7 @@ public abstract class Hero implements MinionListener {
 		for (Minion n : this.field) {
 			if (n.getName().equalsIgnoreCase("Kalycgos")) {
 				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				return;
+				break;
 			}
 		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
@@ -252,7 +259,7 @@ public abstract class Hero implements MinionListener {
 		for (Minion n : this.field) {
 			if (n.getName().equalsIgnoreCase("Kalycgos")) {
 				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				return;
+				break;
 			}
 		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
@@ -278,7 +285,7 @@ public abstract class Hero implements MinionListener {
 		for (Minion n : this.field) {
 			if (n.getName().equalsIgnoreCase("Kalycgos")) {
 				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				return;
+				break;
 			}
 		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
