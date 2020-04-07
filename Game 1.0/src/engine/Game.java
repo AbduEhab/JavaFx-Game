@@ -61,6 +61,8 @@ public class Game implements ActionValidator, HeroListener {
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");
+		else if (target.isDivine())
+			throw new InvalidTargetException("invalid target");
 		else if (hasTaunt(opponent))
 			throw new TauntBypassException("he has Taunt");
 		else if (!(opponent.getField().contains(target)))
@@ -76,7 +78,6 @@ public class Game implements ActionValidator, HeroListener {
 				return true;
 		}
 		return false;
-
 	}
 
 	@Override
@@ -91,7 +92,6 @@ public class Game implements ActionValidator, HeroListener {
 
 	}
 
-	@Override
 	public void validateManaCost(Card card) throws NotEnoughManaException {
 		boolean flag = false;
 		if (currentHero instanceof Mage) {

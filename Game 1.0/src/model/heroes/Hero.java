@@ -272,7 +272,7 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getLocalizedMessage());
 			return;
 		}
-		s.performAction(m);
+		this.setCurrentHP(this.getCurrentHP() + s.performAction(m));
 		this.hand.remove(s);
 
 		for (Minion n : this.field) {
@@ -289,6 +289,7 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public Card drawCard() throws FullHandException, CloneNotSupportedException {
+
 		Card n;
 		if (this.deck.size() == 0) {
 			this.setCurrentHP(currentHP - fatigueDamage++);
@@ -297,17 +298,23 @@ public abstract class Hero implements MinionListener {
 
 		else
 			n = this.deck.remove(0).clone();
+		if (this.field.size() == 10)
+			throw new FullHandException(n);
 
-		for (Minion o : this.field) {
-			if (o.getName().equalsIgnoreCase("Chromaggus")) {
-				this.hand.add(n.clone());
+		else {
+
+			for (Minion o : this.field) {
+				if (this instanceof Warlock) {
+					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
+						n.setManaCost(0);
+				}
+				if (o.getName().equalsIgnoreCase("Chromaggus")) {
+					this.hand.add(n.clone());
+				}
+
 			}
-			if (this instanceof Warlock) {
-				if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
-					n.setManaCost(0);
-			}
+			return n;
 		}
-		return n;
 	}
 
 	public void onMinionDeath(Minion m) {
