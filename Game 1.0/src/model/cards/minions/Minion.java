@@ -23,7 +23,7 @@ public class Minion extends Card implements Cloneable {
 	public void attack(Minion target) {
 		if (!this.divine) {
 			this.setCurrentHP(this.currentHP - target.getAttack());
-		} else {
+		} else if (!(target.getAttack() == 0)) {
 			this.setDivine(false);
 		}
 		if (!target.divine) {
