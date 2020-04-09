@@ -39,6 +39,7 @@ public class Mage extends Hero {
 
 	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		
 		String o = l.getClass() + "";
 		if (o.equals("Hero")) {
 			this.inflictDamage((Hero) l, 1);

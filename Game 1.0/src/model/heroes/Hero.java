@@ -132,30 +132,57 @@ public abstract class Hero implements MinionListener {
 
 	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;}
+		try {validator.validateUsingHeroPower(this);}
+		catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
 	}
 
 	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());}
+		try {validator.validateUsingHeroPower(this);}catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
 		this.inflictDamage(l, 2);
-		hand.add(deck.remove(0));
+		hand.add(this.drawCard());
 	}
 
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
 	}
 
-	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
-			TauntBypassException, InvalidTargetException, NotSummonedException {
+	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,		
+	TauntBypassException, InvalidTargetException, NotSummonedException {
+		try {validator.validateAttack(attacker, target);}catch(InvalidTargetException e) {System.out.println(e.getMessage());}
+		catch(NotSummonedException e) {System.out.println(e.getMessage());}
+		catch(TauntBypassException e) {System.out.println(e.getMessage());}
+		catch(CannotAttackException e) {System.out.println(e.getMessage());}
+		try {validator.validateTurn(this);}catch(NotYourTurnException e){System.out.println(e.getMessage());}
 		attacker.attack(target);
 	}
 
 	public void playMinion(Minion m) throws NotYourTurnException, NotEnoughManaException, FullFieldException {
+
+		try {validator.validateManaCost(m);}catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+		try {validator.validateTurn(this);}catch(NotYourTurnException e){System.out.println(e.getMessage());}
+		try {validator.validatePlayingMinion(m);}catch(FullFieldException e) {System.out.println(e.getMessage());}
 		field.add(m);
 		hand.remove(m);
 	}
 
 	public void attackWithMinion(Minion attacker, Hero target) throws CannotAttackException, NotYourTurnException,
 			TauntBypassException, NotSummonedException, InvalidTargetException {
+		try {validator.validateAttack(attacker, target);}catch(CannotAttackException e) {System.out.println(e.getMessage());}
+		catch(TauntBypassException e) {System.out.println(e.getMessage());}
+		catch(InvalidTargetException e) {System.out.println(e.getMessage());}
+		catch(NotSummonedException e) {System.out.println(e.getMessage());}
+		try {validator.validateTurn(this);}
+		catch(NotYourTurnException e) {System.out.println(e.getMessage());}
 		attacker.attack(target);
 	}
 

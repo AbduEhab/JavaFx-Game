@@ -5213,6 +5213,7 @@ System.out.println();
 			if (kvit.getHand().get(i).getManaCost() == 0)
 				toBeTested0ManaCount++;
 		}
+		System.out.println(toBeTestedCount);
 		if (toBeTestedCount != 1)
 			fail("Whenever a Warlock draws a Minion while Wilfred Fizzlebang is on the warlock's field it should activate its special effect.");
 		if (toBeTested0ManaCount != 0) {
