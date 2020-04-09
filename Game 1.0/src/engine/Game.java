@@ -85,9 +85,11 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Hero target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker instanceof Icehowl) {
+		if (attacker instanceof Icehowl)
 			throw new CannotAttackException();
-		} else if (attacker.isAttacked())
+		else if (attacker.isSleeping())
+			throw new CannotAttackException();
+		else if (attacker.isAttacked())
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (target.getField().contains(attacker))
 			throw new InvalidTargetException("invalid target");
