@@ -42,6 +42,10 @@ public class Mage extends Hero {
 	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
 	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
 	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+	try {this.useHeroPower(h);}
+	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
+	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
 	 this.inflictDamage(h, 1);}
 
 	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{

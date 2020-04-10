@@ -903,6 +903,7 @@ System.out.println();
 					fail("MultiShot should never hit the same target twice.");
 			}
 			if (minionsWithNoDivine != 2)
+				System.out.println(minionsWithNoDivine);
 				fail("Given more than two minions on field, exactly two of them should be affected.");
 		}
 
