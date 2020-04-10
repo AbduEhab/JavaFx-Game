@@ -119,7 +119,7 @@ public abstract class Hero implements MinionListener {
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-		
+
 	}
 
 	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
@@ -130,7 +130,6 @@ public abstract class Hero implements MinionListener {
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
 
-		
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
@@ -138,7 +137,7 @@ public abstract class Hero implements MinionListener {
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-		
+
 	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
@@ -341,30 +340,35 @@ public abstract class Hero implements MinionListener {
 			return null;
 		}
 
-		else
-			n = this.deck.remove(0).clone();
-		if (this.hand.size() == 10)
-			throw new FullHandException(n);
-
 		else {
+			if (this instanceof Paladin)
+				n = this.deck.remove(0).clone();
+			else
+				n = this.deck.remove(0);
+			if (this.hand.size() == 10)
+				throw new FullHandException(n);
 
-			for (Minion o : this.field) {
-				if (this instanceof Warlock) {
-					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang") && n instanceof Minion)
-						n.setManaCost(0);
-					f = true;
+			else {
+
+				for (Minion o : this.field) {
+					if (this instanceof Warlock) {
+						if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang") && n instanceof Minion) {
+							n.setManaCost(0);
+							f = true;
+						}
+					}
+					if (o.getName().equalsIgnoreCase("Chromaggus")) {
+						this.hand.add(n.clone());
+					}
+
 				}
-				if (o.getName().equalsIgnoreCase("Chromaggus")) {
+				if (!(this.hand.size() == 10))
 					this.hand.add(n.clone());
-				}
-
+				if (f)
+					n.setManaCost(0);
 			}
-			if (!(this.hand.size() == 10))
-				this.hand.add(n.clone());
-			if (f)
-				n.setManaCost(0);
+			return n;
 		}
-		return n;
 	}
 //
 //	public Card drawCard() 
