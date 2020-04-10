@@ -116,19 +116,20 @@ public abstract class Hero implements MinionListener {
 
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
-	validator.validateTurn(this);
-	validator.validateUsingHeroPower(this);
+		validator.validateTurn(this);
+		validator.validateUsingHeroPower(this);
 	}
 
 	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
 		this.useHeroPower();
-		validator.validatePlayingMinion(h);}
+		validator.validatePlayingMinion(h);
+	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
-this.useHeroPower();}
-
+		this.useHeroPower();
+	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
 			TauntBypassException, InvalidTargetException, NotSummonedException {
@@ -331,7 +332,7 @@ this.useHeroPower();}
 	}
 
 	public Card drawCard() throws FullHandException, CloneNotSupportedException {
-boolean f=false;
+		boolean f = false;
 		Card n;
 		if (this.deck.size() == 0) {
 			this.setCurrentHP(currentHP - fatigueDamage++);
@@ -349,17 +350,20 @@ boolean f=false;
 				if (this instanceof Warlock) {
 					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang") && n instanceof Minion)
 						n.setManaCost(0);
-					f=true;
+					f = true;
 				}
 				if (o.getName().equalsIgnoreCase("Chromaggus")) {
 					this.hand.add(n.clone());
 				}
 
 			}
-			if (!(this.hand.size() == 10))this.hand.add(n.clone());if(f)n.setManaCost(0);
-			}
-			return n;
+			if (!(this.hand.size() == 10))
+				this.hand.add(n.clone());
+			if (f)
+				n.setManaCost(0);
 		}
+		return n;
+	}
 //
 //	public Card drawCard() 
 //	throws CloneNotSupportedException ,FullHandException{
