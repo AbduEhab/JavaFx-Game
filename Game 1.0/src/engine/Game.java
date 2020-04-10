@@ -32,8 +32,8 @@ public class Game implements ActionValidator, HeroListener {
 	public Game(Hero p1, Hero p2) throws FullHandException, CloneNotSupportedException {
 		firstHero = p1;
 		secondHero = p2;
-		firstHero.setListener(listener1);
-		secondHero.setListener(listener2);
+		firstHero.setListener(this);
+		secondHero.setListener(this);
 
 		int coin = (int) (Math.random() * 2);
 		currentHero = coin == 0 ? firstHero : secondHero;
