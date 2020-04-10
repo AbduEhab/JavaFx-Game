@@ -17,12 +17,12 @@ import model.cards.spells.MultiShot;
 
 public class Hunter extends Hero {
 
-	public Hunter() throws IOException ,CloneNotSupportedException{
+	public Hunter() throws IOException, CloneNotSupportedException {
 		super("Rexxar");
 	}
 
 	@Override
-	public void buildDeck() throws IOException {
+	public void buildDeck() throws IOException, CloneNotSupportedException {
 		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 15);
 		getDeck().addAll(neutrals);
 		for (int i = 0; i < 2; i++) {
@@ -34,12 +34,34 @@ public class Hunter extends Hero {
 
 		getDeck().add(krush);
 		Collections.shuffle(getDeck());
-		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
-	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			try{super.useHeroPower();}
-			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
-			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
-			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
-			 this.inflictDamage(h, 2);}
+		for (Card c : this.getDeck())
+			if (c instanceof Minion) {
+				((Minion) c).setListener(this);
+			}
+		ArrayList<Card> t = new ArrayList<Card>();
+		while (!this.getDeck().isEmpty()) {
+			t.add(this.getDeck().remove(0));
+		}
+		while (!t.isEmpty()) {
+			this.getDeck().add(t.remove(0).clone());
+		}
+	}
+
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			super.useHeroPower();
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		this.inflictDamage(h, 2);
+	}
 
 }

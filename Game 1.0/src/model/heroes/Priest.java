@@ -35,15 +35,38 @@ public class Priest extends Hero {
 
 		getDeck().add(velen);
 		Collections.shuffle(getDeck());
-		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
-	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			super.useHeroPower();
-						int value=2;
-			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
-			this.restoreHP(h, value);}
-	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			super.useHeroPower();
-			int value=2;
-			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
-			this.restoreHP(h, value);}
+		for (Card c : this.getDeck())
+			if (c instanceof Minion) {
+				((Minion) c).setListener(this);
+			}
+		ArrayList<Card> t = new ArrayList<Card>();
+		while (!this.getDeck().isEmpty()) {
+			t.add(this.getDeck().remove(0));
+		}
+		while (!t.isEmpty()) {
+			this.getDeck().add(t.remove(0).clone());
+		}
+	}
+
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		super.useHeroPower();
+		int value = 2;
+		for (Minion m : this.getField()) {
+			if (m.getName().equalsIgnoreCase("Prophet Velen"))
+				value = 8;
+		}
+		this.restoreHP(h, value);
+	}
+
+	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		super.useHeroPower();
+		int value = 2;
+		for (Minion m : this.getField()) {
+			if (m.getName().equalsIgnoreCase("Prophet Velen"))
+				value = 8;
+		}
+		this.restoreHP(h, value);
+	}
 }

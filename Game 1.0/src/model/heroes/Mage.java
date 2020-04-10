@@ -18,12 +18,12 @@ import model.cards.spells.Pyroblast;
 
 public class Mage extends Hero {
 
-	public Mage() throws IOException,CloneNotSupportedException {
+	public Mage() throws IOException, CloneNotSupportedException {
 		super("Jaina Proudmoore");
 	}
 
 	@Override
-	public void buildDeck() throws IOException {
+	public void buildDeck() throws IOException, CloneNotSupportedException {
 		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 13);
 		getDeck().addAll(neutrals);
 		for (int i = 0; i < 2; i++) {
@@ -36,16 +36,32 @@ public class Mage extends Hero {
 		getDeck().add(kalycgos);
 		Collections.shuffle(getDeck());
 
-		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
-	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-	super.useHeroPower(h);
-	//catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-	//catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-	//catch(NotYourTurnException e) {System.out.println(e.getMessage());}
-	
-	 this.inflictDamage(h, 1);}
+		for (Card c : this.getDeck())
+			if (c instanceof Minion) {
+				((Minion) c).setListener(this);
+			}
+		ArrayList<Card> t = new ArrayList<Card>();
+		while (!this.getDeck().isEmpty()) {
+			t.add(this.getDeck().remove(0));
+		}
+		while (!t.isEmpty()) {
+			this.getDeck().add(t.remove(0).clone());
+		}
+	}
 
-	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			super.useHeroPower();
-			 this.inflictDamage(h, 1);}
-	 }
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		super.useHeroPower(h);
+		// catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+		// catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
+		// catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+
+		this.inflictDamage(h, 1);
+	}
+
+	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		super.useHeroPower();
+		this.inflictDamage(h, 1);
+	}
+}

@@ -27,7 +27,7 @@ public class Warlock extends Hero implements MinionListener {
 	}
 
 	@Override
-	public void buildDeck() throws IOException {
+	public void buildDeck() throws IOException, CloneNotSupportedException {
 		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 13);
 		getDeck().addAll(neutrals);
 		for (int i = 0; i < 2; i++) {
@@ -43,13 +43,21 @@ public class Warlock extends Hero implements MinionListener {
 			if (c instanceof Minion) {
 				((Minion) c).setListener(this);
 			}
+		ArrayList<Card> t = new ArrayList<Card>();
+		while (!this.getDeck().isEmpty()) {
+			t.add(this.getDeck().remove(0));
+		}
+		while (!t.isEmpty()) {
+			this.getDeck().add(t.remove(0).clone());
+		}
 	}
 
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
 		super.useHeroPower();
-	this.drawCard();
-	this.inflictDamage(this, 2);}
+		this.drawCard();
+		this.inflictDamage(this, 2);
+	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
