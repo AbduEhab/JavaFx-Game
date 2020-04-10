@@ -119,6 +119,7 @@ public abstract class Hero implements MinionListener {
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
+		this.setHeroPowerUsed(true);
 
 	}
 
@@ -129,7 +130,7 @@ public abstract class Hero implements MinionListener {
 		validator.validateManaCost(h);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-
+		this.setHeroPowerUsed(true);
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
@@ -137,7 +138,7 @@ public abstract class Hero implements MinionListener {
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-
+		this.setHeroPowerUsed(true);
 	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
@@ -341,6 +342,7 @@ public abstract class Hero implements MinionListener {
 		}
 
 		else {
+			
 			if (this instanceof Paladin)
 				n = this.deck.remove(0).clone();
 			else

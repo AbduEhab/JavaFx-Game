@@ -26,7 +26,7 @@ public class MultiShot extends Spell implements AOESpell {
 			if (!oppField.get(y).isDivine())
 				oppField.get(y).setCurrentHP(oppField.get(x).getCurrentHP() - 3);
 			else
-			oppField.get(y).setDivine(false);
+				oppField.get(y).setDivine(false);
 
 		} else if (oppField.size() == 2) {
 			if (!oppField.get(1).isDivine())
