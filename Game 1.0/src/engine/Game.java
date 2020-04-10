@@ -18,8 +18,8 @@ import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
 	GameListener listener;
-	HeroListener clistener;
-	HeroListener olistener;
+	HeroListener listener1;
+	HeroListener listener2;
 
 //habd //neek wmdi2 error ya mtnak
 	private Hero firstHero;
@@ -32,6 +32,8 @@ public class Game implements ActionValidator, HeroListener {
 	public Game(Hero p1, Hero p2) throws FullHandException, CloneNotSupportedException {
 		firstHero = p1;
 		secondHero = p2;
+		firstHero.setListener(listener1);
+		secondHero.setListener(listener2);
 
 		int coin = (int) (Math.random() * 2);
 		currentHero = coin == 0 ? firstHero : secondHero;
@@ -45,9 +47,7 @@ public class Game implements ActionValidator, HeroListener {
 		opponent.drawCard();
 		opponent.drawCard();
 		opponent.drawCard();
-		currentHero.setListener(clistener);
-		opponent.setListener(olistener);
-
+		
 	}
 
 	public Hero getCurrentHero() {
@@ -67,13 +67,13 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Minion target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.isAttacked())
+		if (attacker.isAttacked() || attacker.getAttack() == 0)
 			throw new CannotAttackException("this minion has zero attack points");
 		else if (currentHero.getField().contains(target))
 			throw new InvalidTargetException("invalid target");
 		else if (target.isDivine())
 			throw new InvalidTargetException("invalid target");
-		else if (hasTaunt(opponent))
+		else if (hasTaunt(opponent) && !target.isTaunt())
 			throw new TauntBypassException("he has Taunt");
 		else if (!(opponent.getField().contains(target)))
 			throw new NotSummonedException("not summoned");
@@ -93,7 +93,9 @@ public class Game implements ActionValidator, HeroListener {
 	@Override
 	public void validateAttack(Minion attacker, Hero target)
 			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker instanceof Icehowl)
+		if (!currentHero.getField().contains(attacker))
+			throw new NotSummonedException();
+		else if (attacker instanceof Icehowl)
 			throw new CannotAttackException();
 		else if (attacker.isSleeping())
 			throw new CannotAttackException();
@@ -114,12 +116,12 @@ public class Game implements ActionValidator, HeroListener {
 					flag = true;
 			}
 			if (flag) {
-				if (!(currentHero.getCurrentManaCrystals() < card.getManaCost() - 4))
+				if ((currentHero.getCurrentManaCrystals() < card.getManaCost() - 4))
 					throw new NotEnoughManaException();
 				return;
 			}
 		}
-		if (!(currentHero.getCurrentManaCrystals() < card.getManaCost()))
+		if ((currentHero.getCurrentManaCrystals() < card.getManaCost()))
 			throw new NotEnoughManaException();
 	}
 
