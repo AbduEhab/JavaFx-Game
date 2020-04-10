@@ -37,18 +37,12 @@ public class Priest extends Hero {
 		Collections.shuffle(getDeck());
 		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
 	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			try{super.useHeroPower();}
-			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
-			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
-			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
-			int value=2;
+			super.useHeroPower();
+						int value=2;
 			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
 			this.restoreHP(h, value);}
 	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-			try{super.useHeroPower();}
-			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
-			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
-			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
+			super.useHeroPower();
 			int value=2;
 			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
 			this.restoreHP(h, value);}

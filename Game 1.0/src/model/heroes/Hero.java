@@ -411,8 +411,9 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public void inflictDamage(Minion o, int value) {
+		if(!o.isDivine())
 		o.setCurrentHP(o.getCurrentHP() - value);
-	}
+		else o.setDivine(false);;}
 
 	public void restoreHP(Hero o, int value) {
 		o.setCurrentHP(o.getCurrentHP() + value);
