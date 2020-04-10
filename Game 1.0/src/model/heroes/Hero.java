@@ -343,9 +343,6 @@ public abstract class Hero implements MinionListener {
 
 		else {
 			
-			if (this instanceof Paladin)
-				n = this.deck.remove(0).clone();
-			else
 				n = this.deck.remove(0);
 			if (this.hand.size() == 10)
 				throw new FullHandException(n);
@@ -364,9 +361,12 @@ public abstract class Hero implements MinionListener {
 					}
 
 				}
-				if (!(this.hand.size() == 10))
-					this.hand.add(n.clone());
-				if (f)
+				if (!(this.hand.size() == 10)) {
+					if(this instanceof Mage)
+						this.hand.add(n.clone());
+					else
+						this.hand.add(n);
+				}if (f)
 					n.setManaCost(0);
 			}
 			return n;
