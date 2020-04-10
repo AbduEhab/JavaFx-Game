@@ -310,7 +310,7 @@ public abstract class Hero implements MinionListener {
 		validator.validateTurn(this);
 
 		validator.validateManaCost((Card) s);
-		int y =((SiphonSoul) d).performAction(m);
+		int y =s.performAction(m);
 		this.onMinionDeath(m);
 		this.setCurrentHP(this.getCurrentHP() + y);
 		this.hand.remove(s);
