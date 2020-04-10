@@ -13,27 +13,31 @@ import model.cards.spells.LevelUp;
 import model.cards.spells.SealOfChampions;
 
 public class Paladin extends Hero implements MinionListener {
-	public Paladin() throws IOException,CloneNotSupportedException
-	{
+	public Paladin() throws IOException, CloneNotSupportedException {
 		super("Uther Lightbringer");
 	}
-	
+
 	@Override
 	public void buildDeck() throws IOException {
-		ArrayList<Minion> neutrals= getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"),15);
+		ArrayList<Minion> neutrals = getNeutralMinions(getAllNeutralMinions("neutral_minions.csv"), 15);
 		getDeck().addAll(neutrals);
-		for(int i = 0 ; i < 2; i++)
-		{
+		for (int i = 0; i < 2; i++) {
 			getDeck().add(new SealOfChampions());
 			getDeck().add(new LevelUp());
 		}
-		Minion tirion=new Minion("Tirion Fordring", 4, Rarity.LEGENDARY, 6, 6, true, true, false);
-	
+		Minion tirion = new Minion("Tirion Fordring", 4, Rarity.LEGENDARY, 6, 6, true, true, false);
+
 		getDeck().add(tirion);
 		Collections.shuffle(getDeck());
-	for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
-	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-		Minion h=new Minion("Silver Hand Recruit", 1, Rarity.BASIC, 1, 1, false, false, false);
+		for (Card c : this.getDeck())
+			if (c instanceof Minion) {
+				((Minion) c).setListener(this);
+			}
+	}
+
+	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		Minion h = new Minion("Silver Hand Recruit", 1, Rarity.BASIC, 1, 1, false, false, false);
 		h.setListener(this);
 		super.useHeroPower(h);
 //		catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
@@ -42,8 +46,9 @@ public class Paladin extends Hero implements MinionListener {
 
 //		catch(FullFieldException e) {System.out.println(e.getMessage());return;}
 //		catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
-		if(this.getField().size()==7) {throw new FullFieldException();}
-		else
-		this.getField().add(h);
-}
+		if (this.getField().size() == 7) {
+			throw new FullFieldException();
+		} else
+			this.getField().add(h);
+	}
 }

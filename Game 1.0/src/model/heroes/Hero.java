@@ -213,12 +213,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+		if (this instanceof Mage)
+			for (Minion n : this.field) {
+				if (n.getName().equalsIgnoreCase("Kalycgos"))
+					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
 				break;
 			}
-		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -237,12 +237,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+		if (this instanceof Mage)
+			for (Minion n : this.field) {
+				if (n.getName().equalsIgnoreCase("Kalycgos"))
+					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
 				break;
 			}
-		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -262,12 +262,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+		if (this instanceof Mage)
+			for (Minion n : this.field) {
+				if (n.getName().equalsIgnoreCase("Kalycgos"))
+					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
 				break;
 			}
-		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -294,12 +294,13 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+		if (this instanceof Mage)
+			for (Minion n : this.field) {
+				if (n.getName().equalsIgnoreCase("Kalycgos"))
+					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
 				break;
 			}
-		}
+
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -320,11 +321,12 @@ public abstract class Hero implements MinionListener {
 		this.onMinionDeath(m);
 		this.setCurrentHP(this.getCurrentHP() + y);
 		this.hand.remove(s);
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos"))
-				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-			break;
-		}
+		if (this instanceof Mage)
+			for (Minion n : this.field) {
+				if (n.getName().equalsIgnoreCase("Kalycgos"))
+					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+				break;
+			}
 
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
@@ -342,8 +344,8 @@ public abstract class Hero implements MinionListener {
 		}
 
 		else {
-			
-				n = this.deck.remove(0);
+
+			n = this.deck.remove(0);
 			if (this.hand.size() == 10)
 				throw new FullHandException(n);
 
@@ -361,12 +363,9 @@ public abstract class Hero implements MinionListener {
 					}
 
 				}
-				if (!(this.hand.size() == 10)) {
-					if(this instanceof Mage)
-						this.hand.add(n.clone());
-					else
-						this.hand.add(n);
-				}if (f)
+				if (!(this.hand.size() == 10))
+					this.hand.add(n);
+				if (f)
 					n.setManaCost(0);
 			}
 			return n;
