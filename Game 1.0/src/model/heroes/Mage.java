@@ -36,24 +36,17 @@ public class Mage extends Hero {
 		Collections.shuffle(getDeck());
 
 	}
+	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+	try{super.useHeroPower();}
+	catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
+	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
+	catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
+	 this.inflictDamage(h, 1);}
 
-//	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
-//			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-//		
-//		String o = l.getClass() + "";
-//		if (o.equals("Hero")) {
-//			this.inflictDamage((Hero) l, 1);
-//		} else {
-//			this.inflictDamage((Minion) l, 1);
-//		}
-//	}
-public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-	this.uhp(h);
-	this.inflictDamage(h, 1);
-}
-public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-	this.uhp(h);
-	this.inflictDamage(h, 1);
-}
-
-}
+	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+			try{super.useHeroPower();}
+			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
+			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
+			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
+			 this.inflictDamage(h, 1);}
+	 }

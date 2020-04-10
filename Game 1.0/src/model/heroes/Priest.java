@@ -33,20 +33,21 @@ public class Priest extends Hero {
 		Minion velen = new Minion("Prophet Velen", 7, Rarity.LEGENDARY, 7, 7, false, false, false);
 
 		getDeck().add(velen);
-		Collections.shuffle(getDeck());
-
-	}
-
-	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-		this.uhp(h);int value=2;
-		for(Minion m:this.getField()) {if(m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}	
-		this.restoreHP(h, value);}
-	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-		this.uhp(h);
-		int value=2;
-		for(Minion m:this.getField()) {if(m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}	
-		this.restoreHP(h, value);
-	}
-
-
+		Collections.shuffle(getDeck());}
+	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+			try{super.useHeroPower();}
+			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
+			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
+			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
+			int value=2;
+			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
+			this.restoreHP(h, value);}
+	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+			try{super.useHeroPower();}
+			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
+			catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
+			catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
+			int value=2;
+			for(Minion m:this.getField()) {if (m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}
+			this.restoreHP(h, value);}
 }

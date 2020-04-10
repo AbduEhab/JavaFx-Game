@@ -40,12 +40,19 @@ public class Warlock extends Hero implements MinionListener{
 
 	}
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-		this.uhp(h);
-		if(h==null)this.inflictDamage(this, 2);
-		else this.inflictDamage(h, 2);
-			try {
-				this.drawCard();
-			} catch (FullHandException e) {
-				System.out.println(e.getMessage());
-			}
-		}}
+		try{super.useHeroPower();}
+		catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+		catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
+		catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+		try{this.drawCard();}catch(FullHandException e){System.out.println(e.getMessage());} 
+		if (h==null) this.inflictDamage(this, 2);
+		else this.inflictDamage(h, 2);}
+public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+	try{super.useHeroPower();}
+	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
+	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+	try{this.drawCard();}catch(FullHandException e){System.out.println(e.getMessage());} 
+	if (h==null) this.inflictDamage(this, 2);
+	else this.inflictDamage(h, 2);}
+}
