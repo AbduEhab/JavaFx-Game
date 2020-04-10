@@ -37,6 +37,7 @@ public class Hunter extends Hero {
 
 	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
+		this.uhp(l);
 		this.inflictDamage(l, 2);
 	}
 }

@@ -114,8 +114,40 @@ public abstract class Hero implements MinionListener {
 		return res;
 	}
 
+	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		Minion l = new Minion("Silver Hand Recruit", 1, Rarity.BASIC, 1, 1, false, false, false);
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		try {
+			validator.validateUsingHeroPower(this);
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validatePlayingMinion(l);
+		} catch (FullFieldException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateManaCost(l);
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		field.add(l);
+	}
 
-	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
 		try {
 			validator.validateTurn(this);
@@ -127,28 +159,176 @@ public abstract class Hero implements MinionListener {
 			validator.validateUsingHeroPower(this);
 		} catch (HeroPowerAlreadyUsedException e) {
 			System.out.println(e.getMessage());
+			return;
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		if (this instanceof Mage) {
+			this.inflictDamage(h, 1);
+		}
+		if (this instanceof Priest) {
+			int value = 2;
+			for (Minion m : this.field) {
+				if (m.getName().equalsIgnoreCase("Prophet Velen"))
+					value = 8;
+			}
+			this.restoreHP(h, value);
 		}
 	}
 
-	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
 		try {
 			validator.validateTurn(this);
 		} catch (NotYourTurnException e) {
 			System.out.println(e.getMessage());
+			return;
 		}
 		try {
 			validator.validateUsingHeroPower(this);
 		} catch (HeroPowerAlreadyUsedException e) {
 			System.out.println(e.getMessage());
+			return;
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
 		}
-		this.inflictDamage(l, 2);
-		hand.add(this.drawCard());
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		if (this instanceof Hunter) {
+			this.inflictDamage(h, 2);
+		}
+		if (this instanceof Warlock) {
+			if (h == null)
+				this.inflictDamage(this, 2);
+			else
+				this.inflictDamage(h, 2);
+			try {
+				this.drawCard();
+			} catch (FullHandException e) {
+				System.out.println(e.getMessage());
+				return;
+			}
+			if (this instanceof Mage) {
+				this.inflictDamage(h, 1);
+			}
+			if (this instanceof Priest) {
+				int value = 2;
+				for (Minion m : this.field) {
+					if (m.getName().equalsIgnoreCase("Prophet Velen"))
+						value = 8;
+				}
+				this.restoreHP(h, value);
+			}
+		}
 	}
 
-	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+	public void uhp() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
+		Minion l = new Minion("Silver Hand Recruit", 1, Rarity.BASIC, 1, 1, false, false, false);
+		    validator.validateTurn(this);
+			validator.validateUsingHeroPower(this);
+			validator.validatePlayingMinion(l);
+			validator.validateManaCost(l);}
+
+	public void uhp(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		try {
+			validator.validateUsingHeroPower(this);
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+
+		if (this instanceof Priest)
+			this.restoreHP(h, 2);
 	}
+
+	public void uhp(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+		try {
+			validator.validateUsingHeroPower(this);
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+			return;
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		try {
+			validator.validateTurn(this);
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getLocalizedMessage());
+			return;
+		}
+	}
+
+//	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+//			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+//		try {
+//			validator.validateTurn(this);
+//		} catch (NotYourTurnException e) {
+//			System.out.println(e.getMessage());
+//			return;
+//		}
+//		try {
+//			validator.validateUsingHeroPower(this);
+//		} catch (HeroPowerAlreadyUsedException e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
+//
+//	public void useHeroPower(Hero l) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+//			FullHandException, FullFieldException, CloneNotSupportedException {
+//		try {
+//			validator.validateTurn(this);
+//		} catch (NotYourTurnException e) {
+//			System.out.println(e.getMessage());
+//		}
+//		try {
+//			validator.validateUsingHeroPower(this);
+//		} catch (HeroPowerAlreadyUsedException e) {
+//			System.out.println(e.getMessage());
+//		}
+//		this.inflictDamage(l, 2);
+//		hand.add(this.drawCard());
+//	}
+//
+//	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+//			FullHandException, FullFieldException, CloneNotSupportedException {
+//	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
 			TauntBypassException, InvalidTargetException, NotSummonedException {
@@ -156,6 +336,7 @@ public abstract class Hero implements MinionListener {
 			validator.validateAttack(attacker, target);
 		} catch (InvalidTargetException e) {
 			System.out.println(e.getMessage());
+			return;
 		} catch (NotSummonedException e) {
 			System.out.println(e.getMessage());
 		} catch (TauntBypassException e) {
@@ -350,7 +531,7 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public Card drawCard() throws FullHandException, CloneNotSupportedException {
-
+boolean f=false;
 		Card n;
 		if (this.deck.size() == 0) {
 			this.setCurrentHP(currentHP - fatigueDamage++);
@@ -366,17 +547,52 @@ public abstract class Hero implements MinionListener {
 
 			for (Minion o : this.field) {
 				if (this instanceof Warlock) {
-					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
+					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang") && n instanceof Minion)
 						n.setManaCost(0);
+					f=true;
 				}
 				if (o.getName().equalsIgnoreCase("Chromaggus")) {
 					this.hand.add(n.clone());
 				}
 
 			}
+			if (!(this.hand.size() == 10))this.hand.add(n.clone());if(f)n.setManaCost(0);
+			}
 			return n;
 		}
-	}
+//
+//	public Card drawCard() 
+//	throws CloneNotSupportedException ,FullHandException{
+//
+//		Card n;
+//		if (this.deck.size() == 0) {
+//			this.setCurrentHP(currentHP - fatigueDamage++);
+//			return null;
+//		}
+//
+//		else
+//			n = this.deck.remove(0).clone();
+////		if (this.hand.size() == 20)
+////			throw new FullHandException(n);
+////
+////		else {
+//
+//			for (Minion o : this.field) {
+//				if (this instanceof Warlock) {
+//					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
+//						n.setManaCost(0);
+//				}
+//				if (o.getName().equalsIgnoreCase("Chromaggus")) {
+//					this.hand.add(n.clone());
+//				}
+//
+////			}if (this.hand.size() == 20)
+////				throw new FullHandException(n);
+////			else
+//			{
+//				hand.add(n.clone());}}
+//			return n;
+//	}
 
 	public void onMinionDeath(Minion m) {
 		this.field.remove(m);

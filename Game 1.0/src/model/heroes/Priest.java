@@ -37,23 +37,16 @@ public class Priest extends Hero {
 
 	}
 
-	public void useHeroPower(Object l) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
-			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-		int amount = 2;
-		String o = l.getClass() + "";
-		boolean c = false;
-		for (Minion b : this.getField()) {
-			if (b.getName().equalsIgnoreCase("Prophet Velen"))
-				c = true;
-		}
-		if (c) {
-			amount = 8;
-		}
-		if (o.equals("Hero")) {
-			this.restoreHP((Hero) l, amount);
-		} else {
-			this.restoreHP((Minion) l, amount);
-		}
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+		this.uhp(h);int value=2;
+		for(Minion m:this.getField()) {if(m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}	
+		this.restoreHP(h, value);}
+	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
+		this.uhp(h);
+		int value=2;
+		for(Minion m:this.getField()) {if(m.getName().equalsIgnoreCase("Prophet Velen"))value=8;}	
+		this.restoreHP(h, value);
 	}
+
 
 }

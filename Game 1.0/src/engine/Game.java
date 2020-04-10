@@ -18,7 +18,8 @@ import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
 	GameListener listener;
-	HeroListener Hlistener;
+	HeroListener clistener;
+	HeroListener olistener;
 
 //habd //neek wmdi2 error ya mtnak
 	private Hero firstHero;
@@ -28,7 +29,7 @@ public class Game implements ActionValidator, HeroListener {
 	private Hero currentHero;
 	private Hero opponent;
 
-	public Game(Hero p1, Hero p2) {
+	public Game(Hero p1, Hero p2) throws FullHandException, CloneNotSupportedException {
 		firstHero = p1;
 		secondHero = p2;
 
@@ -37,8 +38,15 @@ public class Game implements ActionValidator, HeroListener {
 		opponent = currentHero == firstHero ? secondHero : firstHero;
 		currentHero.setCurrentManaCrystals(1);
 		currentHero.setTotalManaCrystals(1);
-		currentHero.setListener(Hlistener);
-		opponent.setListener(Hlistener);
+		currentHero.drawCard();
+		currentHero.drawCard();
+		currentHero.drawCard();
+		opponent.drawCard();
+		opponent.drawCard();
+		opponent.drawCard();
+		opponent.drawCard();
+		currentHero.setListener(clistener);
+		opponent.setListener(olistener);
 
 	}
 
