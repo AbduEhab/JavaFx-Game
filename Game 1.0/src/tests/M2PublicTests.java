@@ -1544,7 +1544,7 @@ System.out.println();
 			fail("The method castSpell(LeechingSpell, Minion) in class Hero should update the currentManaCrystals of the hero correctly with the minion cost after playing the spell.");
 		}
 		if (callParameters.size() != 1 || callParameters.get(0) != minion)
-			fail("The method castSpell(LeechingSpell, Minion) in class Hero should call performAction on the right target.");
+			fail("The method castSpell(LeechingSpell, Minion) in class Hero should call performAction on the right target." );
 		if (hero.getHand().size() == 2 || hero.getHand().contains(leechingSpellPlayed)) {
 			fail("The method castSpell(LeechingSpell, Minion) in class Hero should remove the spell from the hero's hand after playing it.");
 		}

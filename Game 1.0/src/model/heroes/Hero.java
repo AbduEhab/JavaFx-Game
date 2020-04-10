@@ -122,17 +122,17 @@ public abstract class Hero implements MinionListener {
 
 	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-		validator.validatePlayingMinion( h);
+		validator.validatePlayingMinion(h);
 		validator.validateManaCost(h);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-		
+
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
 		validator.validateTurn(this);
-	    validator.validateUsingHeroPower(this);
+		validator.validateUsingHeroPower(this);
 	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
@@ -207,6 +207,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
+		for (Minion n : this.field) {
+			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+				break;
+			}
+		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -215,12 +221,6 @@ public abstract class Hero implements MinionListener {
 		}
 		s.performAction(this.getField());
 		this.hand.remove(s);
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				break;
-			}
-		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
@@ -231,6 +231,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
+		for (Minion n : this.field) {
+			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+				break;
+			}
+		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -239,12 +245,6 @@ public abstract class Hero implements MinionListener {
 		}
 		s.performAction(oppField, this.field);
 		this.hand.remove(s);
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				break;
-			}
-		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
@@ -255,6 +255,12 @@ public abstract class Hero implements MinionListener {
 		} catch (NotYourTurnException e) {
 			System.out.println(e.getMessage());
 			return;
+		}
+		for (Minion n : this.field) {
+			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+				break;
+			}
 		}
 		try {
 			validator.validateManaCost((Card) s);
@@ -271,12 +277,6 @@ public abstract class Hero implements MinionListener {
 		}
 		s.performAction(m);
 		this.hand.remove(s);
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				break;
-			}
-		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
@@ -288,6 +288,12 @@ public abstract class Hero implements MinionListener {
 			System.out.println(e.getMessage());
 			return;
 		}
+		for (Minion n : this.field) {
+			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
+				break;
+			}
+		}
 		try {
 			validator.validateManaCost((Card) s);
 		} catch (NotEnoughManaException e) {
@@ -296,39 +302,26 @@ public abstract class Hero implements MinionListener {
 		}
 		s.performAction(h);
 		this.hand.remove(s);
-		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
-				break;
-			}
-		}
 		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void castSpell(LeechingSpell s, Minion m) throws NotYourTurnException, NotEnoughManaException {
+		Spell d = (Spell) s;
+		validator.validateTurn(this);
 
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		try {
-			validator.validateManaCost((Card) s);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getLocalizedMessage());
-			return;
-		}
-		this.setCurrentHP(this.getCurrentHP() + s.performAction(m));
+		validator.validateManaCost((Card) s);
+		int y =((SiphonSoul) d).performAction(m);
+		this.onMinionDeath(m);
+		this.setCurrentHP(this.getCurrentHP() + y);
 		this.hand.remove(s);
-
 		for (Minion n : this.field) {
 			if (n.getName().equalsIgnoreCase("Kalycgos")) {
-				this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost() - 4);
+				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
 				break;
 			}
+
+			this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 		}
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void endTurn() throws FullHandException, CloneNotSupportedException {
@@ -411,9 +404,12 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public void inflictDamage(Minion o, int value) {
-		if(!o.isDivine())
-		o.setCurrentHP(o.getCurrentHP() - value);
-		else o.setDivine(false);;}
+		if (!o.isDivine())
+			o.setCurrentHP(o.getCurrentHP() - value);
+		else
+			o.setDivine(false);
+		;
+	}
 
 	public void restoreHP(Hero o, int value) {
 		o.setCurrentHP(o.getCurrentHP() + value);
