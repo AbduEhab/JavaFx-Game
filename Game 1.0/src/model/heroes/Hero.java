@@ -116,23 +116,29 @@ public abstract class Hero implements MinionListener {
 
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
+		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
+		
 	}
 
 	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validatePlayingMinion(h);
 		validator.validateManaCost(h);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
 
+		
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
 			FullHandException, FullFieldException, CloneNotSupportedException {
+		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
+		
 	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
@@ -310,18 +316,17 @@ public abstract class Hero implements MinionListener {
 		validator.validateTurn(this);
 
 		validator.validateManaCost((Card) s);
-		int y =s.performAction(m);
+		int y = s.performAction(m);
 		this.onMinionDeath(m);
 		this.setCurrentHP(this.getCurrentHP() + y);
 		this.hand.remove(s);
 		for (Minion n : this.field) {
-			if (n.getName().equalsIgnoreCase("Kalycgos")) {
+			if (n.getName().equalsIgnoreCase("Kalycgos"))
 				((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
-
-			this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
+			break;
 		}
+
+		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void endTurn() throws FullHandException, CloneNotSupportedException {

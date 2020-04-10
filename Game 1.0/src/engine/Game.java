@@ -17,10 +17,7 @@ import model.heroes.HeroListener;
 import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
-	GameListener listener;
-	HeroListener listener1;
-	HeroListener listener2;
-
+	private GameListener listener;
 //habd //neek wmdi2 error ya mtnak
 	private Hero firstHero;
 	// a7a btl 3olo2ya ya fady

@@ -17,12 +17,12 @@ import model.cards.spells.CurseOfWeakness;
 import model.cards.spells.SiphonSoul;
 import model.cards.spells.TwistingNether;
 
-public class Warlock extends Hero implements MinionListener{
+public class Warlock extends Hero implements MinionListener {
 	public void onMinionDeath(Minion m) {
 		this.getField().remove(m);
 	}
 
-	public Warlock() throws IOException ,CloneNotSupportedException{
+	public Warlock() throws IOException, CloneNotSupportedException {
 		super("Gul'dan");
 	}
 
@@ -39,21 +39,59 @@ public class Warlock extends Hero implements MinionListener{
 		getDeck().add(wilfred);
 		Collections.shuffle(getDeck());
 
-		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
-	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-		try{super.useHeroPower();}
-		catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-		catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-		catch(NotYourTurnException e) {System.out.println(e.getMessage());}
-		try{this.drawCard();}catch(FullHandException e){System.out.println(e.getMessage());} 
-		if (h==null) this.inflictDamage(this, 2);
-		else this.inflictDamage(h, 2);}
-public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-	try{super.useHeroPower();}
-	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
-	try{this.drawCard();}catch(FullHandException e){System.out.println(e.getMessage());} 
-	if (h==null) this.inflictDamage(this, 2);
-	else this.inflictDamage(h, 2);}
+		for (Card c : this.getDeck())
+			if (c instanceof Minion) {
+				((Minion) c).setListener(this);
+			}
+	}
+
+	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		super.useHeroPower();
+	this.drawCard();
+	this.inflictDamage(this, 2);}
+
+	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
+			FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			super.useHeroPower();
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			this.drawCard();
+		} catch (FullHandException e) {
+			System.out.println(e.getMessage());
+		}
+		if (h == null)
+			this.inflictDamage(this, 2);
+		else
+			this.inflictDamage(h, 2);
+	}
+
+	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+		try {
+			super.useHeroPower();
+		} catch (NotEnoughManaException e) {
+			System.out.println(e.getMessage());
+		} catch (HeroPowerAlreadyUsedException e) {
+			System.out.println(e.getMessage());
+		} catch (NotYourTurnException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			this.drawCard();
+		} catch (FullHandException e) {
+			System.out.println(e.getMessage());
+		}
+		if (h == null)
+			this.inflictDamage(this, 2);
+		else
+			this.inflictDamage(h, 2);
+	}
 }
