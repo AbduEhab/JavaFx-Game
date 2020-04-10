@@ -35,13 +35,15 @@ public class Paladin extends Hero implements MinionListener {
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
 		Minion h=new Minion("Silver Hand Recruit", 1, Rarity.BASIC, 1, 1, false, false, false);
 		h.setListener(this);
-		super.useHeroPower();
+		super.useHeroPower(h);
 //		catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
 //		catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());return;}
 //		catch(NotYourTurnException e) {System.out.println(e.getMessage());return;}
-		super.useHeroPower(h);
+
 //		catch(FullFieldException e) {System.out.println(e.getMessage());return;}
 //		catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}
+		if(this.getField().size()==7) {throw new FullFieldException();}
+		else
 		this.getField().add(h);
 }
 }

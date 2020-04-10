@@ -127,7 +127,7 @@ public class Game implements ActionValidator, HeroListener {
 
 	@Override
 	public void validatePlayingMinion(Minion minion) throws FullFieldException {
-		if (currentHero.getField().size() == 7)
+		if (currentHero.getField().size() ==7)
 			throw new FullFieldException();
 
 	}

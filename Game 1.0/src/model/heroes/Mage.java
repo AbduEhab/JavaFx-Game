@@ -38,14 +38,11 @@ public class Mage extends Hero {
 
 		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
 	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
-	try{super.useHeroPower();}
-	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
-	try {this.useHeroPower(h);}
-	catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-	catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-	catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+	super.useHeroPower(h);
+	//catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
+	//catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
+	//catch(NotYourTurnException e) {System.out.println(e.getMessage());}
+	
 	 this.inflictDamage(h, 1);}
 
 	 public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
