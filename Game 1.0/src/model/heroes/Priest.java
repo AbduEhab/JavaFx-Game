@@ -9,6 +9,7 @@ import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
 import exceptions.NotEnoughManaException;
 import exceptions.NotYourTurnException;
+import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 import model.cards.spells.DivineSpirit;
@@ -33,7 +34,8 @@ public class Priest extends Hero {
 		Minion velen = new Minion("Prophet Velen", 7, Rarity.LEGENDARY, 7, 7, false, false, false);
 
 		getDeck().add(velen);
-		Collections.shuffle(getDeck());}
+		Collections.shuffle(getDeck());
+		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
 	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
 			try{super.useHeroPower();}
 			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}

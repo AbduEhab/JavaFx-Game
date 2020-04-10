@@ -9,6 +9,7 @@ import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
 import exceptions.NotEnoughManaException;
 import exceptions.NotYourTurnException;
+import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 import model.cards.spells.KillCommand;
@@ -33,7 +34,7 @@ public class Hunter extends Hero {
 
 		getDeck().add(krush);
 		Collections.shuffle(getDeck());
-	}
+		for(Card c:this.getDeck()) if(c instanceof Minion){((Minion) c).setListener(this);}}
 	 public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException{
 			try{super.useHeroPower();}
 			catch(NotEnoughManaException e) {System.out.println(e.getMessage());return;}

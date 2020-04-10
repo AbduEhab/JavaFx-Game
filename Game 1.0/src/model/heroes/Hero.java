@@ -122,8 +122,9 @@ public abstract class Hero implements MinionListener {
 
 	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
 			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-		this.useHeroPower();
 		validator.validatePlayingMinion(h);
+		validator.validateManaCost(h);
+		
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
