@@ -1,4 +1,4 @@
-package model.cards.spells;
+ package model.cards.spells;
 
 import java.util.ArrayList;
 
@@ -14,36 +14,29 @@ public class MultiShot extends Spell implements AOESpell {
 
 	@Override
 	public void performAction(ArrayList<Minion> oppField, ArrayList<Minion> curField) {
-		if (oppField.size() > 2) {
 
-			int x = (int) (Math.random() * (oppField.size() - 1));
-			if (!oppField.get(x).isDivine())
-				oppField.get(x).setCurrentHP(oppField.get(x).getCurrentHP() - 3);
-			else
-				oppField.get(x).setDivine(false);
-
-			int y = (int) (Math.random() * (oppField.size() - 1));
-			if (!oppField.get(y).isDivine())
-				oppField.get(y).setCurrentHP(oppField.get(x).getCurrentHP() - 3);
-			else
-				oppField.get(y).setDivine(false);
-
-		} else if (oppField.size() == 2) {
-			if (!oppField.get(1).isDivine())
-				oppField.get(1).setCurrentHP(oppField.get(1).getCurrentHP() - 3);
-			else
-				oppField.get(1).setDivine(false);
-
-			if (!oppField.get(0).isDivine())
-				oppField.get(0).setCurrentHP(oppField.get(0).getCurrentHP() - 3);
-			else
-				oppField.get(0).setDivine(false);
-		} else if (oppField.size() == 1) {
-			if (!oppField.get(0).isDivine())
-				oppField.get(0).setCurrentHP(oppField.get(0).getCurrentHP() - 3);
-			else
-				oppField.get(0).setDivine(false);
+		if (oppField.size() == 1)
+			affectMinion(oppField.get(0));
+		else if (oppField.size() > 1) {
+			int r1 = 0;
+			int r2 = 0;
+			ArrayList<Minion> pool = new ArrayList<Minion>();
+			pool.addAll(oppField);
+			while (r1 == r2) {
+				r1 = (int) (Math.random() * pool.size());
+				r2 = (int) (Math.random() * pool.size());
+			}
+			affectMinion(pool.get(r1));
+			affectMinion(pool.get(r2));
 		}
 
 	}
+
+	private static void affectMinion(Minion m) {
+		if (m.isDivine())
+			m.setDivine(false);
+		else
+			m.setCurrentHP(m.getCurrentHP() - 3);
+	}
+
 }

@@ -10,144 +10,122 @@ import exceptions.NotSummonedException;
 import exceptions.NotYourTurnException;
 import exceptions.TauntBypassException;
 import model.cards.Card;
-import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
 import model.heroes.Hero;
 import model.heroes.HeroListener;
-import model.heroes.Mage;
 
 public class Game implements ActionValidator, HeroListener {
-	private GameListener listener;
-//habd //neek wmdi2 error ya mtnak
 	private Hero firstHero;
-	// a7a btl 3olo2ya ya fady
-
 	private Hero secondHero;
 	private Hero currentHero;
 	private Hero opponent;
+
+	private GameListener listener;
 
 	public Game(Hero p1, Hero p2) throws FullHandException, CloneNotSupportedException {
 		firstHero = p1;
 		secondHero = p2;
 		firstHero.setListener(this);
 		secondHero.setListener(this);
-
+		firstHero.setValidator(this);
+		secondHero.setValidator(this);
 		int coin = (int) (Math.random() * 2);
 		currentHero = coin == 0 ? firstHero : secondHero;
 		opponent = currentHero == firstHero ? secondHero : firstHero;
 		currentHero.setCurrentManaCrystals(1);
 		currentHero.setTotalManaCrystals(1);
-		currentHero.drawCard();
-		currentHero.drawCard();
-		currentHero.drawCard();
-		opponent.drawCard();
-		opponent.drawCard();
-		opponent.drawCard();
-		opponent.drawCard();
-		
-	}
-
-	public Hero getCurrentHero() {
-		return currentHero;
-	}
-
-	public Hero getOpponent() {
-		return opponent;
+		for (int i = 0; i < 3; i++) {
+			currentHero.drawCard();
+		}
+		for (int i = 0; i < 4; i++) {
+			opponent.drawCard();
+		}
 	}
 
 	@Override
 	public void validateTurn(Hero user) throws NotYourTurnException {
-		if (currentHero != user)
-			throw new NotYourTurnException("Not your turn");
+		if (user == opponent)
+			throw new NotYourTurnException("You can not do any action in your opponent's turn");
 	}
 
-	@Override
-	public void validateAttack(Minion attacker, Minion target)
-			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (attacker.isAttacked() || attacker.getAttack() == 0)
-			throw new CannotAttackException("this minion has zero attack points");
-		else if (currentHero.getField().contains(target))
-			throw new InvalidTargetException("invalid target");
-		else if (target.isDivine())
-			throw new InvalidTargetException("invalid target");
-		else if (hasTaunt(opponent) && !target.isTaunt())
-			throw new TauntBypassException("he has Taunt");
-		else if (!(opponent.getField().contains(target)))
-			throw new NotSummonedException("not summoned");
-		else if (!(currentHero.getField().contains(attacker)))
-			throw new NotSummonedException("not summoned");
-
-	}
-
-	public boolean hasTaunt(Hero h) {
-		for (Minion m : h.getField()) {
-			if (m.isTaunt())
-				return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void validateAttack(Minion attacker, Hero target)
-			throws CannotAttackException, NotSummonedException, TauntBypassException, InvalidTargetException {
-		if (!currentHero.getField().contains(attacker))
-			throw new NotSummonedException();
-		else if (attacker instanceof Icehowl)
-			throw new CannotAttackException();
-		else if (attacker.isSleeping())
-			throw new CannotAttackException();
-		else if (attacker.isAttacked())
-			throw new CannotAttackException("this minion has zero attack points");
-		else if (target.getField().contains(attacker))
-			throw new InvalidTargetException("invalid target");
-		else if (hasTaunt(opponent))
-			throw new TauntBypassException("he has Taunt");
-
-	}
-
-	public void validateManaCost(Card card) throws NotEnoughManaException {
-		boolean flag = false;
-		if (currentHero instanceof Mage) {
-			for (Minion q : currentHero.getField()) {
-				if (q.getName().equalsIgnoreCase("Kalycgos"))
-					flag = true;
+	public void validateAttack(Minion a, Minion t)
+			throws TauntBypassException, InvalidTargetException, NotSummonedException, CannotAttackException {
+		if (a.getAttack() <= 0)
+			throw new CannotAttackException("This minion Cannot Attack");
+		if (a.isSleeping())
+			throw new CannotAttackException("Give this minion a turn to get ready");
+		if (a.isAttacked())
+			throw new CannotAttackException("This minion has already attacked");
+		if (!currentHero.getField().contains(a))
+			throw new NotSummonedException("You can not attack with a minion that has not been summoned yet");
+		if (currentHero.getField().contains(t))
+			throw new InvalidTargetException("You can not attack a friendly minion");
+		if (!opponent.getField().contains(t))
+			throw new NotSummonedException("You can not attack a minion that your opponent has not summoned yet");
+		if (!t.isTaunt()) {
+			for (int i = 0; i < opponent.getField().size(); i++) {
+				if (opponent.getField().get(i).isTaunt())
+					throw new TauntBypassException("A minion with taunt is in the way");
 			}
-			if (flag) {
-				if ((currentHero.getCurrentManaCrystals() < card.getManaCost() - 4))
-					throw new NotEnoughManaException();
-				return;
-			}
+
 		}
-		if ((currentHero.getCurrentManaCrystals() < card.getManaCost()))
-			throw new NotEnoughManaException();
-	}
-
-	@Override
-	public void validatePlayingMinion(Minion minion) throws FullFieldException {
-		if (currentHero.getField().size() ==7)
-			throw new FullFieldException();
 
 	}
 
-	@Override
-	public void validateUsingHeroPower(Hero hero) throws NotEnoughManaException, HeroPowerAlreadyUsedException {
-		if (currentHero.isHeroPowerUsed())
-			throw new HeroPowerAlreadyUsedException();
-		if (!(currentHero.getCurrentManaCrystals() >= 2))
-			throw new NotEnoughManaException();
+	public void validateAttack(Minion m, Hero t)
+			throws TauntBypassException, NotSummonedException, InvalidTargetException, CannotAttackException {
+		if (m.getAttack() <= 0)
+			throw new CannotAttackException("This minion Cannot Attack");
+		if (m.isSleeping())
+			throw new CannotAttackException("Give this minion a turn to get ready");
+		if (m.isAttacked())
+			throw new CannotAttackException("This minion has already attacked");
+		if (!currentHero.getField().contains(m))
+			throw new NotSummonedException("You can not attack with a minion that has not been summoned yet");
+		if (t.getField().contains(m))
+			throw new InvalidTargetException("You can not attack yourself with your minions");
+		for (int i = 0; i < opponent.getField().size(); i++) {
+			if (opponent.getField().get(i).isTaunt())
+				throw new TauntBypassException("A minion with taunt is in the way");
+		}
+	}
 
+	public void validateManaCost(Card c) throws NotEnoughManaException {
+		if (currentHero.getCurrentManaCrystals() < c.getManaCost())
+			throw new NotEnoughManaException("I don't have enough mana !!");
+	}
+
+	public void validatePlayingMinion(Minion m) throws FullFieldException {
+		if (currentHero.getField().size() == 7)
+			throw new FullFieldException("No space for this minion");
+	}
+
+	public void validateUsingHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException {
+		if (h.getCurrentManaCrystals() < 2)
+			throw new NotEnoughManaException("I don't have enough mana !!");
+		if (h.isHeroPowerUsed())
+			throw new HeroPowerAlreadyUsedException(" I already used my hero power");
 	}
 
 	@Override
 	public void onHeroDeath() {
+
 		listener.onGameOver();
 
 	}
 
 	@Override
 	public void damageOpponent(int amount) {
-		opponent.setCurrentHP(opponent.getCurrentHP() - amount);
 
+		opponent.setCurrentHP(opponent.getCurrentHP() - amount);
+	}
+
+	public Hero getCurrentHero() {
+		return currentHero;
+	}
+
+	public void setListener(GameListener listener) {
+		this.listener = listener;
 	}
 
 	@Override
@@ -158,23 +136,16 @@ public class Game implements ActionValidator, HeroListener {
 		currentHero.setTotalManaCrystals(currentHero.getTotalManaCrystals() + 1);
 		currentHero.setCurrentManaCrystals(currentHero.getTotalManaCrystals());
 		currentHero.setHeroPowerUsed(false);
-		wakeUpMinions(currentHero);
-		resetMinionAttack(currentHero);
-		currentHero.getHand().add(currentHero.drawCard());
-	}
-
-	public void resetMinionAttack(Hero h) {
-		for (Minion m : h.getField())
+		for (Minion m : currentHero.getField()) {
 			m.setAttacked(false);
-	}
-
-	public void wakeUpMinions(Hero h) {
-		for (Minion m : h.getField())
 			m.setSleeping(false);
+		}
+		currentHero.drawCard();
+
 	}
 
-	public void setListener(GameListener listener) {
-		this.listener = listener;
+	public Hero getOpponent() {
+		return opponent;
 	}
 
 }

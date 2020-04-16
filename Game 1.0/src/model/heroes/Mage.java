@@ -7,14 +7,18 @@ import java.util.Collections;
 import exceptions.FullFieldException;
 import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
+import exceptions.InvalidTargetException;
 import exceptions.NotEnoughManaException;
 import exceptions.NotYourTurnException;
-import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
+import model.cards.spells.AOESpell;
 import model.cards.spells.Flamestrike;
+import model.cards.spells.HeroTargetSpell;
+import model.cards.spells.MinionTargetSpell;
 import model.cards.spells.Polymorph;
 import model.cards.spells.Pyroblast;
+import model.cards.spells.Spell;
 
 public class Mage extends Hero {
 
@@ -32,36 +36,53 @@ public class Mage extends Hero {
 			getDeck().add(new Pyroblast());
 		}
 		Minion kalycgos = (new Minion("Kalycgos", 10, Rarity.LEGENDARY, 4, 12, false, false, false));
-		;
 		getDeck().add(kalycgos);
+		listenToMinions();
 		Collections.shuffle(getDeck());
 
-		for (Card c : this.getDeck())
-			if (c instanceof Minion) {
-				((Minion) c).setListener(this);
-			}
-		ArrayList<Card> t = new ArrayList<Card>();
-		while (!this.getDeck().isEmpty()) {
-			t.add(this.getDeck().remove(0));
-		}
-		while (!t.isEmpty()) {
-			this.getDeck().add(t.remove(0).clone());
-		}
+	}
+
+	public void useHeroPower(Minion m) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, CloneNotSupportedException, FullFieldException {
+		super.useHeroPower();
+		if (m.isDivine())
+			m.setDivine(false);
+		else
+			m.setCurrentHP(m.getCurrentHP() - 1);
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
-			FullHandException, FullFieldException, CloneNotSupportedException {
-		super.useHeroPower(h);
-		// catch(NotEnoughManaException e) {System.out.println(e.getMessage());}
-		// catch(HeroPowerAlreadyUsedException e) {System.out.println(e.getMessage());}
-		// catch(NotYourTurnException e) {System.out.println(e.getMessage());}
-
-		this.inflictDamage(h, 1);
-	}
-
-	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
-			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
+			FullHandException, CloneNotSupportedException, FullFieldException {
 		super.useHeroPower();
-		this.inflictDamage(h, 1);
+		h.setCurrentHP(h.getCurrentHP() - 1);
 	}
+
+	public void castSpell(AOESpell s, ArrayList<Minion> oppField) throws NotYourTurnException, NotEnoughManaException {
+		if (fieldContains("Kalycgos")) {
+			if (((Spell) s).getManaCost() - 4 > this.getCurrentManaCrystals())
+				throw new NotEnoughManaException("I don't have enough Mana");
+			((Spell) s).setManaCost(((Spell) s).getManaCost() - 4);
+		}
+		super.castSpell(s, oppField);
+	}
+
+	public void castSpell(MinionTargetSpell s, Minion m)
+			throws NotYourTurnException, NotEnoughManaException, InvalidTargetException {
+		if (fieldContains("Kalycgos")) {
+			if (((Spell) s).getManaCost() - 4 > this.getCurrentManaCrystals())
+				throw new NotEnoughManaException("I don't have enough Mana");
+			((Spell) s).setManaCost(((Spell) s).getManaCost() - 4);
+		}
+		super.castSpell(s, m);
+	}
+
+	public void castSpell(HeroTargetSpell s, Hero h) throws NotYourTurnException, NotEnoughManaException {
+		if (fieldContains("Kalycgos")) {
+			if (((Spell) s).getManaCost() - 4 > this.getCurrentManaCrystals())
+				throw new NotEnoughManaException("I don't have enough Mana");
+			((Spell) s).setManaCost(((Spell) s).getManaCost() - 4);
+		}
+		super.castSpell(s, h);
+	}
+
 }

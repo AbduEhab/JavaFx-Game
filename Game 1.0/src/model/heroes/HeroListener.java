@@ -8,4 +8,5 @@ public interface HeroListener {
 	public void damageOpponent(int amount);
 
 	public void endTurn() throws FullHandException, CloneNotSupportedException;
+
 }

@@ -9,7 +9,6 @@ import exceptions.FullHandException;
 import exceptions.HeroPowerAlreadyUsedException;
 import exceptions.NotEnoughManaException;
 import exceptions.NotYourTurnException;
-import model.cards.Card;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 import model.cards.spells.DivineSpirit;
@@ -32,41 +31,28 @@ public class Priest extends Hero {
 			getDeck().add(new ShadowWordDeath());
 		}
 		Minion velen = new Minion("Prophet Velen", 7, Rarity.LEGENDARY, 7, 7, false, false, false);
-
 		getDeck().add(velen);
+		listenToMinions();
 		Collections.shuffle(getDeck());
-		for (Card c : this.getDeck())
-			if (c instanceof Minion) {
-				((Minion) c).setListener(this);
-			}
-		ArrayList<Card> t = new ArrayList<Card>();
-		while (!this.getDeck().isEmpty()) {
-			t.add(this.getDeck().remove(0));
-		}
-		while (!t.isEmpty()) {
-			this.getDeck().add(t.remove(0).clone());
-		}
+
+	}
+
+	public void useHeroPower(Minion m) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
+			NotYourTurnException, FullHandException, CloneNotSupportedException, FullFieldException {
+		super.useHeroPower();
+		if (fieldContains("Prophet Velen"))
+			m.setCurrentHP(m.getCurrentHP() + 8);
+		else
+			m.setCurrentHP(m.getCurrentHP() + 2);
 	}
 
 	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
-			FullHandException, FullFieldException, CloneNotSupportedException {
+			FullHandException, CloneNotSupportedException, FullFieldException {
 		super.useHeroPower();
-		int value = 2;
-		for (Minion m : this.getField()) {
-			if (m.getName().equalsIgnoreCase("Prophet Velen"))
-				value = 8;
-		}
-		this.restoreHP(h, value);
+		if (fieldContains("Prophet Velen"))
+			h.setCurrentHP(h.getCurrentHP() + 8);
+		else
+			h.setCurrentHP(h.getCurrentHP() + 2);
 	}
 
-	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
-			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-		super.useHeroPower();
-		int value = 2;
-		for (Minion m : this.getField()) {
-			if (m.getName().equalsIgnoreCase("Prophet Velen"))
-				value = 8;
-		}
-		this.restoreHP(h, value);
-	}
 }

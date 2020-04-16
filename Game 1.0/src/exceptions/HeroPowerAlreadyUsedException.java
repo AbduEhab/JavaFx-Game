@@ -9,7 +9,7 @@ public class HeroPowerAlreadyUsedException extends HearthstoneException {
 
 	public HeroPowerAlreadyUsedException(String message) {
 		super(message);
-		
+
 	}
 
 }

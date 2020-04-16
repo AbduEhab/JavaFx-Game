@@ -1,6 +1,5 @@
 package model.cards.spells;
 
-import exceptions.InvalidTargetException;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 
@@ -11,15 +10,15 @@ public class Polymorph extends Spell implements MinionTargetSpell {
 	}
 
 	@Override
-	public void performAction(Minion m) throws InvalidTargetException {
+	public void performAction(Minion m) {
 		m.setCurrentHP(1);
 		m.setMaxHP(1);
-		m.setName("Sheep");
-		m.setManaCost(1);
 		m.setAttack(1);
-		m.setDivine(false);
+		m.setName("Sheep");
 		m.setSleeping(true);
 		m.setTaunt(false);
-	}
+		m.setDivine(false);
+		m.setManaCost(1);
 
+	}
 }

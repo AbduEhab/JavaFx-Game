@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import engine.ActionValidator;
-import engine.GameListener;
 import exceptions.CannotAttackException;
 import exceptions.FullFieldException;
 import exceptions.FullHandException;
@@ -21,11 +20,14 @@ import model.cards.Rarity;
 import model.cards.minions.Icehowl;
 import model.cards.minions.Minion;
 import model.cards.minions.MinionListener;
-import model.cards.spells.*;
+import model.cards.spells.AOESpell;
+import model.cards.spells.FieldSpell;
+import model.cards.spells.HeroTargetSpell;
+import model.cards.spells.LeechingSpell;
+import model.cards.spells.MinionTargetSpell;
+import model.cards.spells.Spell;
 
 public abstract class Hero implements MinionListener {
-	private HeroListener listener;
-	private ActionValidator validator;
 	private String name;
 	private int currentHP;
 	private boolean heroPowerUsed;
@@ -34,15 +36,16 @@ public abstract class Hero implements MinionListener {
 	private ArrayList<Card> deck;
 	private ArrayList<Minion> field;
 	private ArrayList<Card> hand;
-	@SuppressWarnings("unused")
-	private int fatigueDamage = 1;
+	private int fatigueDamage;
+	private HeroListener listener;
+	private ActionValidator validator;
 
 	public Hero(String name) throws IOException, CloneNotSupportedException {
 		this.name = name;
 		currentHP = 30;
 		deck = new ArrayList<Card>();
-		field = new ArrayList<Minion>();
-		hand = new ArrayList<Card>();
+		field = new ArrayList<Minion>(7);
+		hand = new ArrayList<Card>(10);
 		buildDeck();
 	}
 
@@ -58,7 +61,9 @@ public abstract class Hero implements MinionListener {
 			String n = line[0];
 			int m = Integer.parseInt(line[1]);
 			Rarity r = null;
-			switch ((line[2])) {
+			switch (
+				(line[2])
+			) {
 			case "b":
 				r = Rarity.BASIC;
 				break;
@@ -91,7 +96,8 @@ public abstract class Hero implements MinionListener {
 		return minions;
 	}
 
-	public static final ArrayList<Minion> getNeutralMinions(ArrayList<Minion> minions, int count) {
+	public static final ArrayList<Minion> getNeutralMinions(ArrayList<Minion> minions, int count)
+			throws CloneNotSupportedException {
 		ArrayList<Minion> res = new ArrayList<Minion>();
 		int i = 0;
 		while (i < count) {
@@ -104,231 +110,101 @@ public abstract class Hero implements MinionListener {
 					occ++;
 			}
 			if (occ == 0) {
-				res.add(minion);
+				res.add(minion.clone());
 				i++;
 			} else if (occ == 1 && minion.getRarity() != Rarity.LEGENDARY) {
-				res.add(minion);
+
+				res.add(minion.clone());
 				i++;
 			}
 		}
 		return res;
 	}
 
+	public void listenToMinions() {
+		for (Card c : deck) {
+			if (c instanceof Minion)
+				((Minion) c).setListener(this);
+		}
+	}
+
 	public void useHeroPower() throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
-			FullHandException, FullFieldException, CloneNotSupportedException {
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
+			FullHandException, CloneNotSupportedException, FullFieldException {
 		validator.validateTurn(this);
 		validator.validateUsingHeroPower(this);
-		this.setHeroPowerUsed(true);
-
+		currentManaCrystals -= 2;
+		heroPowerUsed = true;
 	}
 
-	public void useHeroPower(Minion h) throws NotEnoughManaException, HeroPowerAlreadyUsedException,
-			NotYourTurnException, FullHandException, FullFieldException, CloneNotSupportedException {
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
-		validator.validatePlayingMinion(h);
-		validator.validateManaCost(h);
+	public void playMinion(Minion m) throws NotYourTurnException, NotEnoughManaException, FullFieldException {
 		validator.validateTurn(this);
-		validator.validateUsingHeroPower(this);
-		this.setHeroPowerUsed(true);
-	}
+		validator.validateManaCost(m);
+		validator.validatePlayingMinion(m);
+		currentManaCrystals -= m.getManaCost();
+		hand.remove(m);
+		field.add(m);
 
-	public void useHeroPower(Hero h) throws NotEnoughManaException, HeroPowerAlreadyUsedException, NotYourTurnException,
-			FullHandException, FullFieldException, CloneNotSupportedException {
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - 2);
-		validator.validateTurn(this);
-		validator.validateUsingHeroPower(this);
-		this.setHeroPowerUsed(true);
 	}
 
 	public void attackWithMinion(Minion attacker, Minion target) throws CannotAttackException, NotYourTurnException,
 			TauntBypassException, InvalidTargetException, NotSummonedException {
-		try {
-			validator.validateAttack(attacker, target);
-		} catch (InvalidTargetException e) {
-			System.out.println(e.getMessage());
-			return;
-		} catch (NotSummonedException e) {
-			System.out.println(e.getMessage());
-		} catch (TauntBypassException e) {
-			System.out.println(e.getMessage());
-		} catch (CannotAttackException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-		}
+		validator.validateTurn(this);
+		validator.validateAttack(attacker, target);
 		attacker.attack(target);
-	}
-
-	public void playMinion(Minion m) throws NotYourTurnException, NotEnoughManaException, FullFieldException {
-
-		try {
-			validator.validateManaCost(m);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			validator.validatePlayingMinion(m);
-		} catch (FullFieldException e) {
-			System.out.println(e.getMessage());
-		}
-		field.add(m);
-		hand.remove(m);
 	}
 
 	public void attackWithMinion(Minion attacker, Hero target) throws CannotAttackException, NotYourTurnException,
 			TauntBypassException, NotSummonedException, InvalidTargetException {
-		try {
-			validator.validateAttack(attacker, target);
-		} catch (CannotAttackException e) {
-			System.out.println(e.getMessage());
-		} catch (TauntBypassException e) {
-			System.out.println(e.getMessage());
-		} catch (InvalidTargetException e) {
-			System.out.println(e.getMessage());
-		} catch (NotSummonedException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-		}
+		validator.validateTurn(this);
+		validator.validateAttack(attacker, target);
 		attacker.attack(target);
 	}
 
 	public void castSpell(FieldSpell s) throws NotYourTurnException, NotEnoughManaException {
+		validator.validateTurn(this);
+		validator.validateManaCost((Spell) s);
 
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		if (this instanceof Mage)
-			for (Minion n : this.field) {
-				if (n.getName().equalsIgnoreCase("Kalycgos"))
-					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
-		try {
-			validator.validateManaCost((Card) s);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		s.performAction(this.getField());
-		this.hand.remove(s);
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
-	}
+		s.performAction(field);
+		castSpellCommons((Spell) s);
 
-	public void castSpell(AOESpell s, ArrayList<Minion> oppField) throws NotYourTurnException, NotEnoughManaException {
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		if (this instanceof Mage)
-			for (Minion n : this.field) {
-				if (n.getName().equalsIgnoreCase("Kalycgos"))
-					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
-		try {
-			validator.validateManaCost((Card) s);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getLocalizedMessage());
-			return;
-		}
-		s.performAction(oppField, this.field);
-		this.hand.remove(s);
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void castSpell(MinionTargetSpell s, Minion m)
 			throws NotYourTurnException, NotEnoughManaException, InvalidTargetException {
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		if (this instanceof Mage)
-			for (Minion n : this.field) {
-				if (n.getName().equalsIgnoreCase("Kalycgos"))
-					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
-		try {
-			validator.validateManaCost((Card) s);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getLocalizedMessage());
-			return;
-		}
-		try {
-			if (!(this.field.contains(m)))
-				throw new InvalidTargetException();
-		} catch (InvalidTargetException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
+		validator.validateTurn(this);
+		validator.validateManaCost((Spell) s);
 		s.performAction(m);
-		this.hand.remove(s);
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
-	}
+		castSpellCommons((Spell) s);
 
-	public void castSpell(HeroTargetSpell s, Hero h) throws NotYourTurnException, NotEnoughManaException {
-
-		try {
-			validator.validateTurn(this);
-		} catch (NotYourTurnException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		if (this instanceof Mage)
-			for (Minion n : this.field) {
-				if (n.getName().equalsIgnoreCase("Kalycgos"))
-					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
-
-		try {
-			validator.validateManaCost((Card) s);
-		} catch (NotEnoughManaException e) {
-			System.out.println(e.getLocalizedMessage());
-			return;
-		}
-		s.performAction(h);
-		this.hand.remove(s);
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
 	}
 
 	public void castSpell(LeechingSpell s, Minion m) throws NotYourTurnException, NotEnoughManaException {
-		Spell d = (Spell) s;
 		validator.validateTurn(this);
+		validator.validateManaCost((Spell) s);
+		int v = s.performAction(m);
+		setCurrentHP(currentHP + v);
+		castSpellCommons((Spell) s);
+	}
 
-		validator.validateManaCost((Card) s);
-		int y = s.performAction(m);
-		this.onMinionDeath(m);
-		this.setCurrentHP(this.getCurrentHP() + y);
-		this.hand.remove(s);
-		if (this instanceof Mage)
-			for (Minion n : this.field) {
-				if (n.getName().equalsIgnoreCase("Kalycgos"))
-					((Card) s).setManaCost(((Card) s).getManaCost() - 4);
-				break;
-			}
+	public void castSpell(HeroTargetSpell s, Hero h) throws NotYourTurnException, NotEnoughManaException {
+		validator.validateTurn(this);
+		validator.validateManaCost((Spell) s);
+		s.performAction(h);
+		castSpellCommons((Spell) s);
 
-		this.setCurrentManaCrystals(this.getCurrentManaCrystals() - ((Card) s).getManaCost());
+	}
+
+	public void castSpell(AOESpell s, ArrayList<Minion> oppField) throws NotYourTurnException, NotEnoughManaException {
+		validator.validateTurn(this);
+		validator.validateManaCost((Spell) s);
+		s.performAction(oppField, field);
+		castSpellCommons((Spell) s);
+
+	}
+
+	private void castSpellCommons(Spell s) {
+		currentManaCrystals -= s.getManaCost();
+		hand.remove(s);
 	}
 
 	public void endTurn() throws FullHandException, CloneNotSupportedException {
@@ -336,97 +212,23 @@ public abstract class Hero implements MinionListener {
 	}
 
 	public Card drawCard() throws FullHandException, CloneNotSupportedException {
-		boolean f = false;
-		Card n;
-		if (this.deck.size() == 0) {
-			this.setCurrentHP(currentHP - fatigueDamage++);
+		if (fatigueDamage > 0) {
+			setCurrentHP(currentHP - fatigueDamage);
+			fatigueDamage++;
 			return null;
 		}
 
-		else {
+		Card c = deck.remove(0);
 
-			n = this.deck.remove(0);
-			if (this.hand.size() == 10)
-				throw new FullHandException(n);
+		if (deck.size() == 0)
+			fatigueDamage = 1;
+		if (hand.size() == 10)
+			throw new FullHandException("My hand is too full !!!", c);
+		hand.add(c);
+		if (fieldContains("Chromaggus") && hand.size() < 10)
+			hand.add(c.clone());
+		return c;
 
-			else {
-
-				for (Minion o : this.field) {
-					if (this instanceof Warlock) {
-						if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang") && n instanceof Minion) {
-							n.setManaCost(0);
-							f = true;
-						}
-					}
-					if (o.getName().equalsIgnoreCase("Chromaggus")) {
-						this.hand.add(n.clone());
-					}
-
-				}
-				if (!(this.hand.size() == 10))
-					this.hand.add(n);
-				if (f)
-					n.setManaCost(0);
-			}
-			return n;
-		}
-	}
-//
-//	public Card drawCard() 
-//	throws CloneNotSupportedException ,FullHandException{
-//
-//		Card n;
-//		if (this.deck.size() == 0) {
-//			this.setCurrentHP(currentHP - fatigueDamage++);
-//			return null;
-//		}
-//
-//		else
-//			n = this.deck.remove(0).clone();
-////		if (this.hand.size() == 20)
-////			throw new FullHandException(n);
-////
-////		else {
-//
-//			for (Minion o : this.field) {
-//				if (this instanceof Warlock) {
-//					if (o.getName().equalsIgnoreCase("Wilfred Fizzlebang"))
-//						n.setManaCost(0);
-//				}
-//				if (o.getName().equalsIgnoreCase("Chromaggus")) {
-//					this.hand.add(n.clone());
-//				}
-//
-////			}if (this.hand.size() == 20)
-////				throw new FullHandException(n);
-////			else
-//			{
-//				hand.add(n.clone());}}
-//			return n;
-//	}
-
-	public void onMinionDeath(Minion m) {
-		this.field.remove(m);
-	}
-
-	public void inflictDamage(Hero o, int value) {
-		o.setCurrentHP(o.getCurrentHP() - value);
-	}
-
-	public void inflictDamage(Minion o, int value) {
-		if (!o.isDivine())
-			o.setCurrentHP(o.getCurrentHP() - value);
-		else
-			o.setDivine(false);
-		;
-	}
-
-	public void restoreHP(Hero o, int value) {
-		o.setCurrentHP(o.getCurrentHP() + value);
-	}
-
-	public void restoreHP(Minion o, int value) {
-		o.setCurrentHP(o.getCurrentHP() + value);
 	}
 
 	public int getCurrentHP() {
@@ -463,8 +265,20 @@ public abstract class Hero implements MinionListener {
 			this.currentManaCrystals = 10;
 	}
 
+	public void onMinionDeath(Minion m) {
+		field.remove(m);
+	}
+
+	public HeroListener getListener() {
+		return listener;
+	}
+
 	public ArrayList<Minion> getField() {
 		return field;
+	}
+
+	public void setListener(HeroListener listener) {
+		this.listener = listener;
 	}
 
 	public ArrayList<Card> getHand() {
@@ -483,19 +297,20 @@ public abstract class Hero implements MinionListener {
 		this.heroPowerUsed = powerUsed;
 	}
 
+	public boolean fieldContains(String n) {
+		for (Minion m : field) {
+			if (m.getName().equals(n))
+				return true;
+		}
+		return false;
+	}
+
 	public String getName() {
 		return name;
-	}
-
-	public HeroListener getListener() {
-		return listener;
-	}
-
-	public void setListener(HeroListener listener) {
-		this.listener = listener;
 	}
 
 	public void setValidator(ActionValidator validator) {
 		this.validator = validator;
 	}
+
 }

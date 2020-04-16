@@ -13,9 +13,10 @@ public class ShadowWordDeath extends Spell implements MinionTargetSpell {
 
 	@Override
 	public void performAction(Minion m) throws InvalidTargetException {
-		if (m.getAttack() <= 5) {
-			m.setCurrentHP(0);
-		} else
-			throw new InvalidTargetException();
+		if (m.getAttack() < 5)
+			throw new InvalidTargetException("Choose a minion with 5 or more attack");
+		m.setCurrentHP(0);
+
 	}
+
 }

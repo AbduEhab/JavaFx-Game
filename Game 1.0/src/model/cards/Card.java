@@ -7,12 +7,8 @@ public abstract class Card implements Cloneable {
 
 	public Card(String name, int manaCost, Rarity rarity) {
 		this.name = name;
-		setManaCost(manaCost);
+		this.manaCost = manaCost;
 		this.rarity = rarity;
-	}
-
-	public @Override Card clone() throws CloneNotSupportedException {
-		return (Card) super.clone();
 	}
 
 	public int getManaCost() {
@@ -35,8 +31,12 @@ public abstract class Card implements Cloneable {
 		this.manaCost = manaCost;
 		if (this.manaCost > 10)
 			this.manaCost = 10;
-		else if (this.manaCost < 0)
+		if (this.manaCost < 0)
 			this.manaCost = 0;
+	}
+
+	public Card clone() throws CloneNotSupportedException {
+		return (Card) super.clone();
 	}
 
 }

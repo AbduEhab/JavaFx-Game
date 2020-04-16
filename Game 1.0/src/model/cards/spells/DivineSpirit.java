@@ -1,6 +1,5 @@
 package model.cards.spells;
 
-import exceptions.InvalidTargetException;
 import model.cards.Rarity;
 import model.cards.minions.Minion;
 
@@ -12,9 +11,10 @@ public class DivineSpirit extends Spell implements MinionTargetSpell {
 	}
 
 	@Override
-	public void performAction(Minion m) throws InvalidTargetException {
+	public void performAction(Minion m) {
 		m.setMaxHP(m.getMaxHP() * 2);
 		m.setCurrentHP(m.getCurrentHP() * 2);
+
 	}
 
 }
