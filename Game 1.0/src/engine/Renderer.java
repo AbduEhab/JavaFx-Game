@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -15,8 +16,13 @@ public class Renderer extends JFrame {
 	private JPanel bottom;
 	private JPanel center;
 
+	private JPanel fieldSplit;
 	private JPanel currField;
+	private JPanel currFieldTopGap;
+	private JPanel currFieldBottomGap;
 	private JPanel oppField;
+	private JPanel oppFieldTopGap;
+	private JPanel oppFieldBottomGap;
 	private JPanel currHand;
 	private JPanel currMana;
 	private JPanel currHero;
@@ -33,8 +39,9 @@ public class Renderer extends JFrame {
 
 	public Renderer() {
 
-		this.setTitle("Current Game");
-		this.setBounds(200, 200, 1280, 720);
+		setTitle("Current Game");
+		setSize(1280, 720);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		left = new JPanel();
@@ -42,6 +49,11 @@ public class Renderer extends JFrame {
 		top = new JPanel();
 		bottom = new JPanel();
 		center = new JPanel();
+		fieldSplit = new JPanel();
+		currFieldTopGap = new JPanel();
+		currFieldBottomGap = new JPanel();
+		oppFieldTopGap = new JPanel();
+		oppFieldBottomGap = new JPanel();
 		currField = new JPanel();
 		oppField = new JPanel();
 		currHand = new JPanel();
@@ -58,11 +70,17 @@ public class Renderer extends JFrame {
 		oppDeck = new JPanel();
 		currCenterTopEdge = new JPanel();
 
+		left.setLayout(new BorderLayout());
+		center.setLayout(new BorderLayout());
+		right.setLayout(new BorderLayout());
+		top.setLayout(new BorderLayout());
+		bottom.setLayout(new BorderLayout());
+
 		add(left, BorderLayout.WEST);
-		left.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+		left.setPreferredSize(new Dimension(this.getWidth() * 15 / 100, this.getHeight()));
 
 		add(right, BorderLayout.EAST);
-		right.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+		right.setPreferredSize(new Dimension(this.getWidth() * 15 / 100, this.getHeight()));
 
 		add(top, BorderLayout.NORTH);
 		top.setPreferredSize(new Dimension(this.getWidth() * 70 / 100, this.getHeight() * 15 / 100));
@@ -72,15 +90,22 @@ public class Renderer extends JFrame {
 
 		add(center, BorderLayout.CENTER);
 		center.setPreferredSize(new Dimension(this.getWidth() * 70 / 100, this.getHeight() * 70 / 100));
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		center.add(currField, BorderLayout.SOUTH);
+		;
+		currField.setBackground(Color.yellow);
 		currField.setLayout(new GridLayout(1, 0));
-		currField.setPreferredSize(new Dimension(center.getWidth(), center.getHeight() / 2));
+		currField.setPreferredSize(new Dimension(center.getWidth(), center.getHeight() / 3));
+
+		center.add(fieldSplit, BorderLayout.CENTER);
+		oppField.setBackground(Color.green);
+		center.setPreferredSize(new Dimension(center.getWidth(), center.getHeight() / 3));
 
 		center.add(oppField, BorderLayout.NORTH);
+		oppField.setBackground(Color.magenta);
 		oppField.setLayout(new GridLayout(1, 0));
-		center.setPreferredSize(new Dimension(center.getWidth(), center.getHeight() / 2));
-
+		center.setPreferredSize(new Dimension(center.getWidth(), center.getHeight() / 3));
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 		left.add(oppHero, BorderLayout.NORTH);
 		oppHero.setPreferredSize(new Dimension(left.getWidth() * 15 / 100, top.getHeight()));
 
@@ -89,16 +114,19 @@ public class Renderer extends JFrame {
 
 		left.add(centerLeft, BorderLayout.CENTER);
 		centerLeft.setPreferredSize(new Dimension(left.getWidth() * 15 / 100, center.getHeight()));
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		right.add(oppMana, BorderLayout.NORTH);
+		oppMana.setBackground(Color.orange);
 		oppMana.setPreferredSize(new Dimension(right.getWidth() * 15 / 100, top.getHeight()));
 
 		right.add(currMana, BorderLayout.SOUTH);
+		currMana.setBackground(Color.orange);
 		currMana.setPreferredSize(new Dimension(right.getWidth() * 15 / 100, bottom.getHeight()));
 
 		right.add(centerRight, BorderLayout.CENTER);
+		centerRight.setBackground(Color.pink);
 		centerRight.setPreferredSize(new Dimension(right.getWidth() * 15 / 100, center.getHeight()));
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //		top.add(oppDeck);
 //		oppDeck.setPreferredSize(new Dimension(top.getWidth(), top.getHeight()));
 
@@ -115,7 +143,6 @@ public class Renderer extends JFrame {
 		bottom.add(currCenterLeftEdge, BorderLayout.WEST);
 		currCenterLeftEdge.setPreferredSize(new Dimension(bottom.getWidth(), bottom.getHeight()));
 
-		
 		setVisible(true);
 
 	}

@@ -12,9 +12,8 @@ import javax.swing.JTextArea;
 import model.cards.Card;
 import model.cards.minions.Minion;
 
-public class CardPanel {
+public class CardPanel extends JPanel {
 
-	private JPanel card;
 	private JPanel top;
 	private JButton selector;
 	private JTextArea cardName;
@@ -25,18 +24,18 @@ public class CardPanel {
 
 	public CardPanel(Card m) {
 
-		card = new JPanel();
 		cardName = new JTextArea();
 		manaCost = new JTextArea();
 		selector = new JButton();
 		top = new JPanel();
 
-		card.setPreferredSize(new Dimension(width, height));
+		this.setPreferredSize(new Dimension(width, height));
 
-		card.add(top, BorderLayout.NORTH);
+		this.add(top, BorderLayout.NORTH);
 		top.setPreferredSize(new Dimension(width, height * 20 / 100));
 
-		card.add(selector, BorderLayout.CENTER);
+		this.add(selector, BorderLayout.CENTER);
+		selector.setPreferredSize(new Dimension(width, height * 70 / 100));
 		selector.setIcon(new ImageIcon("images/2.JPG"));
 
 		top.add(cardName, BorderLayout.WEST);
@@ -52,7 +51,7 @@ public class CardPanel {
 	}
 
 	public JPanel getCard() {
-		return card;
+		return this;
 	}
 
 	public JPanel getTop() {
