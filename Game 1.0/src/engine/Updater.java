@@ -10,6 +10,8 @@ import javax.swing.JTextArea;
 
 import exceptions.FullHandException;
 import model.cards.Card;
+import model.cards.Rarity;
+import model.cards.minions.Minion;
 import model.heroes.Hero;
 import model.heroes.Paladin;
 import model.heroes.Warlock;
@@ -26,20 +28,22 @@ public class Updater implements GameListener, ActionListener {
 		update();
 	}
 
-	public void update() {	//
-		for (Card m : game.getCurrentHero().getHand()) {
-			view.getCurrhand().add(new JButton());
-//			view.getCurrhand().add(new CardPanel(m));
+	public void update() {
+//		for (int i = 0; i < 5; i++) {
+//			view.getCurrHand().add(new JButton());
+////			view.getCurrHand().add(new CardPanel(m));
+//
+//		}
+		for (int i = 0; i < 5; i++) {
+			view.getField().getCurrField().add(new JButton());
+			view.getField().getCurrField()
+					.add(new CardPanel(new Minion("lol", 2, Rarity.RARE, 3, 10, false, true, true)));
+		}
 
+		for (int i = 0; i < 5; i++) {
+			view.getField().getOppField().add(new JButton());
 		}
-		for (Card m : game.getCurrentHero().getHand()) {
-			view.getCurrField().add(new JButton());
-		}
-		
-		for (Card m : game.getOpponent().getHand()) {
-			view.getOppField().add(new JButton());
-		}
-		
+
 		view.revalidate();
 		view.repaint();
 	}
