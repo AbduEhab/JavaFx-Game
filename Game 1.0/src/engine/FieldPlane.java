@@ -17,7 +17,7 @@ public class FieldPlane extends JPanel {
 		
 		setLayout(new BorderLayout());
 
-//		add(oppField, BorderLayout.NORTH);
+		add(oppField, BorderLayout.NORTH);
 //		oppField.setPreferredSize(new Dimension(600,200));
 		add(currField, BorderLayout.SOUTH);
 //		currField.setPreferredSize(new Dimension(getWidth(),getHeight()/2));

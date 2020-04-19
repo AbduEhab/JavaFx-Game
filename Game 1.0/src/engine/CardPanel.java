@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -22,31 +23,34 @@ public class CardPanel extends JPanel {
 	private int height = 720 * 10 / 100;
 	private int width = (1280 - (1280 * 40 / 100)) * 10 / 100;
 
-	public CardPanel(Card m) {
+	public CardPanel(Card m, Updater u) {
 
 		cardName = new JTextArea();
 		manaCost = new JTextArea();
 		selector = new JButton();
 		top = new JPanel();
 
+		setBackground(Color.cyan);
+
 		this.setPreferredSize(new Dimension(width, height));
 
 		this.add(top, BorderLayout.NORTH);
-		top.setPreferredSize(new Dimension(width, height * 20 / 100));
+		top.setSize(new Dimension(width, height * 20 / 100));
 
 		this.add(selector, BorderLayout.CENTER);
-		selector.setPreferredSize(new Dimension(width, height * 70 / 100));
-		selector.setIcon(new ImageIcon("images/2.JPG"));
+		selector.setSize(new Dimension(width, height * 70 / 100));
+//		selector.setIcon(new ImageIcon("images/2.JPG"));
+		selector.addActionListener(u);
 
 		top.add(cardName, BorderLayout.WEST);
 		cardName.setEditable(false);
 		cardName.setText(m.getName());
-		cardName.setPreferredSize(new Dimension(width * 80 / 100, top.getHeight()));
+		cardName.setSize(new Dimension(width * 80 / 100, top.getHeight()));
 
 		top.add(manaCost, BorderLayout.EAST);
 		manaCost.setEditable(false);
 		manaCost.setText(m.getManaCost() + "");
-		manaCost.setPreferredSize(new Dimension(width * 20 / 100, top.getHeight()));
+		manaCost.setSize(new Dimension(width * 20 / 100, top.getHeight()));
 
 	}
 
