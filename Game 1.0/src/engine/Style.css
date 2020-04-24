@@ -1,0 +1,9 @@
+.root{
+	-fx-background-color: #383838;
+} 
+.bottom{
+	-fx-background-color: green;
+}
+.textbox{
+	-fx-text-fill: #333333;
+} 
