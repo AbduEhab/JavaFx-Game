@@ -4,6 +4,11 @@
 .bottom{
 	-fx-background-color: green;
 }
-.textbox{
-	-fx-text-fill: #333333;
+#textbox{
+	-fx-border-color:  red;
 } 
+#cardpane{
+	-fx-background-image: url("3.jpg");
+    -fx-background-repeat: stretch;   
+    -fx-background-position: center center; 
+    }
