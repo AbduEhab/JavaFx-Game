@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class ErrorBox {
 
-	private void push(String s) {
+	public ErrorBox(String s) {
 		Stage w = new Stage();
 		w.setTitle("Error");
 		w.initModality(Modality.APPLICATION_MODAL);
@@ -27,10 +27,5 @@ public class ErrorBox {
 		Scene sc = new Scene(v, 300, 150);
 		w.setScene(sc);
 		w.showAndWait();
-
-	}
-
-	public ErrorBox(String s) {
-		push(s);
 	}
 }

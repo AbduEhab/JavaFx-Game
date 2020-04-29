@@ -15,6 +15,7 @@ import model.heroes.Hero;
 import model.heroes.HeroListener;
 
 public class Game implements ActionValidator, HeroListener {
+
 	private Hero firstHero;
 	private Hero secondHero;
 	private Hero currentHero;
