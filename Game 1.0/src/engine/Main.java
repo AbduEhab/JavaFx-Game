@@ -63,6 +63,8 @@ public class Main extends Application {
 
 		left = new BorderPane();
 		left.setPrefSize(game.getWidth() * 12 / 100, game.getHeight() * 60 / 100);
+		left.setTop(new HeroPane(model.getOpponent(), this));
+		left.setBottom(new HeroPane(model.getCurrentHero(), this));
 		left.setStyle("-fx-border-color: blue");
 
 		right = new BorderPane();

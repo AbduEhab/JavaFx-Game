@@ -6,7 +6,8 @@ import model.heroes.Hero;
 public class HeroPane extends GridPane {
 	private Hero hero;
 
-	public static void main(String[] args) {
+	public HeroPane(Hero h, Main main) {// create the pane, add the name and manacost, set the action handler (similar
+										// to the one in card pane) and set the effects)
 
 	}
 
