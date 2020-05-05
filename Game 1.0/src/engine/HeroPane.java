@@ -134,14 +134,14 @@ public class HeroPane extends GridPane {
 			name.setStyle("-fx-border-color:  white");
 			break;
 		}
-		this.add(name, 2, 0, 3, 1);
+		this.add(name, 0, 0);
 		mana = new TextField("manacrystal" + 30 + "/" + h.getCurrentManaCrystals());
 		mana.setVisible(true);
 		mana.setStyle("-fx-text-fill: darkcyan");
-		add(mana, 5, 0);
-		hp = new TextField(h.getCurrentHP() + "");
+		add(mana, 0, 1);
+		hp = new TextField("hp is"+h.getCurrentHP() + "");
 		hp.setVisible(true);
-		add(hp, 5, 1);
+		add(hp, 0, 2);
 		heropower = new TextField("");
 		switch (h.getName().charAt(0)) {
 		case 'R':
@@ -159,7 +159,7 @@ public class HeroPane extends GridPane {
 			heropower.setText("Draw an extra card and inflict two damage points to the hero");
 			break;
 		}
-	add(heropower,3,1,3,2);}
+	add(heropower,0,3,1,3);}
 
 	public Hero getHero() {
 		return hero;
