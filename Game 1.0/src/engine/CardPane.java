@@ -59,7 +59,7 @@ public class CardPane extends GridPane {
 			break;
 		}
 
-		add(name, 2, 0, 3, 1);
+	this.add(name, 2, 0, 3, 1);
 
 		setOnMouseClicked(e -> {
 			if (main.getActionInatiator() == null) {

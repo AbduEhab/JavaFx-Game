@@ -159,7 +159,7 @@ public class HeroPane extends GridPane {
 			heropower.setText("Draw an extra card and inflict two damage points to the hero");
 			break;
 		}
-	add(heropower,0,3,1,3);}
+	add(heropower,0,3);}
 
 	public Hero getHero() {
 		return hero;
