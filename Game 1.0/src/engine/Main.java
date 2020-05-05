@@ -274,7 +274,7 @@ public class Main extends Application {
 					if (actionInatiated.getCard() instanceof Spell)
 						display("cant play hero on spell");
 					else {
-						selected.getHero().useHeroPower();
+						selected.getHero().useHeroPower();;
 					}
 
 			} else if (actionInatiator.getCard() instanceof Spell) {
