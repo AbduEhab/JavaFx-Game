@@ -167,6 +167,19 @@ public class Main extends Application {
 
 	}
 
+	public static void clear(BorderPane g) {
+
+		g.getChildren().clear();
+//		TimeUnit.SECONDS.sleep(1l);
+
+//		while (!g.getChildren().isEmpty()) {
+//
+//			g.getChildren().remove(0);
+//
+//		}
+
+	}
+
 	private void update() {
 
 		clear(currHand);
@@ -239,6 +252,9 @@ public class Main extends Application {
 				}
 			});
 		}
+		clear(left);
+		left.setTop(new HeroPane(model.getOpponent(), this));
+		left.setBottom(new HeroPane(model.getCurrentHero(), this));
 
 	}
 
@@ -251,68 +267,147 @@ public class Main extends Application {
 	}
 
 	private void callActions() {
-		if (model.getOpponent().getField().contains(actionInatiator.getCard())) {
-
-			display("Cant play from the enemy's field");
-			return;
-		}
 		try {
+
 			if (selected != null && actionInatiator == null) {
+				if (actionInatiated != null)
+					if (actionInatiated.getCard() instanceof Spell)
+						display("cant play hero on spell");
+					else {
+						selected.getHero().useHeroPower();
+					}
 
-				selected.getHero().useHeroPower();
+			} else if (actionInatiator.getCard() instanceof Spell) {
 
-			} else if (actionInatiator.getCard() instanceof Minion) {
+				if (actionInatiated.getCard() instanceof Minion) {
 
+					if ((model.getCurrentHero().getField().contains(actionInatiated.getCard())
+							|| model.getCurrentHero().getHand().contains(actionInatiated.getCard()))) {
+						display("Cant play spell on friendly minion cards");
+						return;
+					} else {
+
+						if (selectedField != null) {
+							if ((actionInatiator.getCard() instanceof AOESpell)) {
+
+								model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
+										model.getOpponent().getField());
+								return;
+							}
+						} else if ((actionInatiator.getCard() instanceof FieldSpell)) {
+
+							model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
+							return;
+						} else if ((actionInatiator.getCard() instanceof HeroTargetSpell)) {
+
+							model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(),
+									selected.getHero());
+							return;
+						} else if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
+
+							model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
+									(Minion) actionInatiated.getCard());
+							return;
+						} else if ((actionInatiator.getCard() instanceof LeechingSpell)) {
+
+							model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
+									(Minion) actionInatiated.getCard());
+							return;
+						}
+						System.out.println("Spell wasn't casted");
+					}
+					return;
+				} else {
+					display("Spells should not be played on heroes or spells");
+				}
+			} else {
 				if (selected != null) {
 
 					toMinion(actionInatiator.getCard()).attack(selected.getHero());
+					return;
 
 				} else if (actionInatiated != null
 						&& model.getOpponent().getField().contains(toMinion(actionInatiated.getCard()))) {
 
 					toMinion(actionInatiator.getCard()).attack(toMinion(actionInatiator.getCard()));
-
+					return;
 				} else if (selectedField != null && selectedField == currField) {
 
 					model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
-
+					return;
 				} else if (selectedField != null && selectedField != currField)
 
 					display("Cant play minion Here");
-
-			} else if (actionInatiator.getCard() instanceof Spell) {
-
-				if ((actionInatiator.getCard() instanceof AOESpell)) {
-
-					model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
-							model.getOpponent().getField());
-
-				} else if ((actionInatiator.getCard() instanceof FieldSpell)) {
-
-					model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
-
-				} else if ((actionInatiator.getCard() instanceof HeroTargetSpell)) {
-
-					model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(), selected.getHero());
-
-				} else if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
-
-					model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
-							(Minion) actionInatiated.getCard());
-
-				} else if ((actionInatiator.getCard() instanceof LeechingSpell)) {
-
-					model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
-							(Minion) actionInatiated.getCard());
-
-				}
-
+				return;
 			}
+
 		} catch (Exception e) {
 			display(e.getMessage());
 		}
-
 	}
+//
+//		if (model.getOpponent().getField().contains(actionInatiator.getCard())) {
+//
+//			display("Cant play from the enemy's field");
+//			return;
+//		}
+//		try {
+//			if (selected != null && actionInatiator == null) {
+//
+//				selected.getHero().useHeroPower();
+//
+//			} else if (actionInatiator.getCard() instanceof Minion) {
+//
+//				if (selected != null) {
+//
+//					toMinion(actionInatiator.getCard()).attack(selected.getHero());
+//
+//				} else if (actionInatiated != null
+//						&& model.getOpponent().getField().contains(toMinion(actionInatiated.getCard()))) {
+//
+//					toMinion(actionInatiator.getCard()).attack(toMinion(actionInatiator.getCard()));
+//
+//				} else if (selectedField != null && selectedField == currField) {
+//
+//					model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
+//
+//				} else if (selectedField != null && selectedField != currField)
+//
+//					display("Cant play minion Here");
+//
+//			} else if (actionInatiator.getCard() instanceof Spell) {
+//
+//				if ((actionInatiator.getCard() instanceof AOESpell)) {
+//
+//					model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
+//							model.getOpponent().getField());
+//
+//				} else if ((actionInatiator.getCard() instanceof FieldSpell)) {
+//
+//					model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
+//
+//				} else if ((actionInatiator.getCard() instanceof HeroTargetSpell)) {
+//
+//					model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(), selected.getHero());
+//
+//				} else if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
+//
+//					model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
+//							(Minion) actionInatiated.getCard());
+//
+//				} else if ((actionInatiator.getCard() instanceof LeechingSpell)) {
+//
+//					model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
+//							(Minion) actionInatiated.getCard());
+//
+//				}
+//
+//			}
+//		} catch (Exception e) {
+//			display(e.getMessage());
+//		}
+
+//	}
 
 	public void process() {
 
