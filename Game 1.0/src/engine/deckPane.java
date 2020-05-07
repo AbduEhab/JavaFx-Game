@@ -24,7 +24,7 @@ public deckPane(Hero c,Hero o, Main n) {
 	curd=new TextField("20");
 	opd=new TextField("20");
 	setPrefHeight((m.getRight().getHeight())/2);
-	this.add(b,0,2,1,1);
+	this.getchildren.add(b,0,2,1,1);
 	this.add(curd, 0, 1,1,1);
 	this.add(opd, 0, 3,1,1);
 	curd.setDisable(true);
