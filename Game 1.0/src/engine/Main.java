@@ -20,7 +20,10 @@ import model.cards.spells.LeechingSpell;
 import model.cards.spells.MinionTargetSpell;
 import model.cards.spells.Spell;
 import model.heroes.Hero;
+import model.heroes.Hunter;
+import model.heroes.Mage;
 import model.heroes.Paladin;
+import model.heroes.Priest;
 import model.heroes.Warlock;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,10 +32,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-public class Main extends Application {
+public class Main extends Application implements GameListener {
 
 	private CardPane actionInatiator;
 	private CardPane actionInatiated;
+	private HeroPane selector;
 	private HeroPane selected;
 	private Object selectedField;
 
@@ -56,19 +60,33 @@ public class Main extends Application {
 		view = primaryStage;
 
 		model = new Game(new Warlock(), new Paladin());
+		model.setListener(this);
 
 		root = new BorderPane();
 
 		game = new Scene(root, 1280, 720);
 
 		left = new BorderPane();
-		left.setPrefSize(game.getWidth() * 12 / 100, game.getHeight() * 60 / 100);
+		left.setPrefSize(game.getWidth() * 15 / 100, game.getHeight() * 60 / 100);
 		left.setTop(new HeroPane(model.getOpponent(), this));
 		left.setBottom(new HeroPane(model.getCurrentHero(), this));
 		left.setStyle("-fx-border-color: blue");
+		left.setPadding(new Insets(13, 5, 13, 5));
 
 		right = new BorderPane();
 		right.setPrefSize(game.getWidth() * 10 / 100, game.getHeight() * 60 / 100);
+		Button endTurn = new Button("End Turn");
+		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
+		endTurn.setOnMouseClicked(e -> {
+			try {
+				model.endTurn();
+			} catch (Exception e1) {
+				display(e1.getMessage());
+			}
+		});
+		right.setCenter(endTurn);
+		right.setTop(new DeckPane(this, model.getOpponent().getDeck().size()));
+		right.setBottom(new DeckPane(this, model.getCurrentHero().getDeck().size()));
 		right.setStyle("-fx-border-color: red");
 
 		top = new BorderPane();
@@ -80,13 +98,12 @@ public class Main extends Application {
 
 		currHand = new GridPane();
 
-		currHand.setPadding(new Insets(20, 20, 5, 20));
+		currHand.setPadding(new Insets(20, 20, 20, 20));
 		currHand.setHgap(7);
 		for (int i = 0; i < model.getCurrentHero().getHand().size(); i++) {
 			CardPane x = new CardPane(model.getCurrentHero().getHand().get(i), this, currHand);
 			currHand.add(x, i, 0);
 			x.setOnMouseEntered(e -> {
-
 				x.setScaleX(1.12);
 				x.setScaleY(1.12);
 				if (e.getSource() == actionInatiator)
@@ -108,14 +125,15 @@ public class Main extends Application {
 		bottom.setCenter(currHand);
 
 		center = new BorderPane();
-		center.setPrefSize(game.getWidth() * 78 / 100, game.getHeight() * 60 / 100);
+		center.setPrefSize(game.getWidth() * 75 / 100, game.getHeight() * 60 / 100);
 
 		currField = new GridPane();
-		currField.setPadding(new Insets(60, 10, 3, 10));
+		currField.setPadding(new Insets(30, 10, 20, 10));
 		currField.setHgap(5);
 		currField.setPrefSize(game.getWidth() * 78 / 100, game.getHeight() * 30 / 100);
 		currField.setOnMouseClicked(e -> {
-			if (actionInatiator != null) {
+			if (selector != null || actionInatiator != null
+					&& !model.getCurrentHero().getField().contains(actionInatiator.getCard())) {
 				selectedField = e.getSource();
 				process();
 			}
@@ -123,7 +141,7 @@ public class Main extends Application {
 		currField.setStyle("-fx-border-color: white");
 
 		oppField = new GridPane();
-		oppField.setPadding(new Insets(60, 10, 3, 10));
+		oppField.setPadding(new Insets(20, 10, 30, 10));
 		oppField.setHgap(5);
 		oppField.setPrefSize(game.getWidth() * 78 / 100, game.getHeight() * 30 / 100);
 		oppField.setOnMouseClicked(e -> {
@@ -148,7 +166,7 @@ public class Main extends Application {
 		view.show();
 	}
 
-	private void display(String message) {
+	public void display(String message) {
 
 		new ErrorBox(message);
 
@@ -180,7 +198,13 @@ public class Main extends Application {
 
 	}
 
-	private void update() {
+	public void update() {
+
+		selector = null;
+		selectedField = null;
+		selected = null;
+		actionInatiator = null;
+		actionInatiated = null;
 
 		clear(currHand);
 		for (int i = 0; i < model.getCurrentHero().getHand().size(); i++) {
@@ -252,9 +276,22 @@ public class Main extends Application {
 				}
 			});
 		}
-		clear(left);
 		left.setTop(new HeroPane(model.getOpponent(), this));
 		left.setBottom(new HeroPane(model.getCurrentHero(), this));
+
+		clear(right);
+		Button endTurn = new Button("End Turn");
+		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
+		endTurn.setOnMouseClicked(e -> {
+			try {
+				model.endTurn();
+			} catch (Exception e1) {
+				display(e1.getMessage());
+			}
+		});
+		right.setCenter(endTurn);
+		right.setTop(new DeckPane(this, model.getOpponent().getDeck().size()));
+		right.setBottom(new DeckPane(this, model.getCurrentHero().getDeck().size()));
 
 	}
 
@@ -262,165 +299,150 @@ public class Main extends Application {
 		return (Minion) c;
 	}
 
-	private Spell toSpell(Card c) {
-		return (Spell) c;
-	}
-
 	private void callActions() {
 		try {
 
-			if (selected != null && actionInatiator == null) {
-				if (actionInatiated != null)
-					if (actionInatiated.getCard() instanceof Spell)
-						display("cant play hero on spell");
-					else {
-						selected.getHero().useHeroPower();;
+			if (selector != null) {
+				if (selected != null) {
+					if (selector.getHero() instanceof Hunter || selector.getHero() instanceof Warlock
+							|| selector.getHero() instanceof Paladin) {
+						selector.getHero().useHeroPower();
+						return;
 					}
+					if (selector.getHero() instanceof Mage || selector.getHero() instanceof Priest) {
 
-			} else if (actionInatiator.getCard() instanceof Spell) {
+						((Mage) selector.getHero()).useHeroPower(selected.getHero());
+						return;
 
-				if (actionInatiated.getCard() instanceof Minion) {
+					}
+					return;
+				} else {
+					if (actionInatiated.getCard() instanceof Minion) {
+						if (model.getOpponent().getField().contains(actionInatiated.getCard())) {
+							((Mage) selector.getHero()).useHeroPower((Minion) actionInatiated.getCard());
+							return;
+						} else {
+							display("Canot attack friendly minion");
+							return;
+						}
+					}
+				}
+			}
+			//////////////////////////////////////////////////////////////////
+			if (actionInatiator != null) {
 
+				if (actionInatiator.getCard() instanceof Spell) {
+
+					if (selected != null) {
+
+						if (!(actionInatiator.getCard() instanceof HeroTargetSpell)) {
+							display("You can't attack a Hero with this spell");
+							return;
+						}
+						if (selected.getHero() == model.getCurrentHero()) {
+							display("You can't play spell on your own hero your own hero");
+							return;
+						}
+						model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(),
+								selected.getHero());
+						return;
+
+					}
+					if (selectedField != null) {
+						if ((actionInatiator.getCard() instanceof AOESpell)) {
+
+							model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
+									model.getOpponent().getField());
+							return;
+						}
+
+						if ((actionInatiator.getCard() instanceof FieldSpell)) {
+
+							model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
+							return;
+						}
+
+					}
 					if ((model.getCurrentHero().getField().contains(actionInatiated.getCard())
 							|| model.getCurrentHero().getHand().contains(actionInatiated.getCard()))) {
 						display("Cant play spell on friendly minion cards");
 						return;
-					} else {
 
-						if (selectedField != null) {
-							if ((actionInatiator.getCard() instanceof AOESpell)) {
+					}
+					if ((actionInatiator.getCard() instanceof LeechingSpell)) {
 
-								model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
-										model.getOpponent().getField());
+						model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
+								(Minion) actionInatiated.getCard());
+						return;
+					}
+					if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
+
+						model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
+								(Minion) actionInatiated.getCard());
+						return;
+					}
+
+					display("Spells should not be played on spells");
+					return;
+				}
+
+				///////////////////////////////////////////////////////////////
+				else {
+
+					if (selected != null) {
+
+						model.getCurrentHero().attackWithMinion(toMinion(actionInatiator.getCard()),
+								selected.getHero());
+						return;
+
+					}
+					if (selectedField != null) {
+						if (selectedField == currField) {
+							if (!model.getCurrentHero().getField().contains(actionInatiator.getCard())) {
+								model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
 								return;
 							}
-						} else if ((actionInatiator.getCard() instanceof FieldSpell)) {
-
-							model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
-							return;
-						} else if ((actionInatiator.getCard() instanceof HeroTargetSpell)) {
-
-							model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(),
-									selected.getHero());
-							return;
-						} else if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
-
-							model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
-									(Minion) actionInatiated.getCard());
-							return;
-						} else if ((actionInatiator.getCard() instanceof LeechingSpell)) {
-
-							model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
-									(Minion) actionInatiated.getCard());
+						} else {
+							display("Cant play minion Here");
 							return;
 						}
-						System.out.println("Spell wasn't casted");
 					}
-					return;
-				} else {
-					display("Spells should not be played on heroes or spells");
+					if (!model.getCurrentHero().getField().contains(actionInatiated.getCard())) {
+
+						model.getCurrentHero().attackWithMinion(toMinion(actionInatiator.getCard()),
+								toMinion(actionInatiated.getCard()));
+						return;
+
+					}
+
+					display("Can't attack your own minion");
+
 				}
-			} else {
-				if (selected != null) {
 
-					toMinion(actionInatiator.getCard()).attack(selected.getHero());
-					return;
-
-				} else if (actionInatiated != null
-						&& model.getOpponent().getField().contains(toMinion(actionInatiated.getCard()))) {
-
-					toMinion(actionInatiator.getCard()).attack(toMinion(actionInatiator.getCard()));
-					return;
-				} else if (selectedField != null && selectedField == currField) {
-
-					model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
-					return;
-				} else if (selectedField != null && selectedField != currField)
-
-					display("Cant play minion Here");
-				return;
 			}
+		} catch (
 
-		} catch (Exception e) {
+		Exception e) {
 			display(e.getMessage());
+			e.printStackTrace();
 		}
 	}
-//
-//		if (model.getOpponent().getField().contains(actionInatiator.getCard())) {
-//
-//			display("Cant play from the enemy's field");
-//			return;
-//		}
-//		try {
-//			if (selected != null && actionInatiator == null) {
-//
-//				selected.getHero().useHeroPower();
-//
-//			} else if (actionInatiator.getCard() instanceof Minion) {
-//
-//				if (selected != null) {
-//
-//					toMinion(actionInatiator.getCard()).attack(selected.getHero());
-//
-//				} else if (actionInatiated != null
-//						&& model.getOpponent().getField().contains(toMinion(actionInatiated.getCard()))) {
-//
-//					toMinion(actionInatiator.getCard()).attack(toMinion(actionInatiator.getCard()));
-//
-//				} else if (selectedField != null && selectedField == currField) {
-//
-//					model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
-//
-//				} else if (selectedField != null && selectedField != currField)
-//
-//					display("Cant play minion Here");
-//
-//			} else if (actionInatiator.getCard() instanceof Spell) {
-//
-//				if ((actionInatiator.getCard() instanceof AOESpell)) {
-//
-//					model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
-//							model.getOpponent().getField());
-//
-//				} else if ((actionInatiator.getCard() instanceof FieldSpell)) {
-//
-//					model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
-//
-//				} else if ((actionInatiator.getCard() instanceof HeroTargetSpell)) {
-//
-//					model.getCurrentHero().castSpell((HeroTargetSpell) actionInatiator.getCard(), selected.getHero());
-//
-//				} else if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
-//
-//					model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
-//							(Minion) actionInatiated.getCard());
-//
-//				} else if ((actionInatiator.getCard() instanceof LeechingSpell)) {
-//
-//					model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
-//							(Minion) actionInatiated.getCard());
-//
-//				}
-//
-//			}
-//		} catch (Exception e) {
-//			display(e.getMessage());
-//		}
-
-//	}
 
 	public void process() {
 
-		actionInatiator.setScaleX(1);
-		actionInatiator.setScaleY(1);
+		if (actionInatiator != null) {
+			actionInatiator.setScaleX(1);
+			actionInatiator.setScaleY(1);
+			actionInatiator.setStyle("-fx-border-color: null");
+		}
 
 		callActions();
-		selected = null;
-		selectedField = null;
-		actionInatiator.setStyle("-fx-border-color: null");
-		actionInatiator = null;
-		actionInatiated = null;
+
 		update();
+
+	}
+
+	public void onGameOver() {
 
 	}
 
@@ -444,12 +466,32 @@ public class Main extends Application {
 		this.actionInatiated = actionInatiated;
 	}
 
+	public HeroPane getSelector() {
+		return selector;
+	}
+
+	public void setSelector(HeroPane selector) {
+		this.selector = selector;
+	}
+
 	public HeroPane getSelected() {
 		return selected;
 	}
 
 	public void setSelected(HeroPane selected) {
 		this.selected = selected;
+	}
+
+	public Object getSelectedField() {
+		return selectedField;
+	}
+
+	public void setSelectedField(Object selectedField) {
+		this.selectedField = selectedField;
+	}
+
+	public Game getModel() {
+		return model;
 	}
 
 	public BorderPane getRoot() {
@@ -496,4 +538,11 @@ public class Main extends Application {
 		return currHand;
 	}
 
+	public GridPane getCurrField() {
+		return currField;
+	}
+
+	public GridPane getOppField() {
+		return oppField;
+	}
 }

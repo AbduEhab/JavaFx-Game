@@ -32,11 +32,14 @@ public class CardPane extends GridPane {
 		card = c;
 		this.root = root;
 
-		setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+		if (c instanceof Minion && ((Minion) c).isAttacked())
+			setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
+		else
+			setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
 
 		setPrefHeight(root.getHeight());
 
-//		setPrefSize(128, 144);
+		setPrefSize(128, 144);
 		name = new TextField(c.getName());
 //		name.setFill(Color.CORAL);
 		name.setFont(new Font("Arial", 15));
@@ -59,10 +62,10 @@ public class CardPane extends GridPane {
 			break;
 		}
 
-	this.add(name, 2, 0, 3, 1);
+		this.add(name, 0, 0, 5, 1);
 
 		setOnMouseClicked(e -> {
-			if (main.getActionInatiator() == null) {
+			if (main.getActionInatiator() == null && main.getSelector() == null) {
 				main.setActionInatiator(this);
 				setStyle("-fx-border-color: yellow");
 			} else if (main.getActionInatiator() == this) {
@@ -76,8 +79,9 @@ public class CardPane extends GridPane {
 
 		mana = new TextField(c.getManaCost() + "");
 		mana.setDisable(true);
-		mana.setStyle("-fx-text-fill: darkcyan");
-		add(mana, 5, 0);
+		mana.setStyle("-fx-text-fill: blue");
+		mana.setStyle("-fx-border-color: cyan");
+		add(mana, 4, 1);
 
 		attack = new TextField();
 		hp = new TextField();
@@ -86,17 +90,17 @@ public class CardPane extends GridPane {
 			if (((Minion) c).isDivine()) {
 				devine = new TextField("D");
 				devine.setDisable(true);
-				add(devine, 2, 1);
+				add(devine, 3, 2);
 			}
 			if (((Minion) c).isTaunt()) {
 				taunt = new TextField("T");
 				taunt.setDisable(true);
-				add(taunt, 3, 1);
+				add(taunt, 4, 2);
 			}
 			if (((Minion) c).isSleeping()) {
 				sleeping = new TextField("S");
 				sleeping.setDisable(true);
-				add(sleeping, 2, 2);
+				add(sleeping, 1, 2);
 			}
 			attack.setText(((Minion) c).getAttack() + "");
 			hp.setText(((Minion) c).getCurrentHP() + "");
@@ -110,8 +114,8 @@ public class CardPane extends GridPane {
 			} else
 				hp.setStyle("-fx-border-color: red");
 
-			add(attack, 5, 1);
-			add(hp, 5, 2);
+			add(attack, 3, 1);
+			add(hp, 1, 1);
 
 		}
 

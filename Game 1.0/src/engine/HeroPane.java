@@ -32,146 +32,89 @@ public class HeroPane extends GridPane {
 	private TextField name;
 	private TextField mana;
 	private TextField hp;
-	private TextField heropower;
+
+	public HeroPane(Hero h, Main m) {
+		hero = h;
+
+		if (h.isHeroPowerUsed())
+			setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
+		else
+			setBackground(new Background(new BackgroundFill(Color.DARKGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+
+		setPadding(new Insets(5, 5, 5, 5));
+		setVgap(5);
+		setHgap(5);
+
+		name = new TextField(h.getName());
+		name.setFont(new Font("Comic Sans MS", 16));
+		name.setDisable(true);
+		add(name, 0, 0, 4, 1);
+
+		mana = new TextField(h.getCurrentManaCrystals() + "");
+		mana.setDisable(true);
+		mana.setStyle("-fx-text-fill: darkcyan");
+		add(mana, 0, 1);
+
+		hp = new TextField(h.getCurrentHP() + "");
+		hp.setDisable(true);
+		if (30 / 2 <= h.getCurrentHP()) {
+			hp.setStyle("-fx-border-color: green");
+		} else if (30 / 4 <= h.getCurrentHP()) {
+			hp.setStyle("-fx-border-color: yellow");
+		} else
+			hp.setStyle("-fx-border-color: red");
+		add(hp, 0, 2);
+
+		setOnMouseEntered(e -> {
+			setScaleX(1.12);
+			setScaleY(1.12);
+			if (e.getSource() == m.getSelector())
+				setStyle("-fx-border-color: yellow");
+			else
+				setStyle("-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0)");
+		});
+		setOnMouseExited(e -> {
+			if (!(e.getSource() == m.getSelector())) {
+				setStyle("-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0)");
+				setStyle("-fx-border-color: null");
+				setScaleX(1);
+				setScaleY(1);
+			}
+		});
+
+		setOnMouseClicked(e -> {
+			if (m.getSelector() == null && m.getActionInatiator() == null) {
+				m.setSelected(this);
+				setScaleX(1.12);
+				setScaleY(1.12);
+				setStyle("-fx-border-color: yellow");
+			} else if (m.getSelector() == this) {
+				m.setSelected(null);
+				setScaleX(1);
+				setScaleY(1);
+				setStyle("-fx-border-color: null");
+			} else if (m.getActionInatiator() != null) {
+				m.setSelector(this);
+				m.process();
+			}
+		});
+
+	}
 
 	public TextField getName() {
 		return name;
-	}
-
-	public TextField getHeropower() {
-		return heropower;
 	}
 
 	public TextField getMana() {
 		return mana;
 	}
 
-	public void setMana(TextField mana) {
-		this.mana = mana;
-	}
-
 	public TextField getHp() {
 		return hp;
 	}
-
-	public void setHp(TextField hp) {
-		this.hp = hp;
-	}
-
-//	public HeroPane(Hero h, Main m, GridPane b) {// create the pane, add the name and manacost, set the action handler
-//													// (similar}
-//		// to the one in card pane) and set the effects
-//		basic = b;
-//		hero = h;
-//		setBackground(new Background(new BackgroundFill(Color.LIGHTSTEELBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-//		setPrefHeight(basic.getHeight());
-//		name = new TextField(h.getName());
-//		name.setFont(new Font("arial", 17));
-//		name.setDisable(true);
-//		switch (h.getName().charAt(0)) {
-//		case 'R':
-//			name.setStyle("-fx-border-color:  red");
-//			break;
-//		case 'U':
-//			name.setStyle("-fx-border-color:  green");
-//			break;
-//		case 'J':
-//			name.setStyle("-fx-border-color:  purple");
-//			break;
-//		case 'A':
-//			name.setStyle("-fx-border-color:  gold");
-//		case 'G':
-//			name.setStyle("-fx-border-color:  white");
-//			break;
-//		}
-//		this.add(name, 2, 0, 3, 1);
-//		mana = new TextField("manacrystal" + 30 + "/" + h.getCurrentManaCrystals());
-//		mana.setVisible(true);
-//		mana.setStyle("-fx-text-fill: darkcyan");
-//		add(mana, 5, 0);
-//		hp = new TextField(h.getCurrentHP() + "");
-//		hp.setVisible(true);
-//		add(hp, 5, 1);
-//		heropower = new TextField("");
-//		switch (h.getName().charAt(0)) {
-//		case 'R':
-//			heropower.setText("inflict 2 point damage on oppnents hero");
-//			break;
-//		case 'U':
-//			heropower.setText("creat new Silver Hand Recruit");
-//			break;
-//		case 'J':
-//			heropower.setText("Inflict one damage point to a specific target(hero or minion)");
-//			break;
-//		case 'A':
-//			      heropower.setText("Restore two health points to a specific target (a hero or a minion)");
-//		case 'G':
-//			heropower.setText("Draw an extra card and inflict two damage points to the hero");
-//			break;
-//		}
-//	add(heropower,3,1,3,2);}
-
-	public HeroPane(Hero h, Main m) {
-		hero = h;
-		setBackground(new Background(new BackgroundFill(Color.LIGHTSTEELBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-		setPrefHeight((int)(m.getLeft().getHeight()/2));
-		name = new TextField(h.getName());
-		name.setFont(new Font("arial", 17));
-		name.setDisable(true);
-		switch (h.getName().charAt(0)) {
-		case 'R':
-			name.setStyle("-fx-border-color:  red");
-			break;
-		case 'U':
-			name.setStyle("-fx-border-color:  green");
-			break;
-		case 'J':
-			name.setStyle("-fx-border-color:  purple");
-			break;
-		case 'A':
-			name.setStyle("-fx-border-color:  gold");
-		case 'G':
-			name.setStyle("-fx-border-color:  white");
-			break;
-		}
-		this.add(name, 0, 0);
-		mana = new TextField("manacrystal" + 30 + "/" + h.getCurrentManaCrystals());
-		mana.setVisible(true);
-		mana.setStyle("-fx-text-fill: darkcyan");
-		add(mana, 0, 1);
-		hp = new TextField("hp is"+h.getCurrentHP() + "");
-		hp.setVisible(true);
-		add(hp, 0, 2);
-		heropower = new TextField("");
-		switch (h.getName().charAt(0)) {
-		case 'R':
-			heropower.setText("inflict 2 point damage on oppnents hero");
-			break;
-		case 'U':
-			heropower.setText("creat new Silver Hand Recruit");
-			break;
-		case 'J':
-			heropower.setText("Inflict one damage point to a specific target(hero or minion)");
-			break;
-		case 'A':
-			      heropower.setText("Restore two health points to a specific target (a hero or a minion)");
-		case 'G':
-			heropower.setText("Draw an extra card and inflict two damage points to the hero");
-			break;
-		}
-	add(heropower,0,3);}
 
 	public Hero getHero() {
 		return hero;
 	}
 
-	public static void main(String[] args) {
-//	HeroPane j=new HeroPane(new Hunter()); 
-//JFrame j =new JFrame();
-//j.setVisible(true);
-//j.setBackground(java.awt.Color.BLACK);
-//j.setBounds(0, 0, 200, 200);
-//}
-
-	}
 }

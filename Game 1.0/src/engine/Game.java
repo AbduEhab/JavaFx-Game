@@ -1,5 +1,7 @@
 package engine;
 
+import org.junit.jupiter.api.Disabled;
+
 import exceptions.CannotAttackException;
 import exceptions.FullFieldException;
 import exceptions.FullHandException;
@@ -141,7 +143,12 @@ public class Game implements ActionValidator, HeroListener {
 			m.setAttacked(false);
 			m.setSleeping(false);
 		}
-		currentHero.drawCard();
+		try {
+			currentHero.drawCard();
+		} catch (Exception e) {
+			new ErrorBox("I lost a card because I have a full deck");
+		}
+		listener.update();
 
 	}
 
