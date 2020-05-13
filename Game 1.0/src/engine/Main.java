@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import model.cards.Card;
 import model.cards.Rarity;
@@ -27,10 +28,13 @@ import model.heroes.Priest;
 import model.heroes.Warlock;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class Main extends Application implements GameListener {
 
@@ -41,6 +45,10 @@ public class Main extends Application implements GameListener {
 	private Object selectedField;
 
 	private Game model;
+	private Hero h1;
+
+	private HBox hGrid;
+	private VBox vGrid;
 
 	private BorderPane root;
 	private Stage view;
@@ -56,15 +64,161 @@ public class Main extends Application implements GameListener {
 	private GridPane currField;
 	private GridPane oppField;
 
-	public void start(Stage primaryStage) throws FullHandException, CloneNotSupportedException, IOException {
+	public void start(Stage primaryStage)
+			throws FullHandException, CloneNotSupportedException, IOException, InterruptedException {
 		view = primaryStage;
 
-		model = new Game(new Warlock(), new Mage());
+		mainScreen();
+
+		view.show();
+
+	}
+
+	public void mainScreen() {
+		root = new BorderPane();
+		root.setId("cardpane");
+
+		hGrid = new HBox(70);
+		vGrid = new VBox(20);
+
+		Button b1 = new Button("Warlock");
+		b1.setPrefSize(190, 500);
+		b1.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Warlock();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b1.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Warlock) {
+				h1 = null;
+				b1.setStyle("-fx-border-color: null");
+			} else
+				try {
+
+					newGame(h1, new Warlock());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Button b2 = new Button("Priest");
+		b2.setPrefSize(190, 500);
+		b2.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Priest();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b2.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Priest) {
+				h1 = null;
+				b2.setStyle("-fx-border-color: null");
+			} else
+				try {
+					newGame(h1, new Priest());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Button b3 = new Button("Hunter");
+		b3.setPrefSize(190, 500);
+		b3.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Hunter();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b3.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Hunter) {
+				h1 = null;
+				b3.setStyle("-fx-border-color: null");
+			} else
+				try {
+					newGame(h1, new Hunter());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Button b4 = new Button("Mage");
+		b4.setPrefSize(190, 500);
+		b4.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Mage();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b4.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Mage) {
+				h1 = null;
+				b4.setStyle("-fx-border-color: null");
+			} else
+				try {
+					newGame(h1, new Mage());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Button b5 = new Button("Paladin");
+		b5.setPrefSize(190, 500);
+		b5.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Paladin();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b5.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Paladin) {
+				h1 = null;
+				b5.setStyle("-fx-border-color: null");
+			} else
+				try {
+					newGame(h1, new Paladin());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Text name = new Text("Team 343's Awsome Ass Game");
+		name.setId("white");
+
+		vGrid.getChildren().addAll(name, hGrid);
+		vGrid.setPrefSize(1280, 720);
+		vGrid.setAlignment(Pos.CENTER);
+
+		hGrid.getChildren().addAll(b1, b2, b3, b4, b5);
+		hGrid.setAlignment(Pos.CENTER);
+
+		root.setCenter(vGrid);
+
+		game = new Scene(root, 1280, 720);
+
+		game.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
+
+		view.setResizable(false);
+		view.setScene(game);
+
+	}
+
+	public void newGame(Hero h1, Hero h2) throws FullHandException, CloneNotSupportedException, IOException {
+		model = new Game(h1, h2);
 		model.setListener(this);
 
 		root = new BorderPane();
+		root.setId("Loading");
 
 		game = new Scene(root, 1280, 720);
+		game.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
+
+		view.setScene(game);
 
 		left = new BorderPane();
 		left.setPrefSize(game.getWidth() * 15 / 100, game.getHeight() * 60 / 100);
@@ -160,10 +314,11 @@ public class Main extends Application implements GameListener {
 		root.setLeft(left);
 		root.setBottom(bottom);
 
+		root.setId("cardpane");
+
 		game.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
 
 		view.setScene(game);
-		view.show();
 	}
 
 	public void display(String message) {
