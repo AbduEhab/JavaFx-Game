@@ -84,17 +84,17 @@ public class HeroPane extends GridPane {
 
 		setOnMouseClicked(e -> {
 			if (m.getSelector() == null && m.getActionInatiator() == null) {
-				m.setSelected(this);
+				m.setSelector(this);
 				setScaleX(1.12);
 				setScaleY(1.12);
 				setStyle("-fx-border-color: yellow");
 			} else if (m.getSelector() == this) {
-				m.setSelected(null);
+				m.setSelector(null);
 				setScaleX(1);
 				setScaleY(1);
 				setStyle("-fx-border-color: null");
-			} else if (m.getActionInatiator() != null) {
-				m.setSelector(this);
+			} else if (m.getActionInatiator() != null || m.getSelector() != null) {
+				m.setSelected(this);
 				m.process();
 			}
 		});

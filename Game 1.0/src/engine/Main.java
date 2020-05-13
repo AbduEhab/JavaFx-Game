@@ -59,7 +59,7 @@ public class Main extends Application implements GameListener {
 	public void start(Stage primaryStage) throws FullHandException, CloneNotSupportedException, IOException {
 		view = primaryStage;
 
-		model = new Game(new Warlock(), new Paladin());
+		model = new Game(new Warlock(), new Mage());
 		model.setListener(this);
 
 		root = new BorderPane();
@@ -318,14 +318,20 @@ public class Main extends Application implements GameListener {
 					return;
 				} else {
 					if (actionInatiated.getCard() instanceof Minion) {
-						if (model.getOpponent().getField().contains(actionInatiated.getCard())) {
-							((Mage) selector.getHero()).useHeroPower((Minion) actionInatiated.getCard());
-							return;
-						} else {
+						if (selector.getHero() instanceof Mage) {
+							if (model.getOpponent().getField().contains(actionInatiated.getCard())) {
+								((Mage) selector.getHero()).useHeroPower((Minion) actionInatiated.getCard());
+								return;
+							}
+						} else if (selector.getHero() instanceof Priest) {
+							((Priest) selector.getHero()).useHeroPower((Minion) actionInatiated.getCard());
 							display("Canot attack friendly minion");
 							return;
-						}
-					}
+						} else
+							display("Cant attack minion with this card");
+					} else
+						display("Cant attack This Target");
+
 				}
 			}
 			//////////////////////////////////////////////////////////////////
