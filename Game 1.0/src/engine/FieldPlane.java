@@ -1,10 +1,10 @@
 package engine;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class FieldPlane extends JPanel {
 
 	private JPanel currField;
@@ -14,7 +14,7 @@ public class FieldPlane extends JPanel {
 
 		currField = new JPanel();
 		oppField = new JPanel();
-		
+
 		setLayout(new BorderLayout());
 
 		add(oppField, BorderLayout.NORTH);

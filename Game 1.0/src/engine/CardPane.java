@@ -1,10 +1,6 @@
 package engine;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,12 +8,12 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import model.cards.Card;
 import model.cards.minions.Minion;
 
 public class CardPane extends GridPane {
 
+	@SuppressWarnings("unused")
 	private GridPane root;
 	private Card card;
 	private TextField name;

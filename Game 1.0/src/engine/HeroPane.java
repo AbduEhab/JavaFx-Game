@@ -1,31 +1,14 @@
 package engine;
 
-import java.awt.Rectangle;
-
-import com.sun.org.apache.xerces.internal.dom.ChildNode;
-
-import javafx.scene.Scene;
-import javafx.scene.*;
-import javafx.stage.*;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlurType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import model.cards.Card;
-import model.cards.minions.Minion;
 import model.heroes.Hero;
-import sun.awt.image.PixelConverter.Bgrx;
 
 public class HeroPane extends GridPane {
 	private Hero hero;
