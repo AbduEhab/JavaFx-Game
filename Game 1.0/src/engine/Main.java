@@ -193,7 +193,7 @@ public class Main extends Application implements GameListener {
 				}
 		});
 
-		Text name = new Text("Team 343's Awsome Ass Game");
+		Text name = new Text("- HearthStone Demo -");
 		name.setId("white");
 
 		vGrid.getChildren().addAll(name, hGrid);
