@@ -633,30 +633,12 @@ public class Main extends Application implements GameListener {
 
 		Button b1 = new Button("Warlock");
 		b1.setPrefSize(190, 500);
-		b1.setId("warlock");
-		b1.setOnMouseClicked(e -> {
-			if (h1 == null) {
-				try {
-					h1 = new Warlock();
-				} catch (IOException | CloneNotSupportedException e1) {
-					e1.printStackTrace();
-				}
-				b1.setStyle("-fx-border-color: yellow");
-			} else if (h1 instanceof Warlock) {
-				h1 = null;
-				b1.setStyle("-fx-border-color: null");
-			} else
-				try {
-
-					newGame(h1, new Warlock());
-				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
-					e1.printStackTrace();
-				}
-		});
+//		b1.setId("warlock");
+		b1.setOnMouseClicked(e -> mainScreen());
 
 		Button b2 = new Button("Priest");
 		b2.setPrefSize(190, 500);
-		b2.setId("priest");
+//		b2.setId("priest");
 		b2.setOnMouseClicked(e -> view.close());
 
 		Text name = new Text(model.getCurrentHero().getName() + " Wins");
