@@ -1,7 +1,5 @@
 package engine;
 
-import org.junit.jupiter.api.Disabled;
-
 import exceptions.CannotAttackException;
 import exceptions.FullFieldException;
 import exceptions.FullHandException;

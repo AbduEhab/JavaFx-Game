@@ -215,8 +215,12 @@ public class Main extends Application implements GameListener {
 	}
 
 	public void newGame(Hero h1, Hero h2) throws FullHandException, CloneNotSupportedException, IOException {
-		AudioClip ac = new AudioClip(this.getClass().getResource("Shuffle.mp3").toString());
-		ac.play();
+		try {
+			AudioClip ac = new AudioClip(this.getClass().getResource("Shuffle.mp3").toString());
+			ac.play();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		model = new Game(h1, h2);
 		model.setListener(this);
@@ -477,14 +481,22 @@ public class Main extends Application implements GameListener {
 					if (selector.getHero() instanceof Hunter || selector.getHero() instanceof Warlock
 							|| selector.getHero() instanceof Paladin) {
 						selector.getHero().useHeroPower();
-						AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
-						ac.play();
+						try {
+							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+							ac.play();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						return;
 					}
 					if (selector.getHero() instanceof Mage || selector.getHero() instanceof Priest) {
-						AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
-						ac.play();
-						((Mage) selector.getHero()).useHeroPower(selected.getHero());
+						try {
+							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+							ac.play();
+							((Mage) selector.getHero()).useHeroPower(selected.getHero());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						return;
 
 					}
@@ -532,12 +544,24 @@ public class Main extends Application implements GameListener {
 
 							model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
 									model.getOpponent().getField());
+							try {
+								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+								ac.play();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							return;
 						}
 
 						if ((actionInatiator.getCard() instanceof FieldSpell)) {
 
 							model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
+							try {
+								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+								ac.play();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							return;
 						}
 
@@ -552,12 +576,24 @@ public class Main extends Application implements GameListener {
 
 						model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
 								(Minion) actionInatiated.getCard());
+						try {
+							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+							ac.play();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						return;
 					}
 					if ((actionInatiator.getCard() instanceof MinionTargetSpell)) {
 
 						model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
 								(Minion) actionInatiated.getCard());
+						try {
+							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+							ac.play();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						return;
 					}
 
@@ -578,9 +614,15 @@ public class Main extends Application implements GameListener {
 					if (selectedField != null) {
 						if (selectedField == currField) {
 							if (!model.getCurrentHero().getField().contains(actionInatiator.getCard())) {
-								AudioClip ac = new AudioClip(this.getClass().getResource("Card_play.mp3").toString());
-								ac.play();
+
 								model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
+								try {
+									AudioClip ac = new AudioClip(
+											this.getClass().getResource("Card_play.mp3").toString());
+									ac.play();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 								return;
 							}
 						} else {
@@ -592,6 +634,12 @@ public class Main extends Application implements GameListener {
 
 						model.getCurrentHero().attackWithMinion(toMinion(actionInatiator.getCard()),
 								toMinion(actionInatiated.getCard()));
+						try {
+							AudioClip ac = new AudioClip(this.getClass().getResource("Minion_attack.mp3").toString());
+							ac.play();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						return;
 
 					}
