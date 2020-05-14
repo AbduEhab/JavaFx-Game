@@ -215,12 +215,12 @@ public class Main extends Application implements GameListener {
 	}
 
 	public void newGame(Hero h1, Hero h2) throws FullHandException, CloneNotSupportedException, IOException {
-		try {
-			AudioClip ac = new AudioClip(this.getClass().getResource("Shuffle.mp3").toString());
-			ac.play();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			AudioClip ac = new AudioClip(this.getClass().getResource("Shuffle.mp3").toString());
+//			ac.play();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		model = new Game(h1, h2);
 		model.setListener(this);
@@ -246,8 +246,8 @@ public class Main extends Application implements GameListener {
 		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
 		endTurn.setOnMouseClicked(e -> {
 			try {
-				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
-				ac1.play();
+//				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
+//				ac1.play();
 				model.endTurn();
 
 			} catch (Exception e1) {
@@ -455,8 +455,8 @@ public class Main extends Application implements GameListener {
 		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
 		endTurn.setOnMouseClicked(e -> {
 			try {
-				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
-				ac1.play();
+//				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
+//				ac1.play();
 				model.endTurn();
 			} catch (Exception e1) {
 				display(e1.getMessage());
@@ -482,8 +482,8 @@ public class Main extends Application implements GameListener {
 							|| selector.getHero() instanceof Paladin) {
 						selector.getHero().useHeroPower();
 						try {
-							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
-							ac.play();
+//							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+//							ac.play();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -491,8 +491,8 @@ public class Main extends Application implements GameListener {
 					}
 					if (selector.getHero() instanceof Mage || selector.getHero() instanceof Priest) {
 						try {
-							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
-							ac.play();
+//							AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+//							ac.play();
 							((Mage) selector.getHero()).useHeroPower(selected.getHero());
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -545,8 +545,8 @@ public class Main extends Application implements GameListener {
 							model.getCurrentHero().castSpell((AOESpell) actionInatiator.getCard(),
 									model.getOpponent().getField());
 							try {
-								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
-								ac.play();
+//								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+//								ac.play();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -557,8 +557,8 @@ public class Main extends Application implements GameListener {
 
 							model.getCurrentHero().castSpell((FieldSpell) actionInatiator.getCard());
 							try {
-								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
-								ac.play();
+//								AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+//								ac.play();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -577,8 +577,8 @@ public class Main extends Application implements GameListener {
 						model.getCurrentHero().castSpell((LeechingSpell) actionInatiator.getCard(),
 								(Minion) actionInatiated.getCard());
 						try {
-							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
-							ac.play();
+//							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+//							ac.play();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -589,8 +589,8 @@ public class Main extends Application implements GameListener {
 						model.getCurrentHero().castSpell((MinionTargetSpell) actionInatiator.getCard(),
 								(Minion) actionInatiated.getCard());
 						try {
-							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
-							ac.play();
+//							AudioClip ac = new AudioClip(this.getClass().getResource("Spell_play.mp3").toString());
+//							ac.play();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -617,9 +617,9 @@ public class Main extends Application implements GameListener {
 
 								model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
 								try {
-									AudioClip ac = new AudioClip(
-											this.getClass().getResource("Card_play.mp3").toString());
-									ac.play();
+//									AudioClip ac = new AudioClip(
+//											this.getClass().getResource("Card_play.mp3").toString());
+//									ac.play();
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
