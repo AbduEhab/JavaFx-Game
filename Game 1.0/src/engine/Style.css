@@ -1,8 +1,8 @@
 #white{
 	-fx-background-color: #383838;
-	-fx-fill: rgb(255,255,255);
+	-fx-fill: rgb(255.0,255.0,255.0);
 	-fx-font-style: italic;
-	-fx-font-size: 26px;
+	-fx-font-size: 26.0px;
 } 
 .bottom{
 	-fx-background-color: green;
@@ -19,6 +19,30 @@
 #Loading{
 	-fx-background-image: url("Loading.jpg");
 	-fx-background-repeat: stretch;
+	-fx-background-position: center center;
+}
+#warlock{
+	-fx-background-image: url("Warlock.jpg");
+	-fx-background-repeat: stretch;
 	-fx-background-position: center center; 
-	-fx-background-size: 900 506;
+}
+#priest{
+	-fx-background-image: url("Priest.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center center; 
+}
+#mage{
+		-fx-background-image: url("Mage.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center center; 
+}
+#hunter{
+		-fx-background-image: url("Hunter.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center center; 
+}
+#paladin{
+		-fx-background-image: url("Paladin.jpg");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center center; 
 }

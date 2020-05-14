@@ -34,6 +34,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.text.Text;
 
 public class Main extends Application implements GameListener {
@@ -83,6 +84,7 @@ public class Main extends Application implements GameListener {
 
 		Button b1 = new Button("Warlock");
 		b1.setPrefSize(190, 500);
+		b1.setId("warlock");
 		b1.setOnMouseClicked(e -> {
 			if (h1 == null) {
 				try {
@@ -105,6 +107,7 @@ public class Main extends Application implements GameListener {
 
 		Button b2 = new Button("Priest");
 		b2.setPrefSize(190, 500);
+		b2.setId("priest");
 		b2.setOnMouseClicked(e -> {
 			if (h1 == null) {
 				try {
@@ -125,6 +128,7 @@ public class Main extends Application implements GameListener {
 		});
 
 		Button b3 = new Button("Hunter");
+		b3.setId("hunter");
 		b3.setPrefSize(190, 500);
 		b3.setOnMouseClicked(e -> {
 			if (h1 == null) {
@@ -147,6 +151,7 @@ public class Main extends Application implements GameListener {
 
 		Button b4 = new Button("Mage");
 		b4.setPrefSize(190, 500);
+		b4.setId("mage");
 		b4.setOnMouseClicked(e -> {
 			if (h1 == null) {
 				try {
@@ -168,6 +173,7 @@ public class Main extends Application implements GameListener {
 
 		Button b5 = new Button("Paladin");
 		b5.setPrefSize(190, 500);
+		b5.setId("paladin");
 		b5.setOnMouseClicked(e -> {
 			if (h1 == null) {
 				try {
@@ -209,6 +215,9 @@ public class Main extends Application implements GameListener {
 	}
 
 	public void newGame(Hero h1, Hero h2) throws FullHandException, CloneNotSupportedException, IOException {
+		AudioClip ac = new AudioClip(this.getClass().getResource("Shuffle.mp3").toString());
+		ac.play();
+
 		model = new Game(h1, h2);
 		model.setListener(this);
 
@@ -233,7 +242,10 @@ public class Main extends Application implements GameListener {
 		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
 		endTurn.setOnMouseClicked(e -> {
 			try {
+				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
+				ac1.play();
 				model.endTurn();
+
 			} catch (Exception e1) {
 				display(e1.getMessage());
 			}
@@ -439,6 +451,8 @@ public class Main extends Application implements GameListener {
 		endTurn.setPrefWidth(getGame().getWidth() * 10 / 100 - 10);
 		endTurn.setOnMouseClicked(e -> {
 			try {
+				AudioClip ac1 = new AudioClip(this.getClass().getResource("Turn_end.mp3").toString());
+				ac1.play();
 				model.endTurn();
 			} catch (Exception e1) {
 				display(e1.getMessage());
@@ -459,13 +473,17 @@ public class Main extends Application implements GameListener {
 
 			if (selector != null) {
 				if (selected != null) {
+
 					if (selector.getHero() instanceof Hunter || selector.getHero() instanceof Warlock
 							|| selector.getHero() instanceof Paladin) {
 						selector.getHero().useHeroPower();
+						AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+						ac.play();
 						return;
 					}
 					if (selector.getHero() instanceof Mage || selector.getHero() instanceof Priest) {
-
+						AudioClip ac = new AudioClip(this.getClass().getResource("Hero_power.mp3").toString());
+						ac.play();
 						((Mage) selector.getHero()).useHeroPower(selected.getHero());
 						return;
 
@@ -560,6 +578,8 @@ public class Main extends Application implements GameListener {
 					if (selectedField != null) {
 						if (selectedField == currField) {
 							if (!model.getCurrentHero().getField().contains(actionInatiator.getCard())) {
+								AudioClip ac = new AudioClip(this.getClass().getResource("Card_play.mp3").toString());
+								ac.play();
 								model.getCurrentHero().playMinion(toMinion(actionInatiator.getCard()));
 								return;
 							}
@@ -605,6 +625,58 @@ public class Main extends Application implements GameListener {
 
 	public void onGameOver() {
 
+		root = new BorderPane();
+		root.setId("cardpane");
+
+		hGrid = new HBox(70);
+		vGrid = new VBox(20);
+
+		Button b1 = new Button("Warlock");
+		b1.setPrefSize(190, 500);
+		b1.setId("warlock");
+		b1.setOnMouseClicked(e -> {
+			if (h1 == null) {
+				try {
+					h1 = new Warlock();
+				} catch (IOException | CloneNotSupportedException e1) {
+					e1.printStackTrace();
+				}
+				b1.setStyle("-fx-border-color: yellow");
+			} else if (h1 instanceof Warlock) {
+				h1 = null;
+				b1.setStyle("-fx-border-color: null");
+			} else
+				try {
+
+					newGame(h1, new Warlock());
+				} catch (FullHandException | CloneNotSupportedException | IOException e1) {
+					e1.printStackTrace();
+				}
+		});
+
+		Button b2 = new Button("Priest");
+		b2.setPrefSize(190, 500);
+		b2.setId("priest");
+		b2.setOnMouseClicked(e -> view.close());
+
+		Text name = new Text(model.getCurrentHero().getName() + " Wins");
+		name.setId("white");
+
+		vGrid.getChildren().addAll(name, hGrid);
+		vGrid.setPrefSize(1280, 720);
+		vGrid.setAlignment(Pos.CENTER);
+
+		hGrid.getChildren().addAll(b1, b2);
+		hGrid.setAlignment(Pos.CENTER);
+
+		root.setCenter(vGrid);
+
+		game = new Scene(root, 1280, 720);
+
+		game.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
+
+		view.setResizable(false);
+		view.setScene(game);
 	}
 
 	public static void main(String[] args) {
