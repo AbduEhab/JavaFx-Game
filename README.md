@@ -32,7 +32,7 @@ Part B:
 
 1. Make sure you have javaFX installed
 
-2. Only one method exists and it is located in the "Main" file
+2. Only one 'main' method exists and it is located in the "Main" file
 
 3. Upon running the file, you will be greated with the start screen.
 	a. select 2 characters (Non identical) and the game will automaticly start.
