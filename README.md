@@ -12,8 +12,11 @@ Note: Audio clips may cause a problem for some IDE's so i commented them out.
 So... This is a quick guide on how to run and play the game.
 
 Part A: Copyright
+
 Part B: Introdution
+
 Part C: Card explenation
+
 Part D: Gameplay
 
 ##################################################################################################################
