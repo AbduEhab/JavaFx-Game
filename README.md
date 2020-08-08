@@ -1,5 +1,5 @@
 # JavaFx_Game
-###############################################################################################
+########################################################################################
 
 ToDo: redo the view to make it more appealing and optimize some code
 
@@ -9,7 +9,7 @@ Special thanks to fad11 for adding his own touch here and there.
 
 Note: Audio clips may cause a problem for some IDE's so i commented them out.
 
-###############################################################################################
+########################################################################################
 So... This is a quick guide on how to run and play the game.
 
 Part A: Copyright
@@ -20,14 +20,14 @@ Part C: Card explenation
 
 Part D: Gameplay
 
-###############################################################################################
+########################################################################################
 
 Part A:
 
 As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
 (same goes for educational purposes), i'm ok with whatever you wanna to do with it.
 
-###############################################################################################
+########################################################################################
 Part B:
 
 1. Make sure you have javaFX installed
@@ -47,7 +47,7 @@ Part B:
 	d. In the middle is the card fields, devided by a white line to difrentiate your field(south of the line)
 		and the enemy field(north of the line).
 
-###############################################################################################
+########################################################################################
 
 Part C:
 
@@ -68,7 +68,7 @@ Part C:
 	b. Directly below that is the mana crystal that you have (Max 10).
 	c. Even below that is the health of your hero which has a green boarder that changes color too.
 
-###############################################################################################
+########################################################################################
 
 Part D:
 
@@ -93,5 +93,5 @@ Part D:
 7. On the end screen you will be presented with the winner of the game and will be given the option to either
 	quit out of the game or to go to the main screen to choose diffrent characters and play again. 
 
-###############################################################################################
+########################################################################################
 
