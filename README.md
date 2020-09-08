@@ -8,9 +8,8 @@
 * [Gameplay](#gameplay)
 * [ToDo](#todo)
 
-redo the view to make it more appealing and optimize some code
 
-##Overview
+#Overview
 
 This is a Hearthstone style game made with java using the FX library. Originaly made as a uni project, but i thought people might wanna look through it to learn more about java and oop in general. So I added a few quality of life features and I'm going to leave it here.
 
@@ -18,23 +17,23 @@ Special thanks to fad11 for adding his own touch here and there.
 
 Note: Audio clips may cause a problem for some IDE's so I commented them out.
 
-##Technologies
+#Technologies
 
 'JAVA SDK 11'
 'OpenFX 14'
 
-##Setup
+#Setup
 
 Download the 'Java SDK' from oracle or from your linux repository.
 Download JavaFX from the 'OpenFX' page or as an extention into your prefered editor.
 Thats it!
 
-##Copyright
+#Copyright
 
 As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
 (same goes for educational purposes), i'm ok with whatever you wanna to do with it.
 
-##Introduction
+#Introduction
 
 1. Only one 'main' method exists and it is located in the "Main" file
 
@@ -51,7 +50,7 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 	d. In the middle is the card fields, devided by a white line to difrentiate your field(south of the line)
 		and the enemy field(north of the line).
 
-##Card-type Explenation
+#Card-type Explenation
 
 1. 'The Minion Card':
 	a. The minion's name is on the top of the card.
@@ -70,7 +69,7 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 	b. Directly below that is the mana crystal that you have (Max 10).
 	c. Even below that is the health of your hero which has a green boarder that changes color too.
 
-##Gameplay
+#Gameplay
 
 So... This is a quick guide on how to run and play the game.
 
@@ -95,6 +94,6 @@ So... This is a quick guide on how to run and play the game.
 7. On the end screen you will be presented with the winner of the game and will be given the option to either
 	quit out of the game or to go to the main screen to choose diffrent characters and play again. 
 
-##ToDo
+#ToDo
 
 * Redo the view to make it more appealing and optimize some code.
