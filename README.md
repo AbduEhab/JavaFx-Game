@@ -12,7 +12,7 @@
 
 ## Overview
 
-This is a Hearthstone style game made with java using the FX library. Originaly made as a uni project, but i thought people might wanna look through it to learn more about java and oop in general. So I added a few quality of life features and I'm going to leave it here.
+-This is a Hearthstone style game made with java using the FX library. Originaly made as a uni project, but i thought people might wanna look through it to learn more about java and oop in general. So I added a few quality of life features and I'm going to leave it here.
 
 Special thanks to `fad11` for adding his own touch here and there.
 
