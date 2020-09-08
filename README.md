@@ -25,22 +25,22 @@
 
 ## Setup
 
- - Download the 'Java SDK' from oracle or from your linux repository.
-- Download JavaFX from the 'OpenFX' page or as an extention into your prefered editor.
+- Download the `Java SDK` from oracle or from your linux repository.
+- Download JavaFX from the `OpenFX` page or as an extention into your prefered editor.
 - *Thats it!*
 
 ## Copyright
 
-- As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
+As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
 (same goes for educational purposes), i'm ok with whatever you wanna to do with it.
 
 ## Introduction
 
-- Only one 'main' method exists and it is located in the "Main" file
+- Only one `main` method exists and it is located in the "Main" file
 
 - Upon running the file, you will be greated with the start screen.
-	a. select 2 characters (Non identical) and the game will automaticly start.
-	b. selecting the same character will result in the deselection of said character.
+	- select 2 characters (Non identical) and the game will automaticly start.
+	- selecting the same character will result in the deselection of said character.
 
 - once game has loaded, you will be greeted with a 3 card tipping sound effect.
 	a. On the right side, you have your deck(towords your side), 
