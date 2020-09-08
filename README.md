@@ -12,11 +12,11 @@
 
 ## Overview
 
--This is a Hearthstone style game made with java using the FX library. Originaly made as a uni project, but i thought people might wanna look through it to learn more about java and oop in general. So I added a few quality of life features and I'm going to leave it here.
+- This is a Hearthstone style game made with java using the FX library. Originaly made as a uni project, but i thought people might wanna look through it to learn more about java and oop in general. So I added a few quality of life features and I'm going to leave it here.
 
-Special thanks to `fad11` for adding his own touch here and there.
+- Special thanks to `fad11` for adding his own touch here and there.
 
-Note: Audio clips may cause a problem for some IDE's so I commented them out.
+>Note: Audio clips may cause a problem for some IDE's so I commented them out.
 
 ## Technologies
 
@@ -25,13 +25,13 @@ Note: Audio clips may cause a problem for some IDE's so I commented them out.
 
 ## Setup
 
-Download the 'Java SDK' from oracle or from your linux repository.
-Download JavaFX from the 'OpenFX' page or as an extention into your prefered editor.
-Thats it!
+ - Download the 'Java SDK' from oracle or from your linux repository.
+- Download JavaFX from the 'OpenFX' page or as an extention into your prefered editor.
+- *Thats it!*
 
 ## Copyright
 
-As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
+- As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me
 (same goes for educational purposes), i'm ok with whatever you wanna to do with it.
 
 ## Introduction
