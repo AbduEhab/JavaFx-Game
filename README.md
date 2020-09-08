@@ -31,8 +31,8 @@
 ---
 ## Copyright
 
- `As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me 
- (same goes for educational purposes), i'm ok with whatever you wanna to do with it.`
+ >As long as you don't add your name to it and redistribute or use it in a commercial setting without crediting me 
+ (same goes for educational purposes), i'm ok with whatever you wanna to do with it.
 ---
 ## Introduction
 
