@@ -43,32 +43,31 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 	- selecting the same character will result in the deselection of said character.
 
 - once game has loaded, you will be greeted with a 3 card tipping sound effect.
-	a. On the right side, you have your deck(towords your side), 
+	- On the right side, you have your deck(towords your side), 
 		the enemy deck(towords the enemy side) 
 		and the "End Turn" button (between both decks).
-	b. On the bottom, you have your own cards.
-	c. On the left, you have your hero(towords your side) and the enemy hero(towords the enemy side).
-	d. In the middle is the card fields, devided by a white line to difrentiate your field(south of the line)
+	- On the bottom, you have your own cards.
+	- On the left, you have your hero(towords your side) and the enemy hero(towords the enemy side).
+	- In the middle is the card fields, devided by a white line to difrentiate your field(south of the line)
 		and the enemy field(north of the line).
 
 ## Card-type Explenation
 
 - `The Minion Card`:
-	a. The minion's name is on the top of the card.
-	b. The minion' HP is directly beneath the name on the left. 
-		It has a green boarder that will change to yellow and red as its health depleats.
-	c. The attack value is in red and is placed right next to the HP.
-	d. The manacost of the minion is on the right of the attack value and has a cyan border.
-	e. The third row diplayes if the minion is taunt, devine, or sleeping by the indicated letter.
+	- The minion's name is on the top of the card.
+	- The minion' HP is directly beneath the name on the left. It has a green boarder that will change to yellow and red as its health depleats.
+	- The attack value is in red and is placed right next to the HP.
+	- The manacost of the minion is on the right of the attack value and has a cyan border.
+	- The third row diplayes if the minion is taunt, devine, or sleeping by the indicated letter.
 
 - `The Spell Card`:
-	a. Name Same as minion
-	b. The Spell card only has a manacost bar.
+	- Name Same as minion
+	- The Spell card only has a manacost bar.
 
 - `Hero`:
-	a. Name Same as minion
-	b. Directly below that is the mana crystal that you have (Max 10).
-	c. Even below that is the health of your hero which has a green boarder that changes color too.
+	- Name Same as minion
+	- Directly below that is the mana crystal that you have (Max 10).
+	- Even below that is the health of your hero which has a green boarder that changes color too.
 
 ## Gameplay
 
@@ -77,7 +76,7 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 - To select any card you click on it. To deselect, you click again. Same applies to the hero.
 
 - To play a `minion`: select it and then click on your field.
-	Note: If you try playing into the enemy field, or into your own hand,  an appropriat message will show up.
+	- Note: If you try playing into the enemy field, or into your own hand,  an appropriat message will show up.
 
 - To play a `spell`: select it and then either select the field or the card to play it on (depends on the spell)
 	Note: If you choose a card instead of choosing a field, or vise versa, a "-Null-" message will show up.
