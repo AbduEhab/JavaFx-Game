@@ -56,7 +56,7 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 - `The Minion Card`:
 	- The minion's name is on the top of the card.
 	- The minion' HP is directly beneath the name on the left. 
-		- It has a green boarder that will change to yellow and red as its health depleats.
+		> It has a green boarder that will change to yellow and red as its health depleats.
 	- The attack value is in red and is placed right next to the HP.
 	- The manacost of the minion is on the right of the attack value and has a cyan border.
 	- The third row diplayes if the minion is taunt, devine, or sleeping by the indicated letter.
