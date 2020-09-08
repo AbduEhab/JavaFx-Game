@@ -55,7 +55,8 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 
 - `The Minion Card`:
 	- The minion's name is on the top of the card.
-	- The minion' HP is directly beneath the name on the left. It has a green boarder that will change to yellow and red as its health depleats.
+	- The minion' HP is directly beneath the name on the left. 
+		- It has a green boarder that will change to yellow and red as its health depleats.
 	- The attack value is in red and is placed right next to the HP.
 	- The manacost of the minion is on the right of the attack value and has a cyan border.
 	- The third row diplayes if the minion is taunt, devine, or sleeping by the indicated letter.
@@ -79,20 +80,20 @@ As long as you don't add your name to it and redistribute or use it in a commerc
 	- Note: If you try playing into the enemy field, or into your own hand,  an appropriat message will show up.
 
 - To play a `spell`: select it and then either select the field or the card to play it on (depends on the spell)
-	Note: If you choose a card instead of choosing a field, or vise versa, a "-Null-" message will show up.
+	- Note: If you choose a card instead of choosing a field, or vise versa, a "-Null-" message will show up.
 		a similar message will pop up if you tried to use it on a unplayed card etc...
 
 - To attack an `enemy minion` or `hero`, select the `minion` to attack with and then select the `minion` or `hero` to attack.
-	Note: An appropriate message will show up if you clicked something you shouldn't.
+	- Note: An appropriate message will show up if you clicked something you shouldn't.
 
 - To use `Hero power`: Select your `hero`, then select the 'enemy hero' or `minion` to use it on.
-	Note: An appropriate message will show up if you clicked something you shouldn't.
+	- Note: An appropriate message will show up if you clicked something you shouldn't.
 
 - To end your turn your turn: Click on the "End Turn" button.
-	Note: An appropriate message will show up if you'll burn a card.
+	- Note: An appropriate message will show up if you'll burn a card.
 
 - On the end screen you will be presented with the winner of the game and will be given the option to either
-	quit out of the game or to go to the main screen to choose diffrent characters and play again. 
+	- quit out of the game or to go to the main screen to choose diffrent characters and play again. 
 
 ## ToDo
 
