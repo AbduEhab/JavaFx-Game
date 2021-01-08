@@ -73,7 +73,7 @@
 ---
 ## Gameplay
 
-> So... This is a quick guide on how to run and play the game.
+	So... This is a quick guide on how to run and play the game.
 
 - To select any card you click on it. To deselect, you click again. Same applies to the hero.
 
@@ -100,4 +100,5 @@
 ---
 ## ToDo
 
-> Redo the view to make it more appealing and optimize some code.
+- Redo the view to make it more appealing and optimize some code.
+>If you wanna help message me and I will add some issues in the `Issue tab` to give more details about what i need help in exactly.
